@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">RandomUserApp</string>
+    <string name="feminino"> Feminino </string>
+    <string name="masculino"> Masculino </string>
+    <string name="random_title"> RANDOM USER GENERATOR  </string>
+    <string name="nacionalidade"> Nacionalidade </string>
+    <string name="buscar_na_api"> Buscar na API </string>
+    <string-array name="countries">
+        <item>       </item>
+        <item> Brazilian </item>
+        <item> Aussie </item>
+        <item> French </item>
+        <item> American </item>
+        <item> Spanish </item>
+        <item> British </item>
+        <item> Danish </item>
+        <item> Canadian </item>
+        <item> Finnish </item>
+        <item> Norwegian </item>
+
+
+
+
+    </string-array>
+</resources>
