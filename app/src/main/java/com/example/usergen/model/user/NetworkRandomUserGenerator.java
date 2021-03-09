@@ -55,14 +55,14 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
     {
         this.context = context;
         this.input = input;
-        this.jsonManager = new UserJsonManger();
+        this.jsonManager = new UserJsonManager();
         this.executor = executor;
     }
 
     public NetworkRandomUserGenerator(@NonNull Context context, @NonNull RandomUserGeneratorInput input) {
         this.context = context;
         this.input = input;
-        this.jsonManager = new UserJsonManger();
+        this.jsonManager = new UserJsonManager();
         this.executor = Executors.newSingleThreadExecutor();
 
         if (!hasConnectivity()) {

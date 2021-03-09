@@ -21,7 +21,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public class UserJsonManger implements ModelJsonManager<User> {
+public class UserJsonManager implements ModelJsonManager<User> {
 
     @NonNull
     private Date dateFromString(@NonNull String dateString) {
