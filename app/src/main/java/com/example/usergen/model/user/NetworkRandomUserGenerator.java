@@ -41,6 +41,35 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
     @NonNull
     private final ExecutorService executor;
 
+    public NetworkRandomUserGenerator(@NonNull Context context,
+                                      @NonNull NetworkRandomUserGeneratorInput input,
+                                      @NonNull ExecutorService executor) {
+        this.context = context;
+        this.input = input;
+        this.jsonManager = new UserJsonManager();
+        this.executor = executor;
+
+        checkConnectivity();
+    }
+
+
+    public NetworkRandomUserGenerator(@NonNull Context context,
+                                      @NonNull NetworkRandomUserGeneratorInput input) {
+        this.context = context;
+        this.input = input;
+        this.jsonManager = new UserJsonManager();
+        this.executor = Executors.newSingleThreadExecutor();
+
+        checkConnectivity();
+    }
+
+    private void checkConnectivity()
+    {
+        if (!hasConnectivity()) {
+            throw new ProgramException("Failed to connect to network");
+        }
+    }
+
     private boolean hasConnectivity() {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -49,26 +78,6 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
         return info != null && info.isConnected();
     }
 
-    public NetworkRandomUserGenerator(@NonNull Context context,
-                               @NonNull NetworkRandomUserGeneratorInput input,
-                               @NonNull ExecutorService executor)
-    {
-        this.context = context;
-        this.input = input;
-        this.jsonManager = new UserJsonManager();
-        this.executor = executor;
-    }
-
-    public NetworkRandomUserGenerator(@NonNull Context context, @NonNull NetworkRandomUserGeneratorInput input) {
-        this.context = context;
-        this.input = input;
-        this.jsonManager = new UserJsonManager();
-        this.executor = Executors.newSingleThreadExecutor();
-
-        if (!hasConnectivity()) {
-            throw new ProgramException("Failed to connect to network");
-        }
-    }
 
     @NonNull
     private URL getApiURL() {
@@ -95,14 +104,14 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
         return result;
     }
 
-    private String stringFromInputStream(InputStream stream) throws IOException {
+    @NonNull
+    private String stringFromInputStream(@NonNull InputStream stream) throws IOException {
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
         byte[] buffer = new byte[4096];
 
-        while (stream.read(buffer) != -1)
-        {
+        while (stream.read(buffer) != -1) {
             output.write(buffer);
         }
 
@@ -141,8 +150,7 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
 
         int statusCode = connection.getResponseCode();
 
-        if (statusCode != 200)
-        {
+        if (statusCode != 200) {
             throw new RuntimeException("Server responded with status code " + statusCode);
         }
 
@@ -154,27 +162,23 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
     }
 
     @NonNull
-    private User nextRandomModelBlocked()
-    {
+    private User nextRandomModelBlocked() {
         URL url = getApiURL();
 
-        User result;
+        User user;
 
         try {
 
-            result = getUserFromApi(url);
-
-        }
-        catch (IOException ex) {
+            user = getUserFromApi(url);
+        } catch (IOException ex) {
             Log.e(Tags.ERROR, "Failed to get user from URL: ", ex);
             throw new RuntimeException(ex);
-        }
-        catch (JSONException ex) {
+        } catch (JSONException ex) {
             Log.e(Tags.ERROR, "Failed to parse JSON: ", ex);
             throw new RuntimeException(ex);
         }
 
-        return result;
+        return user;
     }
 
     @NonNull

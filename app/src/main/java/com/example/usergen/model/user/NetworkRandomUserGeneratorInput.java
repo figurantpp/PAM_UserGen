@@ -1,7 +1,6 @@
 package com.example.usergen.model.user;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.util.InputMismatchException;
 import java.util.Objects;
