@@ -1,53 +1,19 @@
 package com.example.usergen.model.user;
 
-import android.annotation.SuppressLint;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.example.usergen.model.OnlineImageResource;
 import com.example.usergen.model.interfaces.ModelJsonManager;
-import com.example.usergen.util.ApiInfo;
-import com.example.usergen.util.Tags;
+import com.example.usergen.util.ApiDate;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class UserJsonManager implements ModelJsonManager<User> {
 
-    @NonNull
-    private Date dateFromString(@NonNull String dateString) {
-
-        // We don't want locale messing up the date format.
-        @SuppressLint("SimpleDateFormat")
-        SimpleDateFormat format = new SimpleDateFormat(ApiInfo.DATE_FORMAT_STRING);
-
-        Date result;
-
-        try {
-            result = format.parse(dateString);
-
-
-            if (result == null)
-            {
-                result = new Date();
-            }
-
-        } catch (ParseException ex) {
-            Log.e(Tags.ERROR, "Failed to parse format", ex);
-            throw new RuntimeException(ex);
-        }
-
-        return result;
-    }
 
     @NonNull
     @Override
@@ -75,7 +41,7 @@ public class UserJsonManager implements ModelJsonManager<User> {
 
         user.setGender(sourceObject.getString("gender"));
 
-        user.setBirthDate(dateFromString(birthDateObject.getString("date")));
+        user.setBirthDate(ApiDate.dateFromString(birthDateObject.getString("date")));
 
         user.setNationality(sourceObject.getString("nat"));
 
