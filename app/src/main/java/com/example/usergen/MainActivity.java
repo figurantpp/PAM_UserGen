@@ -1,6 +1,8 @@
 package com.example.usergen;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
@@ -17,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     Button search;
 
     TextView title;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,5 +44,13 @@ public class MainActivity extends AppCompatActivity {
 
         title.setAnimation(animation1);
 
+        search.setOnClickListener(this::show);
+
+    }
+
+    public void show(View view)
+    {
+       Intent intent = new Intent(this, ShowResultsActivity.class);
+       startActivity(intent);
     }
 }

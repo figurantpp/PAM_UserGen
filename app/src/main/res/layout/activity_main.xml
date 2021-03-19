@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="40dp"
             android:fontFamily="@font/cinzel"
-            android:text="@string/feminino" />
+            android:text="@string/feminino"
+            android:textColor="@android:color/secondary_text_light" />
 
         <RadioButton
             android:id="@+id/radioButton"
@@ -30,7 +31,8 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#FFFFFF"
             android:fontFamily="@font/cinzel"
-            android:text="@string/masculino" />
+            android:text="@string/masculino"
+            android:textColor="@android:color/secondary_text_light" />
     </RadioGroup>
 
     <TextView
@@ -41,7 +43,7 @@
         android:fontFamily="@font/cinzel_black"
         android:text="@string/random_title"
         android:textAlignment="viewStart"
-        android:textColor="#000000"
+        android:textColor="@android:color/secondary_text_light"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -56,6 +58,7 @@
         android:fontFamily="@font/cinzel"
         android:text="@string/nacionalidade"
         android:textColor="#000000"
+        android:textColorHighlight="@android:color/secondary_text_light"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
