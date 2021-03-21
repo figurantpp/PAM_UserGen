@@ -11,13 +11,13 @@ import java.util.stream.Stream;
 
 public class RandomUserGeneratorInput {
 
+    @Nullable
     private String nationality;
+
+    @NonNull
     private String gender;
 
-    public RandomUserGeneratorInput() {
-    }
-
-    public RandomUserGeneratorInput(@NonNull String nationality, @NonNull String gender) {
+    public RandomUserGeneratorInput(@Nullable String nationality, @NonNull String gender) {
 
         assertValidNationality(nationality);
         assertValidGender(gender);
@@ -26,18 +26,19 @@ public class RandomUserGeneratorInput {
         this.gender = gender;
     }
 
-    private void assertValidNationality(@NonNull String nationality) {
+    private void assertValidNationality(@Nullable String nationality) {
 
-        Objects.requireNonNull(nationality);
+        if (nationality != null) {
 
-        String[] validNationalities = new String[]{
-                "AU", "BR", "CA", "CH", "DE", "DK", "ES", "FI",
-                "FR", "GB", "IE", "IR", "NO", "NL", "NZ", "TR", "US"
-        };
+            String[] validNationalities = new String[]{
+                    "AU", "BR", "CA", "CH", "DE", "DK", "ES", "FI",
+                    "FR", "GB", "IE", "IR", "NO", "NL", "NZ", "TR", "US"
+            };
 
-        if (Stream.of(validNationalities).noneMatch(x -> x.equals(nationality)))
-        {
-            throw new InputMismatchException("Nationality " + nationality + " is not valid");
+            if (Stream.of(validNationalities).noneMatch(x -> x.equals(nationality)))
+            {
+                throw new InputMismatchException("Nationality " + nationality + " is not valid");
+            }
         }
     }
 
@@ -51,7 +52,7 @@ public class RandomUserGeneratorInput {
         }
     }
 
-    @NonNull
+    @Nullable
     public String getNationality() {
         return nationality;
     }

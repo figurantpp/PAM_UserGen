@@ -30,10 +30,9 @@ public class NetworkRandomUserGeneratorTest {
 
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        RandomUserGeneratorInput input = new RandomUserGeneratorInput();
+        RandomUserGeneratorInput input;
 
-        input.setNationality("BR");
-        input.setGender("male");
+        input = new RandomUserGeneratorInput("BR", "male");
 
         RandomModelGenerator<User> subject = new NetworkRandomUserGenerator(context, input);
 
