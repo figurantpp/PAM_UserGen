@@ -1,11 +1,9 @@
 package com.example.usergen.model.user;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.usergen.model.OnlineImageResource;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 public class User {
@@ -68,12 +66,12 @@ public class User {
         return name;
     }
 
-    @NonNull
+    @Nullable
     public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(@NonNull Date birthDate) {
+    public void setBirthDate(@Nullable Date birthDate) {
         this.birthDate = birthDate;
     }
 
