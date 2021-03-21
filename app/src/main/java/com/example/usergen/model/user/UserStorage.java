@@ -56,7 +56,7 @@ public class UserStorage {
     }
 
     @NonNull
-    public byte[] getUserImageBlob(@NonNull User user) throws IOException {
+    private byte[] getUserImageBlob(@NonNull User user) throws IOException {
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 

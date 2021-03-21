@@ -6,15 +6,15 @@ import java.util.InputMismatchException;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class NetworkRandomUserGeneratorInput {
+public class RandomUserGeneratorInput {
 
     private String nationality;
     private String gender;
 
-    public NetworkRandomUserGeneratorInput() {
+    public RandomUserGeneratorInput() {
     }
 
-    public NetworkRandomUserGeneratorInput(@NonNull String nationality, @NonNull String gender) {
+    public RandomUserGeneratorInput(@NonNull String nationality, @NonNull String gender) {
 
         assertValidNationality(nationality);
         assertValidGender(gender);
