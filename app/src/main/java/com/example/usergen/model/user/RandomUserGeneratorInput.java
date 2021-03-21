@@ -1,6 +1,9 @@
 package com.example.usergen.model.user;
 
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.InputMismatchException;
 import java.util.Objects;
@@ -66,5 +69,22 @@ public class RandomUserGeneratorInput {
     public void setGender(@NonNull String gender) {
         assertValidGender(gender);
         this.gender = gender;
+    }
+
+    @NonNull
+    public Bundle asBundle()
+    {
+        Bundle result = new Bundle();
+        result.putString("gender", gender);
+        result.putString("nat", nationality);
+
+        return result;
+
+    }
+
+    @NonNull
+    public static RandomUserGeneratorInput fromBundle(@NonNull Bundle bundle)
+    {
+        return new RandomUserGeneratorInput(bundle.getString("nat"), bundle.getString("gender"));
     }
 }
