@@ -33,7 +33,7 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
     private final Context context;
 
     @NonNull
-    private final NetworkRandomUserGeneratorInput input;
+    private final RandomUserGeneratorInput input;
 
     @NonNull
     private final ModelJsonManager<User> jsonManager;
@@ -42,7 +42,7 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
     private final ExecutorService executor;
 
     public NetworkRandomUserGenerator(@NonNull Context context,
-                                      @NonNull NetworkRandomUserGeneratorInput input,
+                                      @NonNull RandomUserGeneratorInput input,
                                       @NonNull ExecutorService executor) {
         this.context = context;
         this.input = input;
@@ -54,7 +54,7 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
 
 
     public NetworkRandomUserGenerator(@NonNull Context context,
-                                      @NonNull NetworkRandomUserGeneratorInput input) {
+                                      @NonNull RandomUserGeneratorInput input) {
         this.context = context;
         this.input = input;
         this.jsonManager = new UserJsonManager();

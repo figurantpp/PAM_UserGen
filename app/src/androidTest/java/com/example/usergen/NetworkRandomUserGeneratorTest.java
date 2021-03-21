@@ -7,7 +7,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.example.usergen.model.interfaces.RandomModelGenerator;
 import com.example.usergen.model.user.NetworkRandomUserGenerator;
-import com.example.usergen.model.user.NetworkRandomUserGeneratorInput;
+import com.example.usergen.model.user.RandomUserGeneratorInput;
 import com.example.usergen.model.user.User;
 
 import org.junit.Before;
@@ -30,7 +30,7 @@ public class NetworkRandomUserGeneratorTest {
 
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        NetworkRandomUserGeneratorInput input = new NetworkRandomUserGeneratorInput();
+        RandomUserGeneratorInput input = new RandomUserGeneratorInput();
 
         input.setNationality("BR");
         input.setGender("male");
