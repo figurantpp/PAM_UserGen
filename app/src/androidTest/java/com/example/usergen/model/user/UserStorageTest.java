@@ -70,7 +70,7 @@ public class UserStorageTest {
     URL getExpectedURL() {
 
         try {
-            return new URL("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.redd.it%2Fmqxayon694i11.jpg&f=1&nofb=1");
+            return new URL("https://i.redd.it/mqxayon694i11.jpg");
         } catch (MalformedURLException ex) {
             Log.e(Tags.ERROR, "getExpectedURL: ", ex);
             throw new RuntimeException(ex);
