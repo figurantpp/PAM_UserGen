@@ -10,24 +10,25 @@ import com.example.usergen.model.user.NetworkRandomUserGenerator;
 import com.example.usergen.model.user.NetworkRandomUserGeneratorInput;
 import com.example.usergen.model.user.User;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-
-import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
 public class NetworkRandomUserGeneratorTest {
 
-    @Test
-    public void NetworkRandomUserGenerator_doesNotFail()
-    {
-        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+    RandomUserGeneratorTest test;
 
-        assertNotNull(context);
+    @Before
+    public void setup() {
+        test = new RandomUserGeneratorTest();
+    }
+
+    @Test
+    public void nextRandomModel() {
+
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         NetworkRandomUserGeneratorInput input = new NetworkRandomUserGeneratorInput();
 
@@ -36,30 +37,7 @@ public class NetworkRandomUserGeneratorTest {
 
         RandomModelGenerator<User> subject = new NetworkRandomUserGenerator(context, input);
 
-        Future<User> output = subject.nextRandomModel();
 
-        User user;
-
-        try {
-            user = output.get();
-        } catch (InterruptedException | ExecutionException ex) {
-
-            Objects.requireNonNull(ex.getMessage());
-
-            fail(ex.getMessage());
-            return;
-        }
-
-        assertNotNull(user);
-
-        assertNotNull(user.getId());
-        assertNotNull(user.getTitle());
-        assertNotNull(user.getName());
-        assertNotNull(user.getEmail());
-        assertNotNull(user.getGender());
-        assertNotNull(user.getBirthDate());
-        assertNotNull(user.getProfileImage());
-        assertNotNull(user.getProfileImage().getUrl());
-        assertNotNull(user.getNationality());
+        test.nextRandomModel(context, subject);
     }
 }
