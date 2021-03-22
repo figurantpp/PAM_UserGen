@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="40dp"
             android:fontFamily="@font/cinzel"
-            android:text="@string/feminino"
+            android:text="@string/text_female"
             android:textColor="@android:color/secondary_text_light" />
 
         <RadioButton
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#FFFFFF"
             android:fontFamily="@font/cinzel"
-            android:text="@string/masculino"
+            android:text="@string/text_male"
             android:textColor="@android:color/secondary_text_light" />
     </RadioGroup>
 
@@ -46,8 +46,8 @@
         android:textColor="@android:color/secondary_text_light"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/radioGroup"
+        app:layout_constraintHorizontal_bias="0.729"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
