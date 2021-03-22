@@ -17,7 +17,35 @@
         <item> Canadian </item>
         <item> Finnish </item>
         <item> Norwegian </item>
+        <item> Irish </item>
+        <item> Iranian</item>
+        <item> Dutch </item>
+        <item> Turkish </item>
+        <item> New Zealander</item>
+        <item> Swiss </item>
+    </string-array>
+
+    <string-array name="acronym">
+        <item>    </item>
+        <item> BR </item>
+        <item> AU </item>
+        <item> FR </item>
+        <item> US </item>
+        <item> ES </item>
+        <item> GB </item>
+        <item> DK</item>
+        <item> CA </item>
+        <item> FI </item>
+        <item> NO </item>
+        <item> IE</item>
+        <item> IR</item>
+        <item> NL </item>
+        <item> TR</item>
+        <item> NZ</item>
+        <item> CH </item>
 
 
     </string-array>
+
+
 </resources>

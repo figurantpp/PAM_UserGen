@@ -1,18 +1,29 @@
 package com.example.usergen;
 
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.usergen.model.user.RandomUserGeneratorInput;
+import com.example.usergen.util.Tags;
+import com.google.android.material.snackbar.Snackbar;
+
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Spinner spinner;
 
@@ -20,17 +31,24 @@ public class MainActivity extends AppCompatActivity {
 
     TextView title;
 
+    TypedArray acronymes;
+
+    RadioButton male, female;
+
+    String gender;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         spinner = findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.countries, android.R. layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.countries, android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
 
         search = findViewById(R.id.search_on_api_button);
 
@@ -44,13 +62,59 @@ public class MainActivity extends AppCompatActivity {
 
         title.setAnimation(animation1);
 
+        acronymes = getResources().obtainTypedArray(R.array.acronym);
+
+
         search.setOnClickListener(this::show);
+
+        female = (RadioButton) findViewById(R.id.radioFemale);
+        male = (RadioButton) findViewById(R.id.radioMale);
 
     }
 
-    public void show(View view)
-    {
-       Intent intent = new Intent(this, ShowResultsActivity.class);
-       startActivity(intent);
+    public void show(View view) {
+
+
+        if (!female.isChecked() && !male.isChecked()) {
+            Snackbar.make(view, "Algum gênero deve ser preenchido!!", Snackbar.LENGTH_SHORT).show();
+            return;
+        }
+
+            if (female.isChecked()) {
+                gender = "female";
+            } else {
+
+                gender = "male";
+            }
+
+        RandomUserGeneratorInput input = new RandomUserGeneratorInput(optionSpinner, gender);
+
+        Intent intent = new Intent(this, ShowResultsActivity.class);
+        intent.putExtra(ShowResultsActivity.INPUT_BUNDLE_KEY, input.asBundle());
+
+        startActivity(intent);
+    }
+
+    String optionSpinner;
+
+
+    @Override
+    public void onItemSelected(@Nullable AdapterView<?> adapterView, View view, int i, long l) {
+        String acronym = acronymes.getString(i).trim();
+
+        if( acronym.isEmpty())
+        {
+            acronym = null;
+        }
+
+        optionSpinner = acronym;
+
+
+
+    }
+
+    @Override
+    public void onNothingSelected(@Nullable AdapterView<?> adapterView) {
+
     }
 }

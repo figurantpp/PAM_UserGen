@@ -51,18 +51,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:fontFamily="@font/roboto_bold"
-        android:text="Nome Completo"
+        android:text="Título"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/personGender"
         app:layout_constraintTop_toBottomOf="@+id/divider6" />
 
     <TextView
-        android:id="@+id/personFirstandSecondName"
+        android:id="@+id/personTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/roboto"
-        android:text="Jeanette Buchwaka"
+        android:text="Mrs"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/txttitlefullname"
         app:layout_constraintTop_toBottomOf="@+id/txttitlefullname" />
@@ -85,7 +85,7 @@
         android:layout_marginTop="15dp"
         android:background="?attr/color"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/personFirstandSecondName" />
+        app:layout_constraintTop_toBottomOf="@+id/personTitle" />
 
     <TextView
         android:id="@+id/txttitlenacionality"
@@ -186,7 +186,7 @@
         android:fontFamily="@font/roboto_bold"
         android:text="Idade"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/personFirstandSecondName"
+        app:layout_constraintStart_toStartOf="@+id/personTitle"
         app:layout_constraintTop_toBottomOf="@+id/divider7" />
 
     <TextView
@@ -224,12 +224,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/personTitlendFirstName"
+        android:id="@+id/personFirstandSecondName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/headland_one"
-        android:text="Mrs. Jeanette"
+        android:text="Jeanette Silva"
         android:textColor="?attr/textAppearanceHeadline2"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -247,7 +247,7 @@
         android:textColor="#95737070"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/personTitlendFirstName" />
+        app:layout_constraintTop_toBottomOf="@+id/personFirstandSecondName" />
 
     <View
         android:id="@+id/divider2"

@@ -17,7 +17,7 @@
         app:layout_constraintTop_toBottomOf="@+id/random_text">
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/radioFemale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="40dp"
@@ -26,7 +26,7 @@
             android:textColor="@android:color/secondary_text_light" />
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/radioMale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#FFFFFF"
