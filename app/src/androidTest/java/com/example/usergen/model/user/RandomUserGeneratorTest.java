@@ -1,4 +1,4 @@
-package com.example.usergen;
+package com.example.usergen.model.user;
 
 import android.content.Context;
 

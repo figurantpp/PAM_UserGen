@@ -1,4 +1,4 @@
-package com.example.usergen;
+package com.example.usergen.model.user;
 
 import android.content.Context;
 
@@ -6,9 +6,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.example.usergen.model.interfaces.RandomModelGenerator;
-import com.example.usergen.model.user.NetworkRandomUserGenerator;
-import com.example.usergen.model.user.RandomUserGeneratorInput;
-import com.example.usergen.model.user.User;
 
 import org.junit.Before;
 import org.junit.Test;
