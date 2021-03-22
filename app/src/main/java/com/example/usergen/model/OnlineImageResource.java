@@ -11,6 +11,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class OnlineImageResource {
 
@@ -20,11 +23,18 @@ public class OnlineImageResource {
     @Nullable
     private Bitmap content;
 
-    public OnlineImageResource(@Nullable URL url) {
+
+    public OnlineImageResource(@NonNull URL url) {
+
+        Objects.requireNonNull(url);
+
         this.url = url;
     }
 
     public OnlineImageResource(@NonNull Bitmap bitmap) {
+
+        Objects.requireNonNull(bitmap);
+
         this.content = bitmap;
     }
 
@@ -33,7 +43,7 @@ public class OnlineImageResource {
         return url;
     }
 
-    public void setUrl(@Nullable URL url) {
+    public void setUrl(@NonNull URL url) {
         this.url = url;
     }
 
@@ -59,14 +69,14 @@ public class OnlineImageResource {
         return Objects.hash(url, content);
     }
 
-    public void setContent(@Nullable Bitmap content) {
-        this.content = content;
-    }
-
-    @Nullable
+    @NonNull
     public Bitmap getBitmap() throws IOException  {
 
-        if (content == null && url != null) {
+        if (url == null && content == null) {
+            throw new IllegalStateException("Invalid OnlineImageResource");
+        }
+
+        if (url != null) {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
 
@@ -76,5 +86,18 @@ public class OnlineImageResource {
         }
 
         return content;
+    }
+
+    @NonNull
+    public Future<Bitmap> getBitmapAsync(@NonNull ExecutorService threadSource) {
+
+        Objects.requireNonNull(threadSource);
+
+        return threadSource.submit(this::getBitmap);
+    }
+
+    @NonNull
+    public Future<Bitmap> getBitmapAsync() {
+        return getBitmapAsync(Executors.newSingleThreadExecutor());
     }
 }

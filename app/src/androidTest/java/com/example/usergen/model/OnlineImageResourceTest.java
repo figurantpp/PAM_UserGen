@@ -3,6 +3,7 @@ package com.example.usergen.model;
 import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
+import androidx.test.espresso.base.BaseLayerModule_FailureHandlerHolder_Factory;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Test;
@@ -12,6 +13,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
+import javax.annotation.meta.TypeQualifier;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -48,7 +53,7 @@ public class OnlineImageResourceTest {
     }
 
     @Test
-    public void getContent() {
+    public void getBitmap() {
 
         OnlineImageResource resource = new OnlineImageResource(getURL());
 
@@ -107,6 +112,29 @@ public class OnlineImageResourceTest {
         assertNotEquals(third, second);
 
 
+    }
+
+    @Test
+    public void getBitmapAsync() {
+
+        OnlineImageResource resource = new OnlineImageResource(getAlternativeURL());
+
+        Future<Bitmap> result = resource.getBitmapAsync();
+
+        assertNotNull(result);
+
+        Bitmap bitmap;
+
+        try {
+            bitmap = result.get();
+        } catch (ExecutionException | InterruptedException ex) {
+
+            fail("Failed to open bitmap");
+
+            throw new RuntimeException(ex);
+        }
+
+        assertNotNull(bitmap);
     }
 
 }
