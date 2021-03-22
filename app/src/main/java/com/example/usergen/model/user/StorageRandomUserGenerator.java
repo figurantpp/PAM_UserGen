@@ -7,8 +7,10 @@ import androidx.annotation.NonNull;
 import com.example.usergen.BuildConfig;
 import com.example.usergen.model.interfaces.RandomModelGenerator;
 
+import java.nio.channels.NoConnectionPendingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -21,19 +23,14 @@ public class StorageRandomUserGenerator implements RandomModelGenerator<User> {
     private final List<User> users;
 
     @NonNull
-    private final List<Boolean> selectedIndexes;
-
-    @NonNull
     private final Random random;
 
     @NonNull
     private final ExecutorService executor;
 
-    public StorageRandomUserGenerator(@NonNull Context context) {
+    public StorageRandomUserGenerator(@NonNull UserStorage storage) {
 
-        this.users = new UserStorage(context).listStoredUsers();
-
-        selectedIndexes = new ArrayList<>(users.size());
+        this.users = storage.listStoredUsers();
 
         random = new Random();
 
@@ -46,21 +43,12 @@ public class StorageRandomUserGenerator implements RandomModelGenerator<User> {
 
         return executor.submit(() -> {
 
-            if (BuildConfig.DEBUG && users.size() != selectedIndexes.size()) {
-                throw new AssertionError("Assertion failed");
+            if (this.users.size() == 0) {
+                throw new NoSuchElementException("Empty Database Storage; No Random User to Generate");
             }
-
-            int count = 0;
-            int index;
-
-            while (selectedIndexes.get(index = random.nextInt()) && count != users.size()) {
-
-                selectedIndexes.set(index, true);
-
-                return users.get(index);
+            else {
+                return users.get(random.nextInt() % this.users.size());
             }
-
-            return users.get(random.nextInt());
 
         });
     }

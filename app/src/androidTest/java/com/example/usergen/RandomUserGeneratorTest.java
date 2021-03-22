@@ -7,11 +7,15 @@ import androidx.annotation.NonNull;
 import com.example.usergen.model.interfaces.RandomModelGenerator;
 import com.example.usergen.model.user.User;
 
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class RandomUserGeneratorTest {
@@ -21,17 +25,32 @@ public class RandomUserGeneratorTest {
 
         assertNotNull(context);
 
-        Future<User> output = subject.nextRandomModel();
+        Future<User> output;
+
+        output = subject.nextRandomModel();
+
 
         User user;
 
         try {
             user = output.get();
-        } catch (InterruptedException | ExecutionException ex) {
+        } catch (InterruptedException ex) {
 
-            Objects.requireNonNull(ex.getMessage());
+            assertNotNull(ex.getMessage());
 
             fail(ex.getMessage());
+
+            return;
+        } catch (ExecutionException ex) {
+
+            assertNotNull(ex.getMessage());
+
+            assertNotNull(ex.getCause());
+
+            assertFalse(ex.getMessage().isEmpty());
+
+            assertSame(ex.getCause().getClass(), NoSuchElementException.class);
+
             return;
         }
 
