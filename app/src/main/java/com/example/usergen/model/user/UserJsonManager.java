@@ -47,7 +47,7 @@ public class UserJsonManager implements ModelJsonManager<User> {
 
         try {
             user.setProfileImage(new OnlineImageResource(new URL(
-                    imageObject.getString("medium")
+                    imageObject.getString("large")
             )));
         }
         catch (MalformedURLException ex)

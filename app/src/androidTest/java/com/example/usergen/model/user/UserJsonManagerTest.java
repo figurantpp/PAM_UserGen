@@ -52,7 +52,7 @@ public class UserJsonManagerTest {
         URL url = null;
 
         try {
-            url = new URL("https://randomuser.me/api/portraits/med/men/75.jpg");
+            url = new URL("https://randomuser.me/api/portraits/men/75.jpg");
         } catch (MalformedURLException ex) {
             Objects.requireNonNull(ex.getMessage());
 

@@ -111,8 +111,10 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
 
         byte[] buffer = new byte[4096];
 
-        while (stream.read(buffer) != -1) {
-            output.write(buffer);
+        int read;
+
+        while ((read = stream.read(buffer)) != -1) {
+            output.write(buffer, 0, read);
         }
 
         return output.toString();
