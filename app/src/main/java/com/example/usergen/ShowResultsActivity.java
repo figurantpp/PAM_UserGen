@@ -65,6 +65,9 @@ public class ShowResultsActivity extends AppCompatActivity {
 
     private void loadUser()
     {
+
+
+
         Bundle bundle  = getIntent().getBundleExtra(INPUT_BUNDLE_KEY);
         Objects.requireNonNull(bundle);
 
@@ -76,34 +79,36 @@ public class ShowResultsActivity extends AppCompatActivity {
 
         try {
             User user = result.get();
-
-            Name = user.getName();
-            personTitle = user.getTitle();
-            Gender = user.getGender();
-            Email = user.getEmail();
-            dayofbirth = user.getBirthDate();
-            Nationality = user.getNationality();
-            Age = String.valueOf(user.getAge());
-            ID = user.getId();
-
             OnlineImageResource resource = user.getProfileImage();
             Bitmap bitmap = resource.getBitmap();
 
-            profilePicture.setImageBitmap(bitmap);
-            firstTitle.setText(Name);
-            title.setText(personTitle);
-            gender.setText(Gender);
-            email.setText(Email);
-            nationality.setText(Nationality);
-            age.setText(Age);
-            id.setText(ID);
-
-            @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            birth.setText(dateFormat.format(dayofbirth));
 
 
+            runOnUiThread(
+                    ()->{
+                        Name = user.getName();
+                        personTitle = user.getTitle();
+                        Gender = user.getGender();
+                        Email = user.getEmail();
+                        dayofbirth = user.getBirthDate();
+                        Nationality = user.getNationality();
+                        Age = String.valueOf(user.getAge());
+                        ID = user.getId();
 
 
+                        profilePicture.setImageBitmap(bitmap);
+                        firstTitle.setText(Name);
+                        title.setText(personTitle);
+                        gender.setText(Gender);
+                        email.setText(Email);
+                        nationality.setText(Nationality);
+                        age.setText(Age);
+                        id.setText(ID);
+
+                        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                        birth.setText(dateFormat.format(dayofbirth));
+                    }
+            );
 
 
         } catch (ExecutionException | InterruptedException | IOException e) {
