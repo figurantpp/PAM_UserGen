@@ -82,7 +82,11 @@ public class OnlineImageResource {
 
             InputStream stream = connection.getInputStream();
 
-            content = BitmapFactory.decodeStream(stream);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inScaled = false;
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+            content = BitmapFactory.decodeStream(stream, null, options);
         }
 
         return content;
