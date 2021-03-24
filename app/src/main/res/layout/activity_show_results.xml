@@ -93,7 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:fontFamily="@font/roboto_bold"
-        android:text="Nacionalidade"
+        android:text="@string/nacionalidade"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/personGender"
         app:layout_constraintTop_toBottomOf="@+id/divider5" />
@@ -124,7 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:fontFamily="@font/roboto_bold"
-        android:text="Data de Nascimento"
+        android:text="@string/text_birth"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/personGender"
         app:layout_constraintTop_toBottomOf="@+id/divider4" />
@@ -243,7 +243,7 @@
         android:layout_marginStart="26dp"
         android:layout_marginTop="28dp"
         android:fontFamily="sans-serif-condensed-medium"
-        android:text="Informações"
+        android:text="@string/text_informations"
         android:textColor="#95737070"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -266,7 +266,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:fontFamily="@font/roboto_bold"
-        android:text="Gênero"
+        android:text="@string/text_gender"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/txttitleinfo"
         app:layout_constraintTop_toBottomOf="@+id/divider2" />

@@ -10,10 +10,13 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.example.usergen.model.OnlineImageResource;
+import com.example.usergen.model.exception.ProgramException;
 import com.example.usergen.model.interfaces.RandomModelGenerator;
 import com.example.usergen.model.user.NetworkRandomUserGenerator;
 import com.example.usergen.model.user.RandomUserGeneratorInput;
+import com.example.usergen.model.user.StorageRandomUserGenerator;
 import com.example.usergen.model.user.User;
+import com.example.usergen.model.user.UserStorage;
 import com.example.usergen.util.Tags;
 
 import java.io.IOException;
@@ -39,6 +42,10 @@ public class ShowResultsActivity extends AppCompatActivity {
     String personTitle, Name, Gender, Email, Birth, Nationality, Age, ID;
 
     Date dayofbirth;
+
+    UserStorage userStorage;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,14 +80,31 @@ public class ShowResultsActivity extends AppCompatActivity {
 
         RandomUserGeneratorInput input = RandomUserGeneratorInput.fromBundle(bundle);
 
-        generator = new NetworkRandomUserGenerator(this, input);
+        userStorage = new UserStorage(this);
+
+        try {
+            generator = new NetworkRandomUserGenerator(this, input);
+
+        }
+        catch (ProgramException ex)
+        {
+            Log.e(Tags.ERROR, "Failed to get NetworkAccess", ex);
+            generator = new StorageRandomUserGenerator(userStorage);
+        }
 
         Future<User> result = generator.nextRandomModel();
 
         try {
             User user = result.get();
+
+            if (generator.getClass() == NetworkRandomUserGenerator.class)
+            {
+                userStorage.storeModel(user);
+            }
             OnlineImageResource resource = user.getProfileImage();
             Bitmap bitmap = resource.getBitmap();
+
+
 
 
 

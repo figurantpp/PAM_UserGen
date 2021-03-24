@@ -1,10 +1,16 @@
 <resources>
     <string name="app_name">RandomUserApp</string>
-    <string name="feminino"> Feminino </string>
-    <string name="masculino"> Masculino </string>
+    <string name="text_female"> Female </string>
+    <string name="text_male"> Male </string>
     <string name="random_title"> RANDOM USER GENERATOR  </string>
-    <string name="nacionalidade"> Nacionalidade </string>
-    <string name="buscar_na_api"> Buscar na API </string>
+    <string name="nacionalidade"> Nationality </string>
+    <string name="buscar_na_api"> Search on API </string>
+    <string name="text_informations"> Info</string>
+    <string name="text_gender"> Gender </string>
+    <string name="text_email"> Email </string>
+    <string name="text_birth"> Day of Birth </string>
+    <string name="text_age"> Age </string>
+
     <string-array name="countries">
         <item>       </item>
         <item> Brazilian </item>
