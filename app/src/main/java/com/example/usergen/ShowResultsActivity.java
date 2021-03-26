@@ -1,13 +1,15 @@
 package com.example.usergen;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.usergen.model.OnlineImageResource;
 import com.example.usergen.model.exception.ProgramException;
@@ -46,36 +48,57 @@ public class ShowResultsActivity extends AppCompatActivity {
     UserStorage userStorage;
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_results);
 
 
-
-        firstTitle =  findViewById(R.id.personFirstandSecondName);
+        firstTitle = findViewById(R.id.personFirstandSecondName);
         gender = findViewById(R.id.personGender);
-        email =  findViewById(R.id.personEmail);
-        birth =  findViewById(R.id.personDayOfBirth);
+        email = findViewById(R.id.personEmail);
+        birth = findViewById(R.id.personDayOfBirth);
         nationality = findViewById(R.id.personNacionality);
         title = findViewById(R.id.personTitle);
-        age =  findViewById(R.id.personAge);
+        age = findViewById(R.id.personAge);
         id = findViewById(R.id.personID);
 
         profilePicture = (CircleImageView) findViewById(R.id.personPicture);
+
 
         new Thread(this::loadUser).start();
 
 
     }
 
-    private void loadUser()
-    {
+    @Nullable
+    private String getNationalityName(@NonNull String nationality) {
+
+        TypedArray acronyms = getResources().obtainTypedArray(R.array.acronym);
+
+        TypedArray names = getResources().obtainTypedArray(R.array.countries);
+
+        String result = null;
+
+        for (int i = 0; i < acronyms.length(); i++) {
+
+            if (acronyms.getString(i).trim().equals(nationality.trim()))
+            {
+                result = names.getString(i);
+            }
+        }
+
+        names.recycle();
+
+        acronyms.recycle();
+
+        return result;
+    }
+
+    private void loadUser() {
 
 
-
-        Bundle bundle  = getIntent().getBundleExtra(INPUT_BUNDLE_KEY);
+        Bundle bundle = getIntent().getBundleExtra(INPUT_BUNDLE_KEY);
         Objects.requireNonNull(bundle);
 
         RandomUserGeneratorInput input = RandomUserGeneratorInput.fromBundle(bundle);
@@ -85,9 +108,7 @@ public class ShowResultsActivity extends AppCompatActivity {
         try {
             generator = new NetworkRandomUserGenerator(this, input);
 
-        }
-        catch (ProgramException ex)
-        {
+        } catch (ProgramException ex) {
             Log.e(Tags.ERROR, "Failed to get NetworkAccess", ex);
             generator = new StorageRandomUserGenerator(userStorage);
         }
@@ -97,25 +118,30 @@ public class ShowResultsActivity extends AppCompatActivity {
         try {
             User user = result.get();
 
-            if (generator.getClass() == NetworkRandomUserGenerator.class)
-            {
+            String nationalityName = getNationalityName(user.getNationality());
+
+            if (nationalityName != null) {
+                user.setNationality(nationalityName);
+            }
+
+            if (generator.getClass() == NetworkRandomUserGenerator.class) {
                 userStorage.storeModel(user);
             }
             OnlineImageResource resource = user.getProfileImage();
             Bitmap bitmap = resource.getBitmap();
 
 
-
-
-
             runOnUiThread(
-                    ()->{
+                    () -> {
                         Name = user.getName();
                         personTitle = user.getTitle();
                         Gender = user.getGender();
                         Email = user.getEmail();
                         dayofbirth = user.getBirthDate();
                         Nationality = user.getNationality();
+
+
+
                         Age = String.valueOf(user.getAge());
                         ID = user.getId();
 
@@ -136,7 +162,7 @@ public class ShowResultsActivity extends AppCompatActivity {
 
 
         } catch (ExecutionException | InterruptedException | IOException e) {
-            Log.e(Tags.ERROR,"Fail to get User", e);
+            Log.e(Tags.ERROR, "Fail to get User", e);
         }
     }
 }
