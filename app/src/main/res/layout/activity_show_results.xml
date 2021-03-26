@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:fontFamily="@font/roboto_bold"
-        android:text="ID"
+        android:text="@string/text_id"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/personAge"
         app:layout_constraintTop_toBottomOf="@+id/divider8" />
@@ -31,7 +31,6 @@
         android:layout_marginTop="5dp"
         android:fontFamily="@font/roboto"
         android:paddingBottom="15dp"
-        android:text="7YHA-DNE790"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/txttitleID"
         app:layout_constraintTop_toBottomOf="@+id/txttitleID" />
@@ -51,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:fontFamily="@font/roboto_bold"
-        android:text="Título"
+        android:text="@string/text_title"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/personGender"
         app:layout_constraintTop_toBottomOf="@+id/divider6" />
@@ -62,7 +61,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/roboto"
-        android:text="Mrs"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/txttitlefullname"
         app:layout_constraintTop_toBottomOf="@+id/txttitlefullname" />
@@ -73,7 +71,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/roboto"
-        android:text="23 anos"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/txttitleage"
         app:layout_constraintTop_toBottomOf="@+id/txttitleage" />
@@ -113,7 +110,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/roboto"
-        android:text="Australiana"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/txttitlenacionality"
         app:layout_constraintTop_toBottomOf="@+id/txttitlenacionality" />
@@ -144,7 +140,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/roboto"
-        android:text="12/02/1998"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/txttitlegender"
         app:layout_constraintTop_toBottomOf="@+id/txttitleborndate" />
@@ -184,7 +179,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:fontFamily="@font/roboto_bold"
-        android:text="Idade"
+        android:text="@string/text_age"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/personTitle"
         app:layout_constraintTop_toBottomOf="@+id/divider7" />
@@ -195,7 +190,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/roboto"
-        android:text="jeanette@gmail.com"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/txttitleemail"
         app:layout_constraintTop_toBottomOf="@+id/txttitleemail" />
@@ -211,10 +205,9 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/personPicture"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
         android:layout_marginTop="60dp"
-        android:src="@drawable/jeanette"
         app:civ_border_color="#D8ECECEC"
         app:civ_border_overlay="true"
         app:civ_border_width="5dp"
@@ -229,7 +222,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/headland_one"
-        android:text="Jeanette Silva"
         android:textColor="?attr/textAppearanceHeadline2"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -277,7 +269,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/roboto"
-        android:text="Feminino"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/txttitlegender"
         app:layout_constraintTop_toBottomOf="@+id/txttitlegender" />

@@ -10,6 +10,9 @@
     <string name="text_email"> Email </string>
     <string name="text_birth"> Day of Birth </string>
     <string name="text_age"> Age </string>
+    <string name="text_title"> Title </string>
+    <string name="text_id"> ID </string>
+
 
     <string-array name="countries">
         <item>       </item>

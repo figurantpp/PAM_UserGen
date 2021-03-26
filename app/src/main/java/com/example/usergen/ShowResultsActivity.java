@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.usergen.model.OnlineImageResource;
@@ -63,7 +64,9 @@ public class ShowResultsActivity extends AppCompatActivity {
         age =  findViewById(R.id.personAge);
         id = findViewById(R.id.personID);
 
-        profilePicture = (CircleImageView) findViewById(R.id.personPicture);
+        profilePicture = findViewById(R.id.personPicture);
+
+
 
         new Thread(this::loadUser).start();
 
@@ -121,6 +124,7 @@ public class ShowResultsActivity extends AppCompatActivity {
 
 
                         profilePicture.setImageBitmap(bitmap);
+
                         firstTitle.setText(Name);
                         title.setText(personTitle);
                         gender.setText(Gender);
