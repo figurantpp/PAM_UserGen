@@ -1,10 +1,8 @@
-package com.example.usergen;
+package com.example.usergen.activity;
 
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -15,12 +13,11 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.usergen.R;
 import com.example.usergen.model.user.RandomUserGeneratorInput;
-import com.example.usergen.util.Tags;
 import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -67,8 +64,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         search.setOnClickListener(this::show);
 
-        female = (RadioButton) findViewById(R.id.radioFemale);
-        male = (RadioButton) findViewById(R.id.radioMale);
+        female = findViewById(R.id.radioFemale);
+        male = findViewById(R.id.radioMale);
 
     }
 
@@ -99,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     @Override
-    public void onItemSelected(@Nullable AdapterView<?> adapterView, View view, int i, long l) {
+    public void onItemSelected(@Nullable AdapterView<?> adapterView, @Nullable View view, int i, long l) {
         String acronym = acronymes.getString(i).trim();
 
         if( acronym.isEmpty())

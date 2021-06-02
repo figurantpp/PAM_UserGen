@@ -1,4 +1,4 @@
-package com.example.usergen;
+package com.example.usergen.activity;
 
 import android.annotation.SuppressLint;
 import android.content.res.TypedArray;
@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.usergen.R;
 import com.example.usergen.model.OnlineImageResource;
 import com.example.usergen.model.exception.ProgramException;
 import com.example.usergen.model.interfaces.RandomModelGenerator;

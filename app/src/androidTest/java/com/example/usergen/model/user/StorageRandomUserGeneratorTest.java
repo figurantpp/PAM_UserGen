@@ -23,4 +23,20 @@ public class StorageRandomUserGeneratorTest {
         RandomUserGeneratorTest test = new RandomUserGeneratorTest();
         test.nextRandomModel(context, generator);
     }
+
+    @Test
+    public void testEmptyModels() {
+
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+
+        UserStorage storage = new UserStorage(context);
+
+        storage.clear();
+
+        StorageRandomUserGenerator generator = new StorageRandomUserGenerator(storage);
+
+        RandomUserGeneratorTest test = new RandomUserGeneratorTest();
+
+        test.nextRandomModel(context, generator);
+    }
 }

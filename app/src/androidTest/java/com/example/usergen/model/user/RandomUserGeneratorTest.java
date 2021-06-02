@@ -1,11 +1,13 @@
 package com.example.usergen.model.user;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.example.usergen.model.interfaces.RandomModelGenerator;
 import com.example.usergen.model.user.User;
+import com.example.usergen.util.Tags;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -49,7 +51,11 @@ public class RandomUserGeneratorTest {
 
             assertFalse(ex.getMessage().isEmpty());
 
-            assertSame(ex.getCause().getClass(), NoSuchElementException.class);
+            if (ex.getCause().getClass() != NoSuchElementException.class) {
+                Log.e(Tags.ERROR, "nextRandomModel: ", ex);
+                assertSame(ex.getCause().getClass(), NoSuchElementException.class);
+            }
+
 
             return;
         }
