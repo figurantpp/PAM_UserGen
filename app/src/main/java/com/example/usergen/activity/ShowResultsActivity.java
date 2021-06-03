@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.usergen.R;
 import com.example.usergen.model.OnlineImageResource;
-import com.example.usergen.model.exception.ProgramException;
+import com.example.usergen.model.exception.NoNetworkException;
 import com.example.usergen.model.interfaces.RandomModelGenerator;
 import com.example.usergen.model.user.NetworkRandomUserGenerator;
 import com.example.usergen.model.user.RandomUserGeneratorInput;
@@ -44,7 +43,7 @@ public class ShowResultsActivity extends AppCompatActivity {
 
     TextView firstTitle, gender, email, birth, nationality, title, age, id;
 
-    String personTitle, Name, Gender, Email, Birth, Nationality, Age, ID;
+    String personTitle, Name, Gender, Email, Nationality, Age, ID;
 
     Date dayofbirth;
 
@@ -113,7 +112,7 @@ public class ShowResultsActivity extends AppCompatActivity {
         try {
             generator = new NetworkRandomUserGenerator(this, input);
 
-        } catch (ProgramException ex) {
+        } catch (NoNetworkException ex) {
             Log.e(Tags.ERROR, "Failed to get NetworkAccess", ex);
             generator = new StorageRandomUserGenerator(userStorage);
         }

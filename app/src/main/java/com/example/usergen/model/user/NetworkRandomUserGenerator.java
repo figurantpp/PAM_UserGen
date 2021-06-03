@@ -8,7 +8,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.usergen.model.exception.ProgramException;
+import com.example.usergen.model.exception.NoNetworkException;
 import com.example.usergen.model.interfaces.ModelJsonManager;
 import com.example.usergen.model.interfaces.RandomModelGenerator;
 import com.example.usergen.util.ApiInfo;
@@ -43,7 +43,7 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
 
     public NetworkRandomUserGenerator(@NonNull Context context,
                                       @NonNull RandomUserGeneratorInput input,
-                                      @NonNull ExecutorService executor) {
+                                      @NonNull ExecutorService executor) throws NoNetworkException {
         this.context = context;
         this.input = input;
         this.jsonManager = new UserJsonManager();
@@ -54,19 +54,13 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
 
 
     public NetworkRandomUserGenerator(@NonNull Context context,
-                                      @NonNull RandomUserGeneratorInput input) {
-        this.context = context;
-        this.input = input;
-        this.jsonManager = new UserJsonManager();
-        this.executor = Executors.newSingleThreadExecutor();
-
-        checkConnectivity();
+                                      @NonNull RandomUserGeneratorInput input) throws NoNetworkException {
+        this(context, input, Executors.newSingleThreadExecutor());
     }
 
-    private void checkConnectivity()
-    {
+    private void checkConnectivity() throws NoNetworkException {
         if (!hasConnectivity()) {
-            throw new ProgramException("Failed to connect to network");
+            throw new NoNetworkException("Failed to connect to network");
         }
     }
 
