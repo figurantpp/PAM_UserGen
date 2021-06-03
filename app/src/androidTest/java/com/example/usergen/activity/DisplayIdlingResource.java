@@ -32,6 +32,9 @@ public class DisplayIdlingResource implements IdlingResource, ShowResultsActivit
     @Override
     public void onDisplay() {
         idle.set(true);
-        callback.onTransitionToIdle();
+
+        if (callback != null) {
+            callback.onTransitionToIdle();
+        }
     }
 }

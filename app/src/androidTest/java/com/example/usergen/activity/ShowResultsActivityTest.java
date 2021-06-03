@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
@@ -15,24 +16,28 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.example.usergen.R;
 import com.example.usergen.model.LambdaMatcher;
+import com.example.usergen.model.sensor.LightSensorListener;
 import com.example.usergen.model.user.RandomUserGeneratorInput;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.concurrent.TimeoutException;
 import java.util.stream.Stream;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 
 @RunWith(AndroidJUnit4.class)
 public class ShowResultsActivityTest {
@@ -56,13 +61,15 @@ public class ShowResultsActivityTest {
     @Rule
     public ActivityScenarioRule<ShowResultsActivity> rule = new ActivityScenarioRule<>(getIntent());
 
-    private final DisplayIdlingResource resource = new DisplayIdlingResource();
+    @Nullable
+    private DisplayIdlingResource resource;
 
     @Before
     public void before() {
         Intents.init();
 
         rule.getScenario().onActivity(activity ->{
+                    resource = new DisplayIdlingResource();
                     IdlingRegistry.getInstance().register(resource);
                     activity.listener = resource;
                 }
@@ -70,14 +77,14 @@ public class ShowResultsActivityTest {
     }
 
     @After
-    public void after(){
+    public void after() {
         Intents.release();
 
         IdlingRegistry.getInstance().unregister(resource);
     }
 
     @Test
-    public void testWorking() {
+    public void testDisplays() {
 
         Stream.of(
                 R.id.personFirstandSecondName,
@@ -110,6 +117,27 @@ public class ShowResultsActivityTest {
 
         intended(IntentMatchers.anyIntent());
 
+    }
+
+    @Test
+    public void testSensor() {
+
+        rule.getScenario().onActivity(activity -> {
+
+            LightSensorListener lightSensorListener = activity.getLightSensorListener();
+
+            assertThat(lightSensorListener, not(is(nullValue())));
+
+            lightSensorListener.emit(true);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
+            assertThat(activity.isFinishing(), is(true));
+        });
     }
 
     private void checkNotEmpty(@IdRes int id) {

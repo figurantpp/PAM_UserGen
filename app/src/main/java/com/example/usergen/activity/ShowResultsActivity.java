@@ -15,7 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.usergen.R;
 import com.example.usergen.model.OnlineImageResource;
 import com.example.usergen.model.exception.NoNetworkException;
+import com.example.usergen.model.exception.SensorNotFoundException;
 import com.example.usergen.model.interfaces.RandomModelGenerator;
+import com.example.usergen.model.sensor.LightSensorListener;
 import com.example.usergen.model.user.NetworkRandomUserGenerator;
 import com.example.usergen.model.user.RandomUserGeneratorInput;
 import com.example.usergen.model.user.StorageRandomUserGenerator;
@@ -43,7 +45,6 @@ public class ShowResultsActivity extends AppCompatActivity {
 
     TextView firstTitle, gender, email, birth, nationality, title, age, id;
 
-    String personTitle, Name, Gender, Email, Nationality, Age, ID;
 
     Date dayofbirth;
 
@@ -137,28 +138,17 @@ public class ShowResultsActivity extends AppCompatActivity {
 
             runOnUiThread(
                     () -> {
-                        Name = user.getName();
-                        personTitle = user.getTitle();
-                        Gender = user.getGender();
-                        Email = user.getEmail();
                         dayofbirth = user.getBirthDate();
-                        Nationality = user.getNationality();
-
-
-
-                        Age = String.valueOf(user.getAge());
-                        ID = user.getId();
-
 
                         profilePicture.setImageBitmap(bitmap);
 
-                        firstTitle.setText(Name);
-                        title.setText(personTitle);
-                        gender.setText(Gender);
-                        email.setText(Email);
-                        nationality.setText(Nationality);
-                        age.setText(Age);
-                        id.setText(ID);
+                        firstTitle.setText(user.getName());
+                        title.setText(user.getTitle());
+                        gender.setText(user.getGender());
+                        email.setText(user.getEmail());
+                        nationality.setText(user.getNationality());
+                        age.setText(String.valueOf(user.getAge()));
+                        id.setText(user.getId());
 
                         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                         birth.setText(dateFormat.format(dayofbirth));
@@ -173,6 +163,13 @@ public class ShowResultsActivity extends AppCompatActivity {
         } catch (ExecutionException | InterruptedException | IOException e) {
             Log.e(Tags.ERROR, "Fail to get User", e);
         }
+    }
+
+    @VisibleForTesting
+    @Nullable
+    public LightSensorListener getLightSensorListener() {
+
+        return null;
     }
 
     @VisibleForTesting()
