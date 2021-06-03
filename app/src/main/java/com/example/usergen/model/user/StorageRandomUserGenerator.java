@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 public class StorageRandomUserGenerator implements RandomModelGenerator<User> {
 
@@ -39,8 +40,7 @@ public class StorageRandomUserGenerator implements RandomModelGenerator<User> {
 
             if (this.users.size() == 0) {
                 throw emptyException();
-            }
-            else {
+            } else {
                 return users.get(random.nextInt() % this.users.size());
             }
 
@@ -55,9 +55,11 @@ public class StorageRandomUserGenerator implements RandomModelGenerator<User> {
 
             if (this.users.size() == 0) {
                 throw emptyException();
-            }
-            else {
-                return null;
+            } else {
+
+                return random.ints(limit, 0, users.size())
+                        .mapToObj(users::get)
+                        .collect(Collectors.toList());
             }
         });
     }
