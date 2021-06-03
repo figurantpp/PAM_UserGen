@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -12,8 +11,8 @@ import com.example.usergen.model.exception.NoNetworkException;
 import com.example.usergen.model.interfaces.ModelJsonManager;
 import com.example.usergen.model.interfaces.RandomModelGenerator;
 import com.example.usergen.util.ApiInfo;
-import com.example.usergen.util.Tags;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,6 +22,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -59,6 +59,18 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
         this(context, input, Executors.newSingleThreadExecutor());
     }
 
+    @NonNull
+    @Override
+    public Future<User> nextRandomModel() {
+        return executor.submit(() -> this.nextRandomModelsBlocked(1).get(0));
+    }
+
+    @NonNull
+    @Override
+    public Future<List<User>> nextModels(int limit) {
+        return executor.submit(() -> this.nextRandomModelsBlocked(limit));
+    }
+
     private void checkConnectivity() throws NoNetworkException {
         if (!hasConnectivity()) {
             throw new NoNetworkException("Failed to connect to network");
@@ -73,30 +85,40 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
         return info != null && info.isConnected();
     }
 
-
     @NonNull
-    private URL getApiURL() {
-        Uri.Builder uriBuilder = Uri.parse(ApiInfo.API_URL).buildUpon();
+    private List<User> nextRandomModelsBlocked(int limit) {
 
-        uriBuilder.appendQueryParameter(ApiInfo.INCLUDE_QUERY_PARAMETER,
-                ApiInfo.INCLUDE_QUERY_PARAMATER_LIST);
-
-        uriBuilder.appendQueryParameter(ApiInfo.NATIONALITY_QUERY_PARAMETER, input.getNationality());
-
-        uriBuilder.appendQueryParameter(ApiInfo.GENDER_QUERY_PARAMETER, input.getGender());
-
-        Uri apiUri = uriBuilder.build();
-
-        URL result;
+        URL url = uriToUrl(buildApiUri(limit));
 
         try {
-            result = new URL(apiUri.toString());
+            return getMultipleUsersFromApi(url);
+        }
+        catch (IOException | JSONException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    @NonNull
+    private URL uriToUrl(Uri apiUri) {
+        try {
+            return new URL(apiUri.toString());
         } catch (MalformedURLException exception) {
-            Log.e(Tags.ERROR, "Malformed URL", exception);
             throw new RuntimeException(exception);
         }
+    }
 
-        return result;
+    private Uri buildApiUri(int limit) {
+        return getApiUriBuilder().appendQueryParameter("results", String.valueOf(limit)).build();
+    }
+
+    private Uri.Builder getApiUriBuilder() {
+
+        return Uri.parse(ApiInfo.API_URL).buildUpon()
+                .appendQueryParameter(ApiInfo.INCLUDE_QUERY_PARAMETER,
+                        ApiInfo.INCLUDE_QUERY_PARAMATER_LIST)
+                .appendQueryParameter(ApiInfo.NATIONALITY_QUERY_PARAMETER, input.getNationality())
+                .appendQueryParameter(ApiInfo.GENDER_QUERY_PARAMETER, input.getGender());
+
     }
 
     @NonNull
@@ -115,7 +137,6 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
         return output.toString();
     }
 
-
     @NonNull
     private HttpURLConnection connectFromUrl(@NonNull URL apiUrl) throws IOException {
         HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
@@ -130,19 +151,32 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
         return connection;
     }
 
-    @NonNull
-    private User userFromOutputString(@NonNull String input) throws JSONException {
+    private List<User> userListFromRequestOutput(@NonNull JSONObject root) throws JSONException {
 
-        JSONObject root = new JSONObject(input);
+        JSONArray userArray = getUserJSONArray(root);
 
-        JSONObject userObject = root.getJSONArray("results").getJSONObject(0);
+        List<User> users = new ArrayList<>(userArray.length());
 
-        return jsonManager.getModelFromJSONObject(userObject);
+        for (int i = 0; i < userArray.length(); i++) {
+
+            User user = jsonManager.getModelFromJSONObject(userArray.getJSONObject(i));
+
+            users.add(user);
+        }
+
+        return users;
     }
 
-    @NonNull
-    private User getUserFromApi(@NonNull URL apiUrl) throws IOException, JSONException {
+    private JSONArray getUserJSONArray(@NonNull JSONObject root) throws JSONException {
+        return root.getJSONArray("results");
+    }
 
+    private List<User> getMultipleUsersFromApi(@NonNull URL apiUrl) throws IOException, JSONException {
+
+        return userListFromRequestOutput(new JSONObject(performRequest(apiUrl)));
+    }
+
+    private String performRequest(@NonNull URL apiUrl) throws IOException {
         HttpURLConnection connection = connectFromUrl(apiUrl);
 
         int statusCode = connection.getResponseCode();
@@ -153,41 +187,10 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
 
         InputStream stream = connection.getInputStream();
 
-        String result = stringFromInputStream(stream);
-
-        return userFromOutputString(result);
+        return stringFromInputStream(stream);
     }
 
-    @NonNull
-    private User nextRandomModelBlocked() {
-        URL url = getApiURL();
 
-        User user;
 
-        try {
-
-            user = getUserFromApi(url);
-        } catch (IOException ex) {
-            Log.e(Tags.ERROR, "Failed to get user from URL: ", ex);
-            throw new RuntimeException(ex);
-        } catch (JSONException ex) {
-            Log.e(Tags.ERROR, "Failed to parse JSON: ", ex);
-            throw new RuntimeException(ex);
-        }
-
-        return user;
-    }
-
-    @NonNull
-    @Override
-    public Future<User> nextRandomModel() {
-        return executor.submit(this::nextRandomModelBlocked);
-    }
-
-    @Override
-    @NonNull
-    public Future<List<User>> nextModels(int limit) {
-        return null;
-    }
 
 }
