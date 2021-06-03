@@ -1,75 +1,97 @@
 package com.example.usergen.model.user;
 
-import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.example.usergen.model.interfaces.RandomModelGenerator;
-import com.example.usergen.model.user.User;
 import com.example.usergen.util.Tags;
 
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
+import org.junit.Assert;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Stream;
+
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
+import static org.junit.Assume.*;
 
 public class RandomUserGeneratorTest {
 
-    public void nextRandomModel(@NonNull Context context,
-                                @NonNull RandomModelGenerator<User> subject) {
-
-        assertNotNull(context);
-
-        Future<User> output;
-
-        output = subject.nextRandomModel();
-
-
-        User user;
+    public void nextRandomModelOn(@NonNull RandomModelGenerator<User> subject) {
 
         try {
-            user = output.get();
+            testUser(subject.nextRandomModel().get());
+
         } catch (InterruptedException ex) {
+            failInterrupted(ex);
 
-            assertNotNull(ex.getMessage());
-
-            fail(ex.getMessage());
-
-            return;
         } catch (ExecutionException ex) {
+            testExecutionException(ex);
+        }
+    }
 
-            assertNotNull(ex.getMessage());
+    public void nextModelsOn(@NonNull RandomModelGenerator<User> subject) {
 
-            assertNotNull(ex.getCause());
+        try {
 
-            assertFalse(ex.getMessage().isEmpty());
+            final int limit = 10;
 
-            if (ex.getCause().getClass() != NoSuchElementException.class) {
-                Log.e(Tags.ERROR, "nextRandomModel: ", ex);
-                assertSame(ex.getCause().getClass(), NoSuchElementException.class);
-            }
+            List<User> users = subject.nextModels(limit).get();
 
+            assertNotNull(users);
 
-            return;
+            assertThat(users.size(), allOf(greaterThan(1), lessThanOrEqualTo(limit)));
+
+            users.forEach(this::testUser);
+
+        } catch (ExecutionException ex) {
+            testExecutionException(ex);
+
+        } catch (InterruptedException ex) {
+            failInterrupted(ex);
         }
 
-        assertNotNull(user);
+    }
 
-        assertNotNull(user.getId());
-        assertNotNull(user.getTitle());
-        assertNotNull(user.getName());
-        assertNotNull(user.getEmail());
-        assertNotNull(user.getGender());
-        assertNotNull(user.getBirthDate());
-        assertNotNull(user.getProfileImage());
-        assertNotNull(user.getProfileImage().getUrl());
-        assertNotNull(user.getNationality());
+    private void testExecutionException(ExecutionException ex) {
+
+        assumeNotNull(ex.getMessage());
+
+        assumeNotNull(ex.getCause());
+
+        assumeFalse(ex.getMessage().isEmpty());
+
+        if (ex.getCause().getClass() != NoSuchElementException.class) {
+
+            Log.e(Tags.ERROR, "nextRandomModel: ", ex);
+
+            assumeThat(ex.getCause(), instanceOf(NoSuchElementException.class));
+        }
+    }
+
+    private void testUser(User user) {
+
+        Stream.of(
+                user,
+                user.getId(),
+                user.getTitle(),
+                user.getName(),
+                user.getEmail(),
+                user.getGender(),
+                user.getBirthDate(),
+                user.getProfileImage(),
+                user.getProfileImage().getUrl(),
+                user.getNationality()
+        ).forEach(Assert::assertNotNull);
+
+    }
+
+    private void failInterrupted(InterruptedException ex) {
+        assertNotNull(ex.getMessage());
+
+        fail(ex.getMessage());
     }
 }

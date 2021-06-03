@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.usergen.TestStrings;
-import com.example.usergen.model.user.User;
-import com.example.usergen.model.user.UserJsonManager;
 import com.example.usergen.util.ApiInfo;
 
 import org.json.JSONException;
@@ -20,7 +18,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class UserJsonManagerTest {
@@ -65,11 +65,7 @@ public class UserJsonManagerTest {
     @NonNull
     JSONObject getSubjectJSONObject() throws JSONException {
 
-        JSONObject object;
-
-        object = new JSONObject(TestStrings.USER_SAMPLE_STRING);
-
-        return object;
+        return new JSONObject(TestStrings.USER_SAMPLE_STRING);
     }
 
     @Test

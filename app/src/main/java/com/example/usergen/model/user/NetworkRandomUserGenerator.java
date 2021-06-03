@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -181,6 +182,12 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
     @Override
     public Future<User> nextRandomModel() {
         return executor.submit(this::nextRandomModelBlocked);
+    }
+
+    @Override
+    @NonNull
+    public Future<List<User>> nextModels(int limit) {
+        return null;
     }
 
 }

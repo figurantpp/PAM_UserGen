@@ -5,38 +5,52 @@ import android.content.Context;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class StorageRandomUserGeneratorTest {
 
-    @Test
-    public void nextRandomModel() {
+    private RandomUserGeneratorTest test;
+    private UserStorage storage;
+
+    @Before
+    public void before() {
 
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        UserStorage storage = new UserStorage(context);
+        storage = new UserStorage(context);
+
+        test = new RandomUserGeneratorTest();
+
+    }
+
+
+    @Test
+    public void nextRandomModel() {
 
         StorageRandomUserGenerator generator = new StorageRandomUserGenerator(storage);
 
-        RandomUserGeneratorTest test = new RandomUserGeneratorTest();
-        test.nextRandomModel(context, generator);
+        test.nextRandomModelOn(generator);
+    }
+
+    @Test
+    public void testNextModels() {
+
+        StorageRandomUserGenerator generator = new StorageRandomUserGenerator(storage);
+
+        test.nextModelsOn(generator);
+
     }
 
     @Test
     public void testEmptyModels() {
 
-        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-
-        UserStorage storage = new UserStorage(context);
-
         storage.clear();
 
         StorageRandomUserGenerator generator = new StorageRandomUserGenerator(storage);
 
-        RandomUserGeneratorTest test = new RandomUserGeneratorTest();
-
-        test.nextRandomModel(context, generator);
+        test.nextRandomModelOn(generator);
     }
 }
