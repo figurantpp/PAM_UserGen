@@ -5,9 +5,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.usergen.util.ApiInfo;
+
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 public class RandomUserGeneratorInput {
 
@@ -30,13 +32,8 @@ public class RandomUserGeneratorInput {
 
         if (nationality != null) {
 
-            String[] validNationalities = new String[]{
-                    "AU", "BR", "CA", "CH", "DE", "DK", "ES", "FI",
-                    "FR", "GB", "IE", "IR", "NO", "NL", "NZ", "TR", "US"
-            };
-
-            if (Stream.of(validNationalities).noneMatch(x -> x.equals(nationality)))
-            {
+            if (Arrays.stream(ApiInfo.NATIONALITY_ACRONYMS)
+                    .noneMatch(x -> x.equals(nationality))) {
                 throw new InputMismatchException("Nationality " + nationality + " is not valid");
             }
         }

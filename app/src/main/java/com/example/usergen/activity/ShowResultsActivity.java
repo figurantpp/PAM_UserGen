@@ -13,7 +13,6 @@ import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.usergen.R;
-import com.example.usergen.model.OnlineImageResource;
 import com.example.usergen.model.exception.NoNetworkException;
 import com.example.usergen.model.exception.SensorNotFoundException;
 import com.example.usergen.model.interfaces.RandomModelGenerator;
@@ -39,14 +38,18 @@ public class ShowResultsActivity extends AppCompatActivity {
 
     public final static String INPUT_BUNDLE_KEY = "nationality";
 
-    RandomModelGenerator<User> generator;
 
-    CircleImageView profilePicture;
+    CircleImageView pictureImageView;
 
-    TextView firstTitle, gender, email, birth, nationality, title, age, id;
+    TextView firstTitleTextView,
+            genderTextView,
+            emailTextView,
+            birthTextView,
+            nationalityTextView,
+            titleTextView,
+            ageTextView,
+            idTextView;
 
-
-    Date dayofbirth;
 
     UserStorage userStorage;
 
@@ -58,37 +61,120 @@ public class ShowResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_results);
 
+        setupViews();
 
-        firstTitle = findViewById(R.id.personFirstandSecondName);
-        gender = findViewById(R.id.personGender);
-        email = findViewById(R.id.personEmail);
-        birth = findViewById(R.id.personDayOfBirth);
-        nationality = findViewById(R.id.personNacionality);
-        title = findViewById(R.id.personTitle);
-        age = findViewById(R.id.personAge);
-        id = findViewById(R.id.personID);
+        setupSensor();
 
-        profilePicture = findViewById(R.id.personPicture);
+        new Thread(this::loadUser).start();
+    }
 
+    private void setupViews() {
+        firstTitleTextView = findViewById(R.id.personFirstandSecondName);
+        genderTextView = findViewById(R.id.personGender);
+        emailTextView = findViewById(R.id.personEmail);
+        birthTextView = findViewById(R.id.personDayOfBirth);
+        nationalityTextView = findViewById(R.id.personNationality);
+        titleTextView = findViewById(R.id.personTitle);
+        ageTextView = findViewById(R.id.personAge);
+        idTextView = findViewById(R.id.personID);
+
+        pictureImageView = findViewById(R.id.personPicture);
+    }
+
+    private void setupSensor() {
         try {
             proximitySensor = new ProximitySensor(this, this::onProximityUpdate);
-        }
-        catch (SensorNotFoundException ex) {
+        } catch (SensorNotFoundException ex) {
             Log.e(Tags.ERROR, "onCreate: ", ex);
             finish();
         }
-
-
-        new Thread(this::loadUser).start();
-
-
     }
 
-
-    private void onProximityUpdate(boolean close) {
-        if (close) {
+    private void onProximityUpdate(boolean isClose) {
+        if (isClose) {
             finish();
         }
+    }
+
+    private void loadUser() {
+
+        RandomUserGeneratorInput input = getIntentGeneratorInput();
+
+        RandomModelGenerator<User> generator = findUserGenerator(input);
+
+        Future<User> result = generator.nextRandomModel();
+
+        try {
+            User user = result.get();
+
+            displayUser(user);
+
+            if (generator instanceof NetworkRandomUserGenerator) {
+                new UserStorage(this).storeModel(user);
+            }
+
+        } catch (ExecutionException | InterruptedException | IOException ex) {
+            Log.e(Tags.ERROR, "Fail to get User", ex);
+        }
+    }
+
+    private void displayUser(User user) throws IOException {
+
+        String nationalityText = getNationalityText(user);
+
+        Bitmap bitmap = user.getProfileImage().getBitmap();
+
+        runOnUiThread(
+                () -> {
+
+                    pictureImageView.setImageBitmap(bitmap);
+
+                    firstTitleTextView.setText(user.getName());
+                    titleTextView.setText(user.getTitle());
+                    genderTextView.setText(user.getGender());
+                    emailTextView.setText(user.getEmail());
+                    nationalityTextView.setText(nationalityText);
+                    ageTextView.setText(String.valueOf(user.getAge()));
+                    idTextView.setText(user.getId());
+                    birthTextView.setText(formatDate(user.getBirthDate()));
+
+                    if (displayListener != null) {
+                        displayListener.onDisplay();
+                    }
+                }
+        );
+    }
+
+    private String formatDate(Date birthDate) {
+        @SuppressLint("SimpleDateFormat")
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+        return dateFormat.format(birthDate);
+    }
+
+    private RandomModelGenerator<User> findUserGenerator(RandomUserGeneratorInput input) {
+        RandomModelGenerator<User> generator;
+        try {
+            generator = new NetworkRandomUserGenerator(this, input);
+
+        } catch (NoNetworkException ex) {
+            Log.e(Tags.ERROR, "Failed to get NetworkAccess", ex);
+            generator = new StorageRandomUserGenerator(userStorage);
+        }
+        return generator;
+    }
+
+    private RandomUserGeneratorInput getIntentGeneratorInput() {
+        Bundle bundle = getIntent().getBundleExtra(INPUT_BUNDLE_KEY);
+        Objects.requireNonNull(bundle);
+
+        return RandomUserGeneratorInput.fromBundle(bundle);
+    }
+
+    private String getNationalityText(User user) {
+        String nationalityName = findNationalityName(user.getNationality());
+
+        return nationalityName != null ? nationalityName : user.getNationality();
     }
 
     @Nullable
@@ -102,8 +188,7 @@ public class ShowResultsActivity extends AppCompatActivity {
 
         for (int i = 0; i < acronyms.length(); i++) {
 
-            if (acronyms.getString(i).trim().equals(nationality.trim()))
-            {
+            if (acronyms.getString(i).trim().equals(nationality.trim())) {
                 result = names.getString(i);
             }
         }
@@ -115,72 +200,7 @@ public class ShowResultsActivity extends AppCompatActivity {
         return result;
     }
 
-    private void loadUser() {
-
-
-        Bundle bundle = getIntent().getBundleExtra(INPUT_BUNDLE_KEY);
-        Objects.requireNonNull(bundle);
-
-        RandomUserGeneratorInput input = RandomUserGeneratorInput.fromBundle(bundle);
-
-        userStorage = new UserStorage(this);
-
-        try {
-            generator = new NetworkRandomUserGenerator(this, input);
-
-        } catch (NoNetworkException ex) {
-            Log.e(Tags.ERROR, "Failed to get NetworkAccess", ex);
-            generator = new StorageRandomUserGenerator(userStorage);
-        }
-
-        Future<User> result = generator.nextRandomModel();
-
-        try {
-            User user = result.get();
-
-            String nationalityText = fallbackNationality(user);
-
-            if (generator.getClass() == NetworkRandomUserGenerator.class) {
-                userStorage.storeModel(user);
-            }
-            OnlineImageResource resource = user.getProfileImage();
-            Bitmap bitmap = resource.getBitmap();
-
-
-            runOnUiThread(
-                    () -> {
-                        dayofbirth = user.getBirthDate();
-
-                        profilePicture.setImageBitmap(bitmap);
-
-                        firstTitle.setText(user.getName());
-                        title.setText(user.getTitle());
-                        gender.setText(user.getGender());
-                        email.setText(user.getEmail());
-                        nationality.setText(nationalityText);
-                        age.setText(String.valueOf(user.getAge()));
-                        id.setText(user.getId());
-
-                        @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                        birth.setText(dateFormat.format(dayofbirth));
-
-                        if (listener != null) {
-                            listener.onDisplay();
-                        }
-                    }
-            );
-
-
-        } catch (ExecutionException | InterruptedException | IOException e) {
-            Log.e(Tags.ERROR, "Fail to get User", e);
-        }
-    }
-
-    private String fallbackNationality(User user) {
-        String nationalityName = findNationalityName(user.getNationality());
-
-        return nationalityName != null ? nationalityName : user.getNationality();
-    }
+    // testing members
 
     @VisibleForTesting
     @Nullable
@@ -190,7 +210,7 @@ public class ShowResultsActivity extends AppCompatActivity {
 
     @VisibleForTesting()
     @Nullable
-    public DisplayListener listener;
+    public DisplayListener displayListener;
 
     @VisibleForTesting()
     public interface DisplayListener {

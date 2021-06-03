@@ -17,6 +17,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import com.example.usergen.R;
 import com.example.usergen.model.LambdaMatcher;
 import com.example.usergen.model.user.RandomUserGeneratorInput;
+import com.example.usergen.util.ApiInfo;
 
 import org.junit.After;
 import org.junit.Before;
@@ -28,10 +29,12 @@ import java.util.stream.Stream;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.isIn;
 import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
@@ -67,7 +70,7 @@ public class ShowResultsActivityTest {
         rule.getScenario().onActivity(activity ->{
                     resource = new DisplayIdlingResource();
                     IdlingRegistry.getInstance().register(resource);
-                    activity.listener = resource;
+                    activity.displayListener = resource;
                 }
         );
     }
@@ -87,7 +90,7 @@ public class ShowResultsActivityTest {
                 R.id.personGender,
                 R.id.personEmail,
                 R.id.personDayOfBirth,
-                R.id.personNacionality,
+                R.id.personNationality,
                 R.id.personTitle,
                 R.id.personAge,
                 R.id.personDayOfBirth,
@@ -109,9 +112,17 @@ public class ShowResultsActivityTest {
     @Test
     public void testNationalityClick() {
 
-        onView(withId(R.id.personNacionality)).perform(click());
+        onView(withId(R.id.personNationality)).perform(scrollTo(), click());
 
         intended(IntentMatchers.anyIntent());
+
+    }
+
+    @Test
+    public void testDisplayedNationality() {
+
+        onView(withId(R.id.personNationality))
+                .check(matches(withText(not(isIn(ApiInfo.NATIONALITY_ACRONYMS)))));
 
     }
 
