@@ -75,4 +75,42 @@ public class StorageRandomUserGeneratorTest {
 
     }
 
+    @Test
+    public void testFemaleGenderInput() {
+        testGenderInput("female");
+    }
+
+    @Test
+    public void testMaleGenderInput() {
+        testGenderInput("male");
+    }
+
+    public void testNationalityInput() {
+        RandomUserGeneratorInput input = new RandomUserGeneratorInput(
+                "US", "male"
+        );
+
+        StorageRandomUserGenerator generator = new StorageRandomUserGenerator(
+                storage, input
+        );
+
+        test.withInput(input).nextModelsOn(generator);
+    }
+
+    private void testGenderInput(String gender) {
+
+        RandomUserGeneratorInput input = new RandomUserGeneratorInput(
+                null, gender
+        );
+
+        StorageRandomUserGenerator generator = new StorageRandomUserGenerator(
+                storage,
+                input
+        );
+
+        test.withInput(input).nextModelsOn(generator);
+
+    }
+
+
 }

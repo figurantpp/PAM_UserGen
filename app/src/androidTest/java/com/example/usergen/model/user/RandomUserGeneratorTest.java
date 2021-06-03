@@ -48,7 +48,7 @@ public class RandomUserGeneratorTest {
 
         try {
 
-            final int limit = 10;
+            final int limit = 25;
 
             List<User> users = subject.nextModels(limit).get();
 
