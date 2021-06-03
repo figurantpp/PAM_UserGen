@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
+import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -22,6 +23,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Stream;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -54,20 +56,28 @@ public class ShowResultsActivityTest {
     @Rule
     public ActivityScenarioRule<ShowResultsActivity> rule = new ActivityScenarioRule<>(getIntent());
 
+    private final DisplayIdlingResource resource = new DisplayIdlingResource();
+
     @Before
     public void before() {
         Intents.init();
+
+        rule.getScenario().onActivity(activity ->{
+                    IdlingRegistry.getInstance().register(resource);
+                    activity.listener = resource;
+                }
+        );
     }
 
     @After
     public void after(){
         Intents.release();
+
+        IdlingRegistry.getInstance().unregister(resource);
     }
 
     @Test
     public void testWorking() {
-
-        sleep();
 
         Stream.of(
                 R.id.personFirstandSecondName,
@@ -96,8 +106,6 @@ public class ShowResultsActivityTest {
     @Test
     public void testNationalityClick() {
 
-        sleep();
-
         onView(withId(R.id.personNacionality)).perform(click());
 
         intended(IntentMatchers.anyIntent());
@@ -108,12 +116,5 @@ public class ShowResultsActivityTest {
         onView(withId(id)).check(matches(not(withText(""))));
     }
 
-    private void sleep() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            //
-        }
-    }
 
 }

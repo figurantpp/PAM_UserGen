@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.usergen.R;
@@ -162,6 +163,10 @@ public class ShowResultsActivity extends AppCompatActivity {
 
                         @SuppressLint("SimpleDateFormat") DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                         birth.setText(dateFormat.format(dayofbirth));
+
+                        if (listener != null) {
+                            listener.onDisplay();
+                        }
                     }
             );
 
@@ -169,5 +174,14 @@ public class ShowResultsActivity extends AppCompatActivity {
         } catch (ExecutionException | InterruptedException | IOException e) {
             Log.e(Tags.ERROR, "Fail to get User", e);
         }
+    }
+
+    @VisibleForTesting()
+    @Nullable
+    public DisplayListener listener;
+
+    @VisibleForTesting()
+    public interface DisplayListener {
+        void onDisplay();
     }
 }
