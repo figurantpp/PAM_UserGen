@@ -9,11 +9,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutionException;
 
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeThat;
 
 @RunWith(AndroidJUnit4.class)
 public class StorageRandomUserGeneratorTest {
@@ -51,18 +57,48 @@ public class StorageRandomUserGeneratorTest {
     }
 
     @Test
-    public void testEmptyModels() throws InterruptedException {
+    public void testEmptyModels() {
 
-        storage.clear();
+        withBackup(() -> {
 
-        StorageRandomUserGenerator generator = new StorageRandomUserGenerator(storage);
+            storage.clear();
+
+            StorageRandomUserGenerator generator = new StorageRandomUserGenerator(storage);
+
+            try {
+                generator.nextRandomModel().get();
+                fail("Exception was not thrown");
+            }
+            catch (ExecutionException ex) {
+                assertThat(ex.getCause(), instanceOf(NoSuchElementException.class));
+            }
+            catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+    }
+
+    private void withBackup(Runnable action) {
+
+        List<User> previousUsers = storage.listStoredUsers();
+
+        assumeThat(previousUsers.size(), is(greaterThan(0)));
 
         try {
-            generator.nextRandomModel().get();
+            action.run();
         }
-        catch (ExecutionException ex) {
+        finally {
+            storage.clear();
 
-            assertThat(ex.getCause(), instanceOf(NoSuchElementException.class));
+            for (User user : previousUsers) {
+                try {
+                    storage.storeModel(user);
+                }
+                catch (IOException ex) { /**/ }
+            }
         }
+
     }
+
 }
