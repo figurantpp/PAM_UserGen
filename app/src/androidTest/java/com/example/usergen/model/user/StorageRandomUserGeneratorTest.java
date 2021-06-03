@@ -9,6 +9,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.NoSuchElementException;
+import java.util.concurrent.ExecutionException;
+
+import static org.hamcrest.Matchers.instanceOf;
+import static org.junit.Assert.assertThat;
+
 @RunWith(AndroidJUnit4.class)
 public class StorageRandomUserGeneratorTest {
 
@@ -45,12 +51,18 @@ public class StorageRandomUserGeneratorTest {
     }
 
     @Test
-    public void testEmptyModels() {
+    public void testEmptyModels() throws InterruptedException {
 
         storage.clear();
 
         StorageRandomUserGenerator generator = new StorageRandomUserGenerator(storage);
 
-        test.nextRandomModelOn(generator);
+        try {
+            generator.nextRandomModel().get();
+        }
+        catch (ExecutionException ex) {
+
+            assertThat(ex.getCause(), instanceOf(NoSuchElementException.class));
+        }
     }
 }

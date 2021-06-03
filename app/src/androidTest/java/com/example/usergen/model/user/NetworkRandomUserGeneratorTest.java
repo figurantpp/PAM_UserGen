@@ -40,7 +40,7 @@ public class NetworkRandomUserGeneratorTest {
             RandomModelGenerator<User> subject
                     = new NetworkRandomUserGenerator(context, input);
 
-            test.nextRandomModelOn(subject);
+            test.withInput(input).nextRandomModelOn(subject);
         }
         catch (NoNetworkException ex) {
             Log.e(Tags.ERROR, "nextRandomModel: ", ex);
@@ -60,7 +60,7 @@ public class NetworkRandomUserGeneratorTest {
         try {
             RandomModelGenerator<User> subject = new NetworkRandomUserGenerator(context, input);
 
-            test.nextModelsOn(subject);
+            test.withInput(input).nextModelsOn(subject);
         }
         catch (NoNetworkException ex) {
             assumeNoException(ex);
