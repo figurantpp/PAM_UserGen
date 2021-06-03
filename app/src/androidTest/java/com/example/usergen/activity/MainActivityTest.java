@@ -14,7 +14,6 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.ComponentNameMatchers.hasShortClassName;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
@@ -47,7 +46,7 @@ public class MainActivityTest {
 
         onView(withText("Female")).perform(click());
 
-        onView(withId(R.id.search_on_api_button)).perform(scrollTo(), click());
+        onView(withId(R.id.search_on_api_button)).perform(click());
 
         intended(
                 allOf(

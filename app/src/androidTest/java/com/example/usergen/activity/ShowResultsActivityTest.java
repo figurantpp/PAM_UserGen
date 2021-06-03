@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -32,8 +31,12 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasDataString;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.isIn;
 import static org.hamcrest.Matchers.not;
 
@@ -67,7 +70,7 @@ public class ShowResultsActivityTest {
     public void before() {
         Intents.init();
 
-        rule.getScenario().onActivity(activity ->{
+        rule.getScenario().onActivity(activity -> {
                     resource = new DisplayIdlingResource();
                     IdlingRegistry.getInstance().register(resource);
                     activity.displayListener = resource;
@@ -114,7 +117,12 @@ public class ShowResultsActivityTest {
 
         onView(withId(R.id.personNationality)).perform(scrollTo(), click());
 
-        intended(IntentMatchers.anyIntent());
+        intended(
+                allOf(
+                        hasAction(Intent.ACTION_VIEW),
+                        hasDataString(containsString("geo:"))
+                )
+        );
 
     }
 

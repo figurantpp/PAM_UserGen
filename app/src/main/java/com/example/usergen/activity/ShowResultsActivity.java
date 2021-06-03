@@ -1,8 +1,10 @@
 package com.example.usergen.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import com.example.usergen.model.user.RandomUserGeneratorInput;
 import com.example.usergen.model.user.StorageRandomUserGenerator;
 import com.example.usergen.model.user.User;
 import com.example.usergen.model.user.UserStorage;
+import com.example.usergen.util.ApiInfo;
 import com.example.usergen.util.Tags;
 
 import java.io.IOException;
@@ -55,6 +58,7 @@ public class ShowResultsActivity extends AppCompatActivity {
 
     ProximitySensor proximitySensor;
 
+    private User displayedUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +82,8 @@ public class ShowResultsActivity extends AppCompatActivity {
         ageTextView = findViewById(R.id.personAge);
         idTextView = findViewById(R.id.personID);
 
+        nationalityTextView.setOnClickListener(v -> onNationalityClick());
+
         pictureImageView = findViewById(R.id.personPicture);
     }
 
@@ -88,6 +94,29 @@ public class ShowResultsActivity extends AppCompatActivity {
             Log.e(Tags.ERROR, "onCreate: ", ex);
             finish();
         }
+    }
+
+    @SuppressLint("QueryPermissionsNeeded")
+    private void onNationalityClick() {
+
+        if (displayedUser != null) {
+
+            String country = getCountryName(displayedUser.getNationality());
+
+            Uri mapUri = Uri.parse("geo:0,0?q=" + country);
+
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, mapUri);
+
+            mapIntent.setPackage("com.google.android.apps.maps");
+
+            startActivity(mapIntent);
+        }
+    }
+
+    private String getCountryName(String acronym) {
+
+        return ApiInfo.NATIONALITY_NAMES.getOrDefault(acronym, acronym);
+
     }
 
     private void onProximityUpdate(boolean isClose) {
@@ -141,6 +170,8 @@ public class ShowResultsActivity extends AppCompatActivity {
                     if (displayListener != null) {
                         displayListener.onDisplay();
                     }
+
+                    displayedUser = user;
                 }
         );
     }
