@@ -17,7 +17,7 @@ import com.example.usergen.model.OnlineImageResource;
 import com.example.usergen.model.exception.NoNetworkException;
 import com.example.usergen.model.exception.SensorNotFoundException;
 import com.example.usergen.model.interfaces.RandomModelGenerator;
-import com.example.usergen.model.sensor.LightSensorListener;
+import com.example.usergen.model.sensor.ProximitySensor;
 import com.example.usergen.model.user.NetworkRandomUserGenerator;
 import com.example.usergen.model.user.RandomUserGeneratorInput;
 import com.example.usergen.model.user.StorageRandomUserGenerator;
@@ -50,6 +50,8 @@ public class ShowResultsActivity extends AppCompatActivity {
 
     UserStorage userStorage;
 
+    ProximitySensor proximitySensor;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,12 +70,25 @@ public class ShowResultsActivity extends AppCompatActivity {
 
         profilePicture = findViewById(R.id.personPicture);
 
-
+        try {
+            proximitySensor = new ProximitySensor(this, this::onProximityUpdate);
+        }
+        catch (SensorNotFoundException ex) {
+            Log.e(Tags.ERROR, "onCreate: ", ex);
+            finish();
+        }
 
 
         new Thread(this::loadUser).start();
 
 
+    }
+
+
+    private void onProximityUpdate(boolean close) {
+        if (close) {
+            finish();
+        }
     }
 
     @Nullable
@@ -167,9 +182,8 @@ public class ShowResultsActivity extends AppCompatActivity {
 
     @VisibleForTesting
     @Nullable
-    public LightSensorListener getLightSensorListener() {
-
-        return null;
+    public ProximitySensor getProximitySensor() {
+        return proximitySensor;
     }
 
     @VisibleForTesting()

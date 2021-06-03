@@ -12,12 +12,12 @@ import com.example.usergen.model.exception.SensorNotFoundException;
 
 import java.util.function.Consumer;
 
-public class LightSensorListener {
+public class ProximitySensor {
 
     @NonNull
     private final Consumer<Boolean> updateListener;
 
-    public LightSensorListener(
+    public ProximitySensor(
             @NonNull Context context,
             @NonNull Consumer<Boolean> updateListener
     ) throws SensorNotFoundException {

@@ -16,12 +16,10 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.example.usergen.R;
 import com.example.usergen.model.LambdaMatcher;
-import com.example.usergen.model.sensor.LightSensorListener;
 import com.example.usergen.model.user.RandomUserGeneratorInput;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,18 +30,15 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
 
 @RunWith(AndroidJUnit4.class)
 public class ShowResultsActivityTest {
 
     @NonNull
-    private Intent getIntent() {
+    static Intent getActivityIntent() {
 
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
@@ -59,7 +54,8 @@ public class ShowResultsActivityTest {
     }
 
     @Rule
-    public ActivityScenarioRule<ShowResultsActivity> rule = new ActivityScenarioRule<>(getIntent());
+    public ActivityScenarioRule<ShowResultsActivity> rule
+            = new ActivityScenarioRule<>(getActivityIntent());
 
     @Nullable
     private DisplayIdlingResource resource;
@@ -117,27 +113,6 @@ public class ShowResultsActivityTest {
 
         intended(IntentMatchers.anyIntent());
 
-    }
-
-    @Test
-    public void testSensor() {
-
-        rule.getScenario().onActivity(activity -> {
-
-            LightSensorListener lightSensorListener = activity.getLightSensorListener();
-
-            assertThat(lightSensorListener, not(is(nullValue())));
-
-            lightSensorListener.emit(true);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-
-            assertThat(activity.isFinishing(), is(true));
-        });
     }
 
     private void checkNotEmpty(@IdRes int id) {
