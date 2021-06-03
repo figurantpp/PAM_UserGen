@@ -12,7 +12,7 @@ import com.example.usergen.model.OnlineImageResource;
 import com.example.usergen.util.ApiInfo;
 import com.example.usergen.util.Tags;
 
-import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,10 +25,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeNoException;
+import static org.junit.Assume.assumeThat;
 
 @RunWith(AndroidJUnit4.class)
 public class UserStorageTest {
@@ -42,6 +48,116 @@ public class UserStorageTest {
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         subject = new UserStorage(context);
+
+    }
+
+    @Test
+    public void listStoredUsers() {
+
+        assertNotNull(subject);
+
+        List<User> users = subject.listStoredUsers();
+
+        assertNotNull(users);
+
+        users.forEach(UserStorageTest::assertNotNullUser);
+
+    }
+
+    public static void assertNotNullUser(@NonNull User user) {
+
+        Stream.of(
+                user,
+                user.getId(),
+                user.getTitle(),
+                user.getName(),
+                user.getEmail(),
+                user.getGender(),
+                user.getBirthDate(),
+                user.getProfileImage(),
+                user.getNationality()
+        ).forEach(Assert::assertNotNull);
+
+    }
+
+    @Test
+    public void storeUser() {
+
+        assertNotNull(subject);
+
+        withBackup(subject, () -> {
+
+            User expectedUser = new User();
+
+            expectedUser.setId("person 001");
+            expectedUser.setTitle("mr");
+            expectedUser.setName("bob jhonson");
+            expectedUser.setEmail("bob.j@bob.com");
+            expectedUser.setGender("male");
+            expectedUser.setBirthDate(getExpectedDate());
+            expectedUser.setAge((short) 28);
+            expectedUser.setProfileImage(new OnlineImageResource(getExpectedURL()));
+            expectedUser.setNationality("CCCP");
+
+            try {
+                subject.storeModel(expectedUser);
+            } catch (IOException ex) {
+                assumeNoException(ex);
+            }
+
+            List<User> users = subject.listStoredUsers();
+
+            assertTrue("Empty user result list", users.size() != 0);
+
+            User last = users.get(users.size() - 1);
+
+            assertEquals(expectedUser.getId(), last.getId());
+            assertEquals(expectedUser.getTitle(), last.getTitle());
+            assertEquals(expectedUser.getName(), last.getName());
+            assertEquals(expectedUser.getEmail(), last.getEmail());
+            assertEquals(expectedUser.getGender(), last.getGender());
+            assertEquals(expectedUser.getBirthDate(), last.getBirthDate());
+            assertEquals(expectedUser.getAge(), last.getAge());
+            assertEquals(expectedUser.getNationality(), last.getNationality());
+
+            assertEquals(expectedUser.getProfileImage(), last.getProfileImage());
+
+        });
+    }
+
+    @Test
+    public void clear() {
+
+        assertNotNull(subject);
+
+        withBackup(
+                subject,
+                () -> {
+                    subject.clear();
+                    List<User> users = subject.listStoredUsers();
+                    assertEquals(0, users.size());
+                }
+        );
+    }
+
+
+    public static void withBackup(@NonNull UserStorage storage, @NonNull Runnable action) {
+
+        List<User> previousUsers = storage.listStoredUsers();
+
+        assumeThat(previousUsers.size(), is(greaterThan(0)));
+
+        try {
+            action.run();
+        } finally {
+            storage.clear();
+
+            for (User user : previousUsers) {
+                try {
+                    storage.storeModel(user);
+                } catch (IOException ex) { /**/ }
+            }
+        }
 
     }
 
@@ -77,62 +193,4 @@ public class UserStorageTest {
         }
     }
 
-    @Test
-    public void listStorageUsers() {
-        List<User> users = subject.listStoredUsers();
-    }
-
-    @Test
-    public void storeUser() {
-
-        User expectedUser = new User();
-
-        expectedUser.setId("person 001");
-        expectedUser.setTitle("mr");
-        expectedUser.setName("bob jhonson");
-        expectedUser.setEmail("bob.j@bob.com");
-        expectedUser.setGender("male");
-        expectedUser.setBirthDate(getExpectedDate());
-        expectedUser.setAge((short) 28);
-        expectedUser.setProfileImage(new OnlineImageResource(getExpectedURL()));
-        expectedUser.setNationality("CCCP");
-
-        try {
-            subject.storeModel(expectedUser);
-        } catch (IOException ex) {
-            fail("User storage failed");
-        }
-
-        List<User> users = subject.listStoredUsers();
-
-        assertTrue("Empty user result list", users.size() != 0);
-
-        User last = users.get(users.size() - 1);
-
-        assertEquals(expectedUser.getId(), last.getId());
-        assertEquals(expectedUser.getTitle(), last.getTitle());
-        assertEquals(expectedUser.getName(), last.getName());
-        assertEquals(expectedUser.getEmail(), last.getEmail());
-        assertEquals(expectedUser.getGender(), last.getGender());
-        assertEquals(expectedUser.getBirthDate(), last.getBirthDate());
-        assertEquals(expectedUser.getAge(), last.getAge());
-        assertEquals(expectedUser.getNationality(), last.getNationality());
-
-        assertEquals(expectedUser.getProfileImage(), last.getProfileImage());
-    }
-
-    @Test
-    public void clear() {
-
-        subject.clear();
-
-        List<User> users = subject.listStoredUsers();
-
-        assertEquals(0, users.size());
-    }
-
-    @After
-    public void tearDown() {
-        subject.clear();
-    }
 }

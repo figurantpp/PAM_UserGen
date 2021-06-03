@@ -4,12 +4,9 @@ import androidx.annotation.NonNull;
 
 import com.example.usergen.model.interfaces.RandomModelGenerator;
 
-import org.junit.Assert;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Stream;
 
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.greaterThan;
@@ -79,23 +76,12 @@ public class RandomUserGeneratorTest {
 
     private void testUser(User user) {
 
+        UserStorageTest.assertNotNullUser(user);
 
-        Stream.of(
-                user,
-                user.getId(),
-                user.getTitle(),
-                user.getName(),
-                user.getEmail(),
-                user.getGender(),
-                user.getBirthDate(),
-                user.getProfileImage(),
-                user.getNationality()
-        ).forEach(Assert::assertNotNull);
-
-        testInput(user);
+        testInputOn(user);
     }
 
-    private void testInput(User user) {
+    private void testInputOn(User user) {
         if (input != null) {
             if (input.getNationality() != null) {
                 assertEquals(user.getNationality(), input.getNationality());

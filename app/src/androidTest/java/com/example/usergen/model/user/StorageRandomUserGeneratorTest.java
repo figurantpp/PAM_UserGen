@@ -9,17 +9,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutionException;
 
-import static org.hamcrest.Matchers.greaterThan;
+import static com.example.usergen.model.user.UserStorageTest.withBackup;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeThat;
 
 @RunWith(AndroidJUnit4.class)
 public class StorageRandomUserGeneratorTest {
@@ -59,7 +55,7 @@ public class StorageRandomUserGeneratorTest {
     @Test
     public void testEmptyModels() {
 
-        withBackup(() -> {
+        withBackup(storage, () -> {
 
             storage.clear();
 
@@ -76,28 +72,6 @@ public class StorageRandomUserGeneratorTest {
                 throw new RuntimeException(ex);
             }
         });
-
-    }
-
-    private void withBackup(Runnable action) {
-
-        List<User> previousUsers = storage.listStoredUsers();
-
-        assumeThat(previousUsers.size(), is(greaterThan(0)));
-
-        try {
-            action.run();
-        }
-        finally {
-            storage.clear();
-
-            for (User user : previousUsers) {
-                try {
-                    storage.storeModel(user);
-                }
-                catch (IOException ex) { /**/ }
-            }
-        }
 
     }
 
