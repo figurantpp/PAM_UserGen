@@ -1,6 +1,6 @@
 package com.example.usergen.model.user;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 
 import com.example.usergen.model.OnlineImageResource;
 
@@ -8,100 +8,96 @@ import java.util.Date;
 
 public class User {
 
-    private String id;
+    @NonNull
+    private final String id;
 
-    private String title;
-    private String name;
+    @NonNull
+    private final String title;
 
-    private String email;
+    @NonNull
+    private final String name;
 
-    private String gender;
+    @NonNull
+    private final String email;
 
-    private Date birthDate;
-    private short age;
+    @NonNull
+    private final String gender;
 
-    private OnlineImageResource profileImage;
+    @NonNull
+    private final Date birthDate;
 
-    private String nationality;
+    private final short age;
 
-    @Nullable
+    @NonNull
+    private final String nationality;
+
+    @NonNull
+    private final OnlineImageResource profileImage;
+
+    public User(
+            @NonNull String id,
+            @NonNull String title,
+            @NonNull String name,
+            @NonNull String email,
+            @NonNull String gender,
+            @NonNull Date birthDate,
+            short age,
+            @NonNull String nationality,
+            @NonNull OnlineImageResource profileImage
+    ) {
+        this.id = id;
+        this.title = title;
+        this.name = name;
+        this.email = email;
+        this.gender = gender;
+        this.birthDate = birthDate;
+        this.age = age;
+        this.profileImage = profileImage;
+        this.nationality = nationality;
+    }
+
+    @NonNull
     public String getId() {
         return id;
     }
 
 
-    public void setId(@Nullable String id) {
-        this.id = id;
-    }
-
-    @Nullable
+    @NonNull
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(@Nullable String email) {
-        this.email = email;
-    }
-
-    @Nullable
+    @NonNull
     public String getGender() {
         return gender;
     }
 
-    public void setGender(@Nullable String gender) {
-        this.gender = gender;
-    }
-
-    @Nullable
+    @NonNull
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(@Nullable String title) {
-        this.title = title;
-    }
-
-    @Nullable
+    @NonNull
     public String getName() {
         return name;
     }
 
-    @Nullable
+    @NonNull
     public Date getBirthDate() {
         return birthDate;
-    }
-
-    public void setBirthDate(@Nullable Date birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public void setName(@Nullable String name) {
-        this.name = name;
     }
 
     public short getAge() {
         return age;
     }
 
-    public void setAge(short age) {
-        this.age = age;
-    }
-
-    @Nullable
-    public OnlineImageResource getProfileImage() {
-        return profileImage;
-    }
-
-    public void setProfileImage(@Nullable OnlineImageResource profileImage) {
-        this.profileImage = profileImage;
-    }
-
-    @Nullable
+    @NonNull
     public String getNationality() {
         return nationality;
     }
 
-    public void setNationality(@Nullable String nationality) {
-        this.nationality = nationality;
+    @NonNull
+    public OnlineImageResource getProfileImage() {
+        return profileImage;
     }
 }

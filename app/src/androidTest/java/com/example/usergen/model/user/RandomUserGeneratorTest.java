@@ -1,8 +1,11 @@
 package com.example.usergen.model.user;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.usergen.model.interfaces.RandomModelGenerator;
+import com.example.usergen.util.Tags;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -67,6 +70,8 @@ public class RandomUserGeneratorTest {
     private void checkExecutionException(ExecutionException ex) {
 
         assumeNotNull(ex.getCause());
+
+        Log.e(Tags.ERROR, "checkExecutionException: ", ex);
 
         assertThat(ex.getCause(), instanceOf(NoSuchElementException.class));
 

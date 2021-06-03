@@ -41,7 +41,7 @@ public class StorageRandomUserGenerator implements RandomModelGenerator<User> {
             if (this.users.size() == 0) {
                 throw emptyException();
             } else {
-                return users.get(random.nextInt() % this.users.size());
+                return users.get(Math.abs(random.nextInt() % this.users.size()));
             }
 
         });

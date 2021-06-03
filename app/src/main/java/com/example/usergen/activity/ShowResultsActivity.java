@@ -92,7 +92,7 @@ public class ShowResultsActivity extends AppCompatActivity {
     }
 
     @Nullable
-    private String getNationalityName(@NonNull String nationality) {
+    private String findNationalityName(@NonNull String nationality) {
 
         TypedArray acronyms = getResources().obtainTypedArray(R.array.acronym);
 
@@ -138,11 +138,7 @@ public class ShowResultsActivity extends AppCompatActivity {
         try {
             User user = result.get();
 
-            String nationalityName = getNationalityName(user.getNationality());
-
-            if (nationalityName != null) {
-                user.setNationality(nationalityName);
-            }
+            String nationalityText = fallbackNationality(user);
 
             if (generator.getClass() == NetworkRandomUserGenerator.class) {
                 userStorage.storeModel(user);
@@ -161,7 +157,7 @@ public class ShowResultsActivity extends AppCompatActivity {
                         title.setText(user.getTitle());
                         gender.setText(user.getGender());
                         email.setText(user.getEmail());
-                        nationality.setText(user.getNationality());
+                        nationality.setText(nationalityText);
                         age.setText(String.valueOf(user.getAge()));
                         id.setText(user.getId());
 
@@ -178,6 +174,12 @@ public class ShowResultsActivity extends AppCompatActivity {
         } catch (ExecutionException | InterruptedException | IOException e) {
             Log.e(Tags.ERROR, "Fail to get User", e);
         }
+    }
+
+    private String fallbackNationality(User user) {
+        String nationalityName = findNationalityName(user.getNationality());
+
+        return nationalityName != null ? nationalityName : user.getNationality();
     }
 
     @VisibleForTesting

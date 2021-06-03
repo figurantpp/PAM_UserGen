@@ -87,17 +87,18 @@ public class UserStorageTest {
 
         withBackup(subject, () -> {
 
-            User expectedUser = new User();
+            User expectedUser = new User(
+                    "person 001",
+                    "mr",
+                    "bob jhonson",
+                    "bob.j@bob.com",
+                    "male",
+                    getExpectedDate(),
+                    (short) 28,
+                    "CCCP",
+                    new OnlineImageResource(getExpectedURL())
+            );
 
-            expectedUser.setId("person 001");
-            expectedUser.setTitle("mr");
-            expectedUser.setName("bob jhonson");
-            expectedUser.setEmail("bob.j@bob.com");
-            expectedUser.setGender("male");
-            expectedUser.setBirthDate(getExpectedDate());
-            expectedUser.setAge((short) 28);
-            expectedUser.setProfileImage(new OnlineImageResource(getExpectedURL()));
-            expectedUser.setNationality("CCCP");
 
             try {
                 subject.storeModel(expectedUser);

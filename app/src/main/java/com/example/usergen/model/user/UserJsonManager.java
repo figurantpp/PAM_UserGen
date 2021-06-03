@@ -19,46 +19,39 @@ public class UserJsonManager implements ModelJsonManager<User> {
     @Override
     public User getModelFromJSONObject(@NonNull JSONObject sourceObject) throws JSONException {
 
-        User user = new User();
-
         JSONObject nameObject = sourceObject.getJSONObject("name");
         JSONObject birthDateObject = sourceObject.getJSONObject("dob");
         JSONObject imageObject = sourceObject.getJSONObject("picture");
         JSONObject idObject = sourceObject.getJSONObject("id");
 
-        user.setId(idObject.getString("name") + " " + idObject.getString("value"));
-
-        user.setTitle(nameObject.getString("title"));
-
         String first = nameObject.getString("first");
         String last = nameObject.getString("last");
 
-        user.setName(first + " " + last);
-
-        user.setEmail(sourceObject.getString("email"));
-
-        user.setAge((short) birthDateObject.getInt("age"));
-
-        user.setGender(sourceObject.getString("gender"));
-
-        user.setBirthDate(ApiDate.dateFromString(birthDateObject.getString("date")));
-
-        user.setNationality(sourceObject.getString("nat"));
+        OnlineImageResource imageResource;
 
         try {
-            user.setProfileImage(new OnlineImageResource(new URL(
-                    imageObject.getString("large")
-            )));
-        }
-        catch (MalformedURLException ex)
-        {
+            imageResource = new OnlineImageResource(
+                    new URL(imageObject.getString("large"))
+            );
+        } catch (MalformedURLException ex) {
             throw new JSONException(
                     "Failed to parse image resource URL" +
                             (ex.getMessage() != null ? ex.getMessage() : ""));
         }
 
+        return new User(
 
-        return user;
+                idObject.getString("name") + " " + idObject.getString("value"),
+                nameObject.getString("title"),
+                first + " " + last,
+                sourceObject.getString("email"),
+                sourceObject.getString("gender"),
+                ApiDate.dateFromString(birthDateObject.getString("date")),
+                (short) birthDateObject.getInt("age"),
+                sourceObject.getString("nat"),
+                imageResource
+        );
+
     }
 
 }

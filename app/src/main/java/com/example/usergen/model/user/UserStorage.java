@@ -66,7 +66,7 @@ public class UserStorage {
     }
 
 
-    public void storeModel(@NonNull User user) throws IOException{
+    public void storeModel(@NonNull User user) throws IOException {
 
         SQLiteDatabase database = getDatabase();
 
@@ -81,7 +81,7 @@ public class UserStorage {
         statement.bindString(4, user.getEmail());
         statement.bindString(5, user.getGender());
         statement.bindString(6, ApiDate.formatDate(user.getBirthDate()));
-        statement.bindLong(7, (long) user.getAge());
+        statement.bindLong(7, user.getAge());
         statement.bindBlob(8, getUserImageBlob(user));
         statement.bindString(9, user.getNationality());
 
@@ -98,23 +98,17 @@ public class UserStorage {
     @NonNull
     private User getUserFromCursor(@NonNull Cursor cursor) {
 
-        User user = new User();
-
-        user.setId(cursor.getString(0));
-        user.setTitle(cursor.getString(1));
-        user.setName(cursor.getString(2));
-        user.setEmail(cursor.getString(3));
-        user.setGender(cursor.getString(4));
-        user.setBirthDate(ApiDate.dateFromString(cursor.getString(5)));
-        user.setAge(cursor.getShort(6));
-
-        byte[] bytes = cursor.getBlob(7);
-
-        user.setProfileImage(new OnlineImageResource(getBlobBitmap(bytes)));
-
-        user.setNationality(cursor.getString(8));
-
-        return user;
+        return new User(
+                cursor.getString(0),
+                cursor.getString(1),
+                cursor.getString(2),
+                cursor.getString(3),
+                cursor.getString(4),
+                ApiDate.dateFromString(cursor.getString(5)),
+                cursor.getShort(6),
+                cursor.getString(8),
+                new OnlineImageResource(getBlobBitmap(cursor.getBlob(7)))
+        );
     }
 
     @NonNull
@@ -130,8 +124,7 @@ public class UserStorage {
 
         users = new ArrayList<>(cursor.getCount());
 
-        while (cursor.moveToNext())
-        {
+        while (cursor.moveToNext()) {
             users.add(getUserFromCursor(cursor));
         }
 
