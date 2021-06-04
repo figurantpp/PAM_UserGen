@@ -12,6 +12,7 @@
     <string name="text_age"> Age </string>
     <string name="text_title"> Title </string>
     <string name="text_id"> ID </string>
+    <string name="error_empty"> A gender has to be filled </string>
 
 
     <string-array name="countries">

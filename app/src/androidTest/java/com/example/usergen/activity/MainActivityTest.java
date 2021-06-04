@@ -14,8 +14,11 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.Intents.times;
 import static androidx.test.espresso.intent.matcher.ComponentNameMatchers.hasShortClassName;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -46,7 +49,7 @@ public class MainActivityTest {
 
         onView(withText("Female")).perform(click());
 
-        onView(withId(R.id.search_on_api_button)).perform(click());
+        onView(withId(R.id.search_on_api_button)).perform(scrollTo(), click());
 
         intended(
                 allOf(
@@ -54,6 +57,15 @@ public class MainActivityTest {
                         toPackage("com.example.usergen")
                 )
         );
+
+    }
+
+    @Test
+    public void testEmptyGender() {
+
+        onView(withId(R.id.search_on_api_button)).perform(scrollTo(), click());
+
+        intended(anyIntent(), times(0));
 
     }
 }

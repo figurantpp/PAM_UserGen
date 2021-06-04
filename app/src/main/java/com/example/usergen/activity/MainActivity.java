@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -69,11 +70,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    public void show(View view) {
+    public void show(@NonNull View view) {
 
 
         if (!female.isChecked() && !male.isChecked()) {
-            Snackbar.make(view, "Algum gênero deve ser preenchido!!", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(view, R.string.text_gender, Snackbar.LENGTH_SHORT).show();
             return;
         }
 
