@@ -190,7 +190,7 @@ public class ShowResultsActivity extends AppCompatActivity {
 
         } catch (NoNetworkException ex) {
             Log.e(Tags.ERROR, "Failed to get NetworkAccess", ex);
-            generator = new StorageRandomUserGenerator(userStorage);
+            generator = new StorageRandomUserGenerator(userStorage, input);
         }
         return generator;
     }
