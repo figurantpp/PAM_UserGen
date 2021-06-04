@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
         if (!female.isChecked() && !male.isChecked()) {
-            Snackbar.make(view, R.string.text_gender, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(view, R.string.error_empty, Snackbar.LENGTH_SHORT).show();
             return;
         }
 
