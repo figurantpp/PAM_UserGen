@@ -3,7 +3,6 @@ package com.example.usergen.model;
 import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
-import androidx.test.espresso.base.BaseLayerModule_FailureHandlerHolder_Factory;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Test;
@@ -16,14 +15,13 @@ import java.net.URL;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import javax.annotation.meta.TypeQualifier;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeNoException;
 
 @RunWith(AndroidJUnit4.class)
 public class OnlineImageResourceTest {
@@ -82,7 +80,7 @@ public class OnlineImageResourceTest {
 
 
         } catch (IOException ex) {
-            fail("Failed to get resource bitmap");
+            assumeNoException(ex);
         }
     }
 
@@ -96,8 +94,8 @@ public class OnlineImageResourceTest {
             second = new OnlineImageResource(first.getBitmap());
         }
         catch (IOException ex) {
-            fail("Failed to get resource bitmap");
-            throw new RuntimeException(ex);
+            assumeNoException(ex);
+            return;
         }
 
         assertEquals(first, second);
@@ -129,7 +127,7 @@ public class OnlineImageResourceTest {
             bitmap = result.get();
         } catch (ExecutionException | InterruptedException ex) {
 
-            fail("Failed to open bitmap");
+            assumeNoException(ex);
 
             throw new RuntimeException(ex);
         }
