@@ -13,13 +13,14 @@ import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
 public class SensorTest {
 
     @Rule
-    public ActivityScenarioRule<ShowResultsActivity> activityRule
-            = new ActivityScenarioRule<>(ShowResultsActivityTest.getActivityIntent());
+    public ActivityScenarioRule<ShowUserActivity> activityRule
+            = new ActivityScenarioRule<>(ShowUserActivityTest.getActivityIntent());
 
     @Test
     public void testSensor() {
@@ -29,6 +30,8 @@ public class SensorTest {
             ProximitySensor lightSensorListener = activity.getProximitySensor();
 
             assertThat(lightSensorListener, not(is(nullValue())));
+
+            assertNotNull(lightSensorListener);
 
             lightSensorListener.emit(true);
 

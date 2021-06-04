@@ -56,7 +56,7 @@ public class MainActivityTest {
 
         intended(
                 allOf(
-                        hasComponent(hasShortClassName(".activity.ShowResultsActivity")),
+                        hasComponent(hasShortClassName(".activity." + ShowUserActivity.class.getSimpleName())),
                         toPackage("com.example.usergen")
                 )
         );

@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RandomUserApp">
 
-        <activity android:name=".activity.ShowResultsActivity" />
+        <activity android:name=".activity.ShowUserActivity" />
 
         <activity android:name=".activity.MainActivity">
             <intent-filter>

@@ -6,7 +6,7 @@ import androidx.test.espresso.IdlingResource;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class DisplayIdlingResource implements IdlingResource, ShowResultsActivity.DisplayListener {
+public class DisplayIdlingResource implements IdlingResource, ShowUserActivity.DisplayListener {
 
     @NonNull
     private final AtomicBoolean idle = new AtomicBoolean(false);

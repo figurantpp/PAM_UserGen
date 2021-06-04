@@ -87,8 +87,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         RandomUserGeneratorInput input = new RandomUserGeneratorInput(optionSpinner, gender);
 
-        Intent intent = new Intent(this, ShowResultsActivity.class);
-        intent.putExtra(ShowResultsActivity.INPUT_BUNDLE_KEY, input.asBundle());
+        Intent intent = new Intent(this, ShowUserActivity.class);
+        intent.putExtra(ShowUserActivity.INPUT_BUNDLE_KEY, input.asBundle());
 
         startActivity(intent);
     }

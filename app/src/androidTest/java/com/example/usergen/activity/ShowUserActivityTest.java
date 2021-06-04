@@ -41,26 +41,26 @@ import static org.hamcrest.Matchers.isIn;
 import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
-public class ShowResultsActivityTest {
+public class ShowUserActivityTest {
 
     @NonNull
     static Intent getActivityIntent() {
 
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        Intent starter = new Intent(appContext, ShowResultsActivity.class);
+        Intent starter = new Intent(appContext, ShowUserActivity.class);
 
         RandomUserGeneratorInput input = new RandomUserGeneratorInput(
                 "US", "female"
         );
 
-        starter.putExtra(ShowResultsActivity.INPUT_BUNDLE_KEY, input.asBundle());
+        starter.putExtra(ShowUserActivity.INPUT_BUNDLE_KEY, input.asBundle());
 
         return starter;
     }
 
     @Rule
-    public ActivityScenarioRule<ShowResultsActivity> rule
+    public ActivityScenarioRule<ShowUserActivity> rule
             = new ActivityScenarioRule<>(getActivityIntent());
 
     @Nullable

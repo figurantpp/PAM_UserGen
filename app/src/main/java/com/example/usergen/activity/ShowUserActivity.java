@@ -37,7 +37,7 @@ import java.util.concurrent.Future;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ShowResultsActivity extends AppCompatActivity {
+public class ShowUserActivity extends AppCompatActivity {
 
     public final static String INPUT_BUNDLE_KEY = "nationality";
 
@@ -63,7 +63,7 @@ public class ShowResultsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_results);
+        setContentView(R.layout.activity_show_user);
 
         setupViews();
 
