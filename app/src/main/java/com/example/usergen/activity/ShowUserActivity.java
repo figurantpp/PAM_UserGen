@@ -76,7 +76,7 @@ public class ShowUserActivity extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setReorderingAllowed(true)
-                .add(R.id.fragment_container_view, ShowUserFragment.class, null)
+                .replace(R.id.fragment_container_view, ShowUserFragment.class, null)
                 .commit();
     }
 
