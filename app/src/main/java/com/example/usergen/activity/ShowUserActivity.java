@@ -20,6 +20,7 @@ import com.example.usergen.model.user.User;
 import com.example.usergen.model.user.UserStorage;
 import com.example.usergen.model.user.UserViewModel;
 import com.example.usergen.util.Tags;
+import com.example.usergen.view.ShowUserFragment;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -39,13 +40,20 @@ public class ShowUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_user);
 
+        setupUserViewModel();
+
         setupSensor();
 
+
+        new Thread(this::loadUser).start();
+    }
+
+    private void setupUserViewModel() {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         userViewModel.getDisplayEvent().observe(this, v -> notifyDisplay());
 
-        new Thread(this::loadUser).start();
+        userViewModel.getSelectedUser().observe(this, user -> displayUserFragment());
     }
 
     private void setupSensor() {
@@ -63,6 +71,15 @@ public class ShowUserActivity extends AppCompatActivity {
         }
     }
 
+    private void displayUserFragment() {
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setReorderingAllowed(true)
+                .add(R.id.fragment_container_view, ShowUserFragment.class, null)
+                .commit();
+    }
+
     private void loadUser() {
 
         RandomUserGeneratorInput input = getIntentGeneratorInput();
@@ -74,11 +91,13 @@ public class ShowUserActivity extends AppCompatActivity {
         try {
             User user = result.get();
 
-            runOnUiThread(() -> userViewModel.selectUser(user));
+            user.getProfileImage().getBitmap();
 
             if (generator instanceof NetworkRandomUserGenerator) {
                 new UserStorage(this).storeModel(user);
             }
+
+            runOnUiThread(() -> userViewModel.selectUser(user));
 
         } catch (ExecutionException | InterruptedException | IOException ex) {
             Log.e(Tags.ERROR, "Fail to get User", ex);
