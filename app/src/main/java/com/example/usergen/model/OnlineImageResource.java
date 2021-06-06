@@ -43,10 +43,6 @@ public class OnlineImageResource {
         return url;
     }
 
-    public void setUrl(@NonNull URL url) {
-        this.url = url;
-    }
-
     @Override
     public boolean equals(Object other) {
 
@@ -64,11 +60,6 @@ public class OnlineImageResource {
                 (content != null && content.sameAs(that.content));
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(url, content);
-    }
-
     @NonNull
     public Bitmap getBitmap() throws IOException  {
 
@@ -76,7 +67,7 @@ public class OnlineImageResource {
             throw new IllegalStateException("Invalid OnlineImageResource");
         }
 
-        if (url != null) {
+        if (content == null) {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
 
@@ -104,4 +95,9 @@ public class OnlineImageResource {
     public Future<Bitmap> getBitmapAsync() {
         return getBitmapAsync(Executors.newSingleThreadExecutor());
     }
+
+    public boolean isLoaded() {
+        return content != null;
+    }
+
 }
