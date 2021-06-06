@@ -54,7 +54,6 @@ public class ShowUserActivity extends AppCompatActivity {
             idTextView;
 
 
-    UserStorage userStorage;
 
     ProximitySensor proximitySensor;
 
@@ -167,9 +166,7 @@ public class ShowUserActivity extends AppCompatActivity {
                     idTextView.setText(user.getId());
                     birthTextView.setText(formatDate(user.getBirthDate()));
 
-                    if (displayListener != null) {
-                        displayListener.onDisplay();
-                    }
+                    notifyDisplay();
 
                     displayedUser = user;
                 }
@@ -184,13 +181,15 @@ public class ShowUserActivity extends AppCompatActivity {
     }
 
     private RandomModelGenerator<User> findUserGenerator(RandomUserGeneratorInput input) {
+
         RandomModelGenerator<User> generator;
+
         try {
             generator = new NetworkRandomUserGenerator(this, input);
 
         } catch (NoNetworkException ex) {
             Log.e(Tags.ERROR, "Failed to get NetworkAccess", ex);
-            generator = new StorageRandomUserGenerator(userStorage, input);
+            generator = new StorageRandomUserGenerator(new UserStorage(this), input);
         }
         return generator;
     }
@@ -232,6 +231,13 @@ public class ShowUserActivity extends AppCompatActivity {
     }
 
     // testing members
+
+    public void notifyDisplay() {
+
+        if (displayListener != null) {
+            displayListener.onDisplay();
+        }
+    }
 
     @VisibleForTesting
     @Nullable
