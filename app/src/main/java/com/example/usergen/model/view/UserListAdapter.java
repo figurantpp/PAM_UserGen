@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.usergen.R;
 import com.example.usergen.model.user.User;
+import com.example.usergen.util.ApiInfo;
 
 import java.io.IOException;
 import java.util.List;
@@ -64,7 +65,12 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
 
             userItemName.setText(user.getName());
 
-            userItemNationality.setText(user.getNationality());
+            userItemNationality.setText(
+                    ApiInfo.NATIONALITY_NAMES.getOrDefault(
+                            user.getNationality(),
+                            user.getNationality()
+                    )
+            );
 
             try {
                 userItemImage.setImageBitmap(user.getProfileImage().getBitmap());
