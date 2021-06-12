@@ -56,7 +56,7 @@ public class ShowUserActivityTest {
                 "US", "female"
         );
 
-        starter.putExtra(ShowUserActivity.INPUT_BUNDLE_KEY, input.asBundle());
+        starter.putExtra(ShowUserActivity.INPUT_EXTRA_KEY, input.asBundle());
 
         return starter;
     }

@@ -29,7 +29,7 @@ import java.util.concurrent.Future;
 
 public class ShowUserActivity extends AppCompatActivity {
 
-    public final static String INPUT_BUNDLE_KEY = "nationality";
+    public final static String INPUT_EXTRA_KEY = "nationality";
 
     ProximitySensor proximitySensor;
 
@@ -119,7 +119,7 @@ public class ShowUserActivity extends AppCompatActivity {
     }
 
     private RandomUserGeneratorInput getIntentGeneratorInput() {
-        Bundle bundle = getIntent().getBundleExtra(INPUT_BUNDLE_KEY);
+        Bundle bundle = getIntent().getBundleExtra(INPUT_EXTRA_KEY);
         Objects.requireNonNull(bundle);
 
         return RandomUserGeneratorInput.fromBundle(bundle);
