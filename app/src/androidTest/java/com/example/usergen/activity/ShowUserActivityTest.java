@@ -29,6 +29,7 @@ import java.util.stream.Stream;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
@@ -36,6 +37,7 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasDataString
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.isIn;
 import static org.hamcrest.Matchers.not;
@@ -107,6 +109,9 @@ public class ShowUserActivityTest {
                         )
                 )
         );
+
+        onView(anyOf(withText("beep"), withId(R.id.loading_fragment_constraint_layout)))
+                .check(doesNotExist());
 
 
     }
