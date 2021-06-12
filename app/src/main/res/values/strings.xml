@@ -57,5 +57,8 @@
 
     </string-array>
 
+    <string name="examplename"> Jeanette<br></br>Something </string>
+
+    <string name="image_description"> User Image </string>
 
 </resources>
