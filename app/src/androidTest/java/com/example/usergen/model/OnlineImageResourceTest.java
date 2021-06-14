@@ -154,5 +154,26 @@ public class OnlineImageResourceTest {
     }
 
 
+    @Test(expected = IllegalStateException.class)
+    public void requireThrows() {
+
+        OnlineImageResource resource = new OnlineImageResource(getURL());
+
+        resource.requireBitmap();
+    }
+
+    @Test
+    public void requireWorks() throws IOException {
+
+        OnlineImageResource resource = new OnlineImageResource(getURL());
+
+        resource.getBitmap();
+
+        Bitmap bitmap = resource.requireBitmap();
+
+        assertNotNull(bitmap);
+
+    }
+
 
 }

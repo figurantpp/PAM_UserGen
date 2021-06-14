@@ -100,4 +100,13 @@ public class OnlineImageResource {
         return content != null;
     }
 
+    @NonNull
+    public Bitmap requireBitmap() {
+
+        if (content == null) {
+            throw new IllegalStateException("Unloaded bitmap was required");
+        }
+
+        return content;
+    }
 }
