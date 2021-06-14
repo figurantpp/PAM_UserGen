@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.usergen.R;
+import com.example.usergen.dialog.ImageDialogBox;
 import com.example.usergen.model.user.User;
 import com.example.usergen.model.user.UserViewModel;
 import com.example.usergen.util.ApiInfo;
@@ -24,8 +26,11 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static java.util.Objects.requireNonNull;
 
 public class ShowUserFragment extends Fragment {
     public ShowUserFragment() {
@@ -82,6 +87,21 @@ public class ShowUserFragment extends Fragment {
         nationalityTextView.setOnClickListener(v -> onNationalityClick());
 
         pictureImageView = source.findViewById(R.id.personPicture);
+
+        pictureImageView.setOnClickListener(view -> {
+
+            ImageDialogBox dialogBox = new ImageDialogBox(requireContext());
+            ImageView imageView = dialogBox.getImageView();
+
+            try {
+                imageView.setImageBitmap(requireNonNull(userViewModel.getSelectedUser().getValue()).getProfileImage().getBitmap());
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+
+            dialogBox.show();
+
+        });
     }
 
     @SuppressLint("QueryPermissionsNeeded")

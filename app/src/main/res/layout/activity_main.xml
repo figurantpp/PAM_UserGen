@@ -83,18 +83,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-    <Button
-        android:id="@+id/search_on_api_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@color/teal_200"
-        android:fontFamily="@font/cinzel"
-        android:text="@string/buscar_na_api"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        <Button
+            android:id="@+id/search_on_api_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="50dp"
+            android:background="@color/teal_200"
+            android:fontFamily="@font/cinzel"
+            android:text="@string/buscar_na_api"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.example.usergen.custom.CustomButton
+            android:id="@+id/multiple_button"
+            android:layout_width="225dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_on_api_button" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -6,6 +6,7 @@
         <item>@font/cinzel_black</item>
         <item>@font/headland_one</item>
         <item>@font/roboto</item>
+        <item>@font/roboto_black_italic</item>
         <item>@font/roboto_bold</item>
     </array>
 </resources>

@@ -74,7 +74,7 @@ public class ShowVariousUsersActivity extends AppCompatActivity {
 
         runOnUiThread(() -> {
 
-            recyclerView.setAdapter(new UserListAdapter(users));
+            recyclerView.setAdapter(new UserListAdapter(users, this));
 
             recyclerView.setHasFixedSize(true);
 

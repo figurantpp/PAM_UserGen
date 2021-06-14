@@ -59,6 +59,8 @@
 
     <string name="examplename"> Jeanette<br></br>Something </string>
 
-    <string name="image_description"> User Image </string>
+    <string name="image_description_format"> Profile picture of %s</string>
+
+    <string name="multiple_users"> Multiple Users</string>
 
 </resources>

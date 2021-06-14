@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.usergen.R;
+import com.example.usergen.custom.CustomButton;
 import com.example.usergen.model.user.RandomUserGeneratorInput;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     RadioButton male, female;
 
     String gender;
+
+    CustomButton button;
 
 
     @Override
@@ -52,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         title = findViewById(R.id.random_text);
 
+        button = (CustomButton) findViewById(R.id.multiple_button);
+
+        button.setOnClickListener(view -> this.goToMultiple());
 
         Animation updown = AnimationUtils.loadAnimation(this, R.anim.up_down);
         Animation animation1 = AnimationUtils.loadAnimation(this, R.anim.fade);
@@ -73,17 +79,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void show(@NonNull View view) {
 
 
-        if (!female.isChecked() && !male.isChecked()) {
-            Snackbar.make(view, R.string.error_empty, Snackbar.LENGTH_SHORT).show();
-            return;
-        }
-
-            if (female.isChecked()) {
-                gender = "female";
-            } else {
-
-                gender = "male";
-            }
+        if (!isValid()) return;
 
         RandomUserGeneratorInput input = new RandomUserGeneratorInput(optionSpinner, gender);
 
@@ -91,6 +87,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         intent.putExtra(ShowUserActivity.INPUT_EXTRA_KEY, input.asBundle());
 
         startActivity(intent);
+    }
+
+    private boolean isValid() {
+        if (!female.isChecked() && !male.isChecked()) {
+            Snackbar.make(findViewById(android.R.id.content), R.string.error_empty, Snackbar.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (female.isChecked()) {
+            gender = "female";
+        } else {
+
+            gender = "male";
+        }
+        return true;
     }
 
     String optionSpinner;
@@ -109,6 +120,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
+    }
+
+    public void goToMultiple()
+    {
+        if (!isValid())
+        {
+            return;
+        }
+        RandomUserGeneratorInput input = new RandomUserGeneratorInput(optionSpinner, gender);
+
+        Intent intent = new Intent(this, ShowVariousUsersActivity.class);
+
+        intent.putExtra(ShowVariousUsersActivity.INPUT_EXTRA_KEY, input.asBundle());
+
+        startActivity(intent);
     }
 
     @Override

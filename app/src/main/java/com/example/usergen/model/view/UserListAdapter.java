@@ -1,5 +1,6 @@
 package com.example.usergen.model.view;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +21,11 @@ import java.util.List;
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserViewHolder> {
 
     private final List<User> users;
+    private final Context context;
 
-    public UserListAdapter(@NonNull List<User> users) {
+    public UserListAdapter(@NonNull List<User> users, @NonNull Context context) {
         this.users = users;
+        this.context = context;
     }
 
     @NonNull
@@ -39,6 +42,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         holder.bind(users.get(position));
+
     }
 
     @Override
@@ -46,7 +50,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
         return users.size();
     }
 
-    static class UserViewHolder extends RecyclerView.ViewHolder {
+    class UserViewHolder extends RecyclerView.ViewHolder {
 
         public TextView userItemName, userItemNationality;
         public ImageView userItemImage;
@@ -74,6 +78,8 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
 
             try {
                 userItemImage.setImageBitmap(user.getProfileImage().getBitmap());
+                userItemImage.setContentDescription(
+                        String.format(context.getString(R.string.image_description_format), user.getName()));
             }
             catch (IOException exception)
             {

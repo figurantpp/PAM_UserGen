@@ -195,6 +195,7 @@
             app:layout_constraintTop_toBottomOf="@+id/txttitleemail" />
 
         <FrameLayout
+            android:id="@+id/frameLayout"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:background="?attr/color"
@@ -203,24 +204,10 @@
 
         </FrameLayout>
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/personPicture"
-            android:layout_width="220dp"
-            android:layout_height="220dp"
-            android:layout_marginTop="60dp"
-            app:civ_border_color="#D8ECECEC"
-            app:civ_border_overlay="true"
-            app:civ_border_width="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/personFirstandSecondName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:fontFamily="@font/headland_one"
             android:textColor="?attr/textAppearanceHeadline2"
             android:textSize="30sp"
@@ -272,6 +259,16 @@
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/txttitlegender"
             app:layout_constraintTop_toBottomOf="@+id/txttitlegender" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/personPicture"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_marginTop="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/frameLayout" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
