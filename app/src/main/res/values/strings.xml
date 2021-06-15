@@ -57,10 +57,12 @@
 
     </string-array>
 
-    <string name="examplename"> Jeanette<br></br>Something </string>
+    <string name="examplename"> Jeanette<br />Something </string>
 
     <string name="image_description_format"> Profile picture of %s</string>
 
     <string name="multiple_users"> Multiple Users</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 
 </resources>

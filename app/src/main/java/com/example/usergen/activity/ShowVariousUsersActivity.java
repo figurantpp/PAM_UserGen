@@ -10,11 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.usergen.R;
 import com.example.usergen.model.BooleanIdlingResource;
-import com.example.usergen.model.exception.NoNetworkException;
 import com.example.usergen.model.interfaces.RandomModelGenerator;
-import com.example.usergen.model.user.NetworkRandomUserGenerator;
-import com.example.usergen.model.user.RandomUserGeneratorInput;
 import com.example.usergen.model.user.User;
+import com.example.usergen.model.user.generator.RandomUserGeneratorInput;
 import com.example.usergen.model.view.UserListAdapter;
 
 import java.io.IOException;
@@ -22,6 +20,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+
+import static com.example.usergen.model.user.generator.RandomUserGeneratorResolver.resolveUserGenerator;
 
 
 public class ShowVariousUsersActivity extends AppCompatActivity {
@@ -60,9 +60,9 @@ public class ShowVariousUsersActivity extends AppCompatActivity {
     }
 
     private void getUsers(RandomUserGeneratorInput input)
-            throws InterruptedException, ExecutionException, NoNetworkException, IOException {
+            throws InterruptedException, ExecutionException, IOException {
 
-        RandomModelGenerator<User> generator = new NetworkRandomUserGenerator(this, input);
+        RandomModelGenerator<User> generator = resolveUserGenerator(this, input);
 
         Future<List<User>> future = generator.nextModels(10);
 

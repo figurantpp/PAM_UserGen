@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.usergen.model.interfaces.RandomModelGenerator;
+import com.example.usergen.model.user.generator.RandomUserGeneratorInput;
 import com.example.usergen.util.Tags;
 
 import java.util.List;

@@ -9,16 +9,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.usergen.R;
-import com.example.usergen.model.exception.NoNetworkException;
 import com.example.usergen.model.exception.SensorNotFoundException;
 import com.example.usergen.model.interfaces.RandomModelGenerator;
 import com.example.usergen.model.sensor.ProximitySensor;
-import com.example.usergen.model.user.NetworkRandomUserGenerator;
-import com.example.usergen.model.user.RandomUserGeneratorInput;
-import com.example.usergen.model.user.StorageRandomUserGenerator;
 import com.example.usergen.model.user.User;
 import com.example.usergen.model.user.UserStorage;
 import com.example.usergen.model.user.UserViewModel;
+import com.example.usergen.model.user.generator.NetworkRandomUserGenerator;
+import com.example.usergen.model.user.generator.RandomUserGeneratorInput;
 import com.example.usergen.util.Tags;
 import com.example.usergen.view.ShowUserFragment;
 
@@ -26,6 +24,8 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+
+import static com.example.usergen.model.user.generator.RandomUserGeneratorResolver.resolveUserGenerator;
 
 public class ShowUserActivity extends AppCompatActivity {
 
@@ -106,15 +106,12 @@ public class ShowUserActivity extends AppCompatActivity {
 
     private RandomModelGenerator<User> findUserGenerator(RandomUserGeneratorInput input) {
 
-        RandomModelGenerator<User> generator;
+        RandomModelGenerator<User> generator = resolveUserGenerator(this, input);
 
-        try {
-            generator = new NetworkRandomUserGenerator(this, input);
-
-        } catch (NoNetworkException ex) {
-            Log.e(Tags.ERROR, "Failed to get NetworkAccess", ex);
-            generator = new StorageRandomUserGenerator(new UserStorage(this), input);
+        if (!(generator instanceof NetworkRandomUserGenerator)) {
+            Log.e(Tags.ERROR, "Failed to get network access");
         }
+
         return generator;
     }
 

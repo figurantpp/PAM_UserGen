@@ -1,9 +1,11 @@
-package com.example.usergen.model.user;
+package com.example.usergen.model.user.generator;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.usergen.model.interfaces.RandomModelGenerator;
+import com.example.usergen.model.user.User;
+import com.example.usergen.model.user.UserStorage;
 
 import java.util.List;
 import java.util.NoSuchElementException;

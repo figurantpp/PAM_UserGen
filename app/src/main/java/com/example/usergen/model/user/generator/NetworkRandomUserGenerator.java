@@ -1,4 +1,4 @@
-package com.example.usergen.model.user;
+package com.example.usergen.model.user.generator;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import com.example.usergen.model.exception.NoNetworkException;
 import com.example.usergen.model.interfaces.ModelJsonManager;
 import com.example.usergen.model.interfaces.RandomModelGenerator;
+import com.example.usergen.model.user.User;
+import com.example.usergen.model.user.UserJsonManager;
 import com.example.usergen.util.ApiInfo;
 
 import org.json.JSONArray;

@@ -9,7 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.example.usergen.model.BooleanIdlingResource;
-import com.example.usergen.model.user.RandomUserGeneratorInput;
+import com.example.usergen.model.user.generator.RandomUserGeneratorInput;
 
 import org.junit.After;
 import org.junit.Before;

@@ -4,14 +4,14 @@ import android.os.Bundle;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.example.usergen.model.user.RandomUserGeneratorInput;
+import com.example.usergen.model.user.generator.RandomUserGeneratorInput;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.InputMismatchException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class RandomUserGeneratorInputTest {

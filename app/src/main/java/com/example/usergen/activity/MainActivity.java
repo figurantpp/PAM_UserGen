@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.usergen.R;
 import com.example.usergen.custom.CustomButton;
-import com.example.usergen.model.user.RandomUserGeneratorInput;
+import com.example.usergen.model.user.generator.RandomUserGeneratorInput;
 import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         title = findViewById(R.id.random_text);
 
-        button = (CustomButton) findViewById(R.id.multiple_button);
+        button = findViewById(R.id.multiple_button);
 
         button.setOnClickListener(view -> this.goToMultiple());
 

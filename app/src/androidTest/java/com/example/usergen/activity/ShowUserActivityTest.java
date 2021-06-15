@@ -15,7 +15,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.example.usergen.R;
 import com.example.usergen.model.LambdaMatcher;
-import com.example.usergen.model.user.RandomUserGeneratorInput;
+import com.example.usergen.model.user.generator.RandomUserGeneratorInput;
 import com.example.usergen.util.ApiInfo;
 
 import org.junit.After;

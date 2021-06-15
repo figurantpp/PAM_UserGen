@@ -1,4 +1,4 @@
-package com.example.usergen.model.user;
+package com.example.usergen.model.user.generator;
 
 import android.os.Bundle;
 
