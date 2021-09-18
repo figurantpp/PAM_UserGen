@@ -11,9 +11,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+
+import io.reactivex.rxjava3.core.Single;
 
 public class OnlineImageResource {
 
@@ -61,7 +60,7 @@ public class OnlineImageResource {
     }
 
     @NonNull
-    public Bitmap getBitmap() throws IOException  {
+    public Bitmap getBitmapSync() throws IOException  {
 
         if (url == null && content == null) {
             throw new IllegalStateException("Invalid OnlineImageResource");
@@ -84,16 +83,9 @@ public class OnlineImageResource {
     }
 
     @NonNull
-    public Future<Bitmap> getBitmapAsync(@NonNull ExecutorService threadSource) {
+    public Single<Bitmap> getBitmapAsync() {
 
-        Objects.requireNonNull(threadSource);
-
-        return threadSource.submit(this::getBitmap);
-    }
-
-    @NonNull
-    public Future<Bitmap> getBitmapAsync() {
-        return getBitmapAsync(Executors.newSingleThreadExecutor());
+        return Single.fromSupplier(this::getBitmapSync);
     }
 
     public boolean isLoaded() {

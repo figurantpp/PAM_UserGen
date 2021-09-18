@@ -10,11 +10,10 @@ import com.example.usergen.model.user.UserStorage;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import io.reactivex.rxjava3.core.Single;
 
 public class StorageRandomUserGenerator implements RandomModelGenerator<User> {
 
@@ -24,13 +23,9 @@ public class StorageRandomUserGenerator implements RandomModelGenerator<User> {
     @NonNull
     private final Random random;
 
-    @NonNull
-    private final ExecutorService executor;
-
     public StorageRandomUserGenerator(
             @NonNull UserStorage storage,
-            @Nullable RandomUserGeneratorInput input,
-            @NonNull ExecutorService executor
+            @Nullable RandomUserGeneratorInput input
     ) {
 
         List<User> users = storage.listStoredUsers();
@@ -38,15 +33,6 @@ public class StorageRandomUserGenerator implements RandomModelGenerator<User> {
         this.users = input == null ? users : filterInput(input, users);
 
         random = new Random();
-
-        this.executor = executor;
-    }
-
-    public StorageRandomUserGenerator(
-            @NonNull UserStorage storage,
-            @Nullable RandomUserGeneratorInput input
-    ) {
-        this(storage, input, Executors.newSingleThreadExecutor());
     }
 
     public StorageRandomUserGenerator(@NonNull UserStorage storage) {
@@ -55,9 +41,9 @@ public class StorageRandomUserGenerator implements RandomModelGenerator<User> {
 
     @NonNull
     @Override
-    public Future<User> nextRandomModel() {
+    public Single<User> nextRandomModel() {
 
-        return executor.submit(() -> {
+        return Single.fromSupplier(() -> {
 
             if (this.users.size() == 0) {
                 throw emptyException();
@@ -71,8 +57,8 @@ public class StorageRandomUserGenerator implements RandomModelGenerator<User> {
 
     @Override
     @NonNull
-    public Future<List<User>> nextModels(int limit) {
-        return executor.submit(() -> {
+    public Single<List<User>> nextModels(int limit) {
+        return Single.fromSupplier(() -> {
 
             if (this.users.size() == 0) {
                 throw emptyException();

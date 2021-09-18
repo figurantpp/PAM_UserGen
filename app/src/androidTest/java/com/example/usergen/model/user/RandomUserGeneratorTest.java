@@ -1,27 +1,20 @@
 package com.example.usergen.model.user;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.example.usergen.model.interfaces.RandomModelGenerator;
 import com.example.usergen.model.user.generator.RandomUserGeneratorInput;
-import com.example.usergen.util.Tags;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.concurrent.ExecutionException;
 
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeNoException;
-import static org.junit.Assume.assumeNotNull;
 
 public class RandomUserGeneratorTest {
 
@@ -35,13 +28,10 @@ public class RandomUserGeneratorTest {
     public void nextRandomModelOn(@NonNull RandomModelGenerator<User> subject) {
 
         try {
-            testUser(subject.nextRandomModel().get());
+            testUser(subject.nextRandomModel().blockingGet());
+        } catch (NoSuchElementException ex) {
 
-        } catch (InterruptedException ex) {
-            failInterrupted(ex);
-
-        } catch (ExecutionException ex) {
-            checkExecutionException(ex);
+            assumeNoException(ex);
         }
     }
 
@@ -51,7 +41,7 @@ public class RandomUserGeneratorTest {
 
             final int limit = 25;
 
-            List<User> users = subject.nextModels(limit).get();
+            List<User> users = subject.nextModels(limit).blockingGet();
 
             assertNotNull(users);
 
@@ -59,24 +49,10 @@ public class RandomUserGeneratorTest {
 
             users.forEach(this::testUser);
 
-        } catch (ExecutionException ex) {
-            checkExecutionException(ex);
+        } catch (NoSuchElementException ex) {
 
-        } catch (InterruptedException ex) {
-            failInterrupted(ex);
+            assumeNoException(ex);
         }
-
-    }
-
-    private void checkExecutionException(ExecutionException ex) {
-
-        assumeNotNull(ex.getCause());
-
-        Log.e(Tags.ERROR, "checkExecutionException: ", ex);
-
-        assertThat(ex.getCause(), instanceOf(NoSuchElementException.class));
-
-        assumeNoException(ex.getCause());
 
     }
 
@@ -95,11 +71,5 @@ public class RandomUserGeneratorTest {
 
             assertEquals(user.getGender(), input.getGender());
         }
-    }
-
-    private void failInterrupted(InterruptedException ex) {
-        assertNotNull(ex.getMessage());
-
-        fail(ex.getMessage());
     }
 }

@@ -26,9 +26,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+
+import io.reactivex.rxjava3.core.Single;
 
 public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
 
@@ -41,36 +40,35 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
     @NonNull
     private final ModelJsonManager<User> jsonManager;
 
-    @NonNull
-    private final ExecutorService executor;
-
-    public NetworkRandomUserGenerator(@NonNull Context context,
-                                      @NonNull RandomUserGeneratorInput input,
-                                      @NonNull ExecutorService executor) throws NoNetworkException {
+    public NetworkRandomUserGenerator(
+            @NonNull Context context,
+            @NonNull RandomUserGeneratorInput input,
+            @NonNull ModelJsonManager<User> jsonManager
+    ) throws NoNetworkException {
         this.context = context;
         this.input = input;
-        this.jsonManager = new UserJsonManager();
-        this.executor = executor;
+        this.jsonManager = jsonManager;
 
         checkConnectivity();
     }
 
-
-    public NetworkRandomUserGenerator(@NonNull Context context,
-                                      @NonNull RandomUserGeneratorInput input) throws NoNetworkException {
-        this(context, input, Executors.newSingleThreadExecutor());
+    public NetworkRandomUserGenerator(
+            @NonNull Context context,
+            @NonNull RandomUserGeneratorInput input
+    ) throws NoNetworkException {
+        this(context, input, new UserJsonManager());
     }
 
     @NonNull
     @Override
-    public Future<User> nextRandomModel() {
-        return executor.submit(() -> this.nextRandomModelsBlocked(1).get(0));
+    public Single<User> nextRandomModel() {
+        return Single.fromSupplier(() -> this.nextRandomModelsBlocked(1).get(0));
     }
 
     @NonNull
     @Override
-    public Future<List<User>> nextModels(int limit) {
-        return executor.submit(() -> this.nextRandomModelsBlocked(limit));
+    public Single<List<User>> nextModels(int limit) {
+        return Single.fromSupplier(() -> this.nextRandomModelsBlocked(limit));
     }
 
     private void checkConnectivity() throws NoNetworkException {
@@ -191,8 +189,4 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
 
         return stringFromInputStream(stream);
     }
-
-
-
-
 }

@@ -20,13 +20,10 @@ import com.example.usergen.dialog.ImageDialogBox;
 import com.example.usergen.model.user.User;
 import com.example.usergen.model.user.UserViewModel;
 import com.example.usergen.util.ApiInfo;
-import com.google.android.material.snackbar.Snackbar;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -61,17 +58,7 @@ public class ShowUserFragment extends Fragment {
 
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
-        userViewModel.getSelectedUser().observe(getViewLifecycleOwner(), user -> {
-
-            try {
-                displayUser(user);
-            }
-            catch (IOException ex) {
-                Snackbar.make(getContext(), view.findViewById(android.R.id.content),
-                        "Failed to load profile picture", Snackbar.LENGTH_SHORT);
-            }
-        });
-
+        userViewModel.getSelectedUser().observe(getViewLifecycleOwner(), this::displayUser);
     }
 
     private void setupViews(View source) {
@@ -91,13 +78,12 @@ public class ShowUserFragment extends Fragment {
         pictureImageView.setOnClickListener(view -> {
 
             ImageDialogBox dialogBox = new ImageDialogBox(requireContext());
-            ImageView imageView = dialogBox.getImageView();
+            ImageView dialogImageView = dialogBox.getImageView();
 
-            try {
-                imageView.setImageBitmap(requireNonNull(userViewModel.getSelectedUser().getValue()).getProfileImage().getBitmap());
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
+            dialogImageView.setImageBitmap(
+                    requireNonNull(userViewModel.getSelectedUser().getValue())
+                            .getProfileImage().requireBitmap()
+            );
 
             dialogBox.show();
 
@@ -108,8 +94,9 @@ public class ShowUserFragment extends Fragment {
     private void onNationalityClick() {
 
         if (userViewModel != null) {
+            User user = requireNonNull(userViewModel.getSelectedUser().getValue());
 
-            String country = getCountryName(userViewModel.getSelectedUser().getValue().getNationality());
+            String country = getCountryName(user.getNationality());
 
             Uri mapUri = Uri.parse("geo:0,0?q=" + country);
 
@@ -127,12 +114,11 @@ public class ShowUserFragment extends Fragment {
 
     }
 
-    private void displayUser(User user) throws IOException {
+    private void displayUser(User user) {
 
         String nationalityText = getNationalityText(user);
 
-        Bitmap bitmap = user.getProfileImage().getBitmap();
-
+        Bitmap bitmap = user.getProfileImage().requireBitmap();
 
         pictureImageView.setImageBitmap(bitmap);
 

@@ -12,8 +12,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -32,7 +30,7 @@ public class OnlineImageResourceTest {
         OnlineImageResource resource = new OnlineImageResource(getURL());
 
         try {
-            Bitmap map = resource.getBitmap();
+            Bitmap map = resource.getBitmapSync();
 
             assertValidBitmap(map);
 
@@ -49,7 +47,7 @@ public class OnlineImageResourceTest {
         assertFalse(resource.isLoaded());
 
         try {
-            resource.getBitmap();
+            resource.getBitmapSync();
         } catch (IOException ex) {
             assumeNoException(ex);
         }
@@ -64,7 +62,7 @@ public class OnlineImageResourceTest {
         OnlineImageResource second;
 
         try {
-            second = new OnlineImageResource(first.getBitmap());
+            second = new OnlineImageResource(first.getBitmapSync());
         }
         catch (IOException ex) {
             assumeNoException(ex);
@@ -90,21 +88,9 @@ public class OnlineImageResourceTest {
 
         OnlineImageResource resource = new OnlineImageResource(getAlternativeURL());
 
-        Future<Bitmap> result = resource.getBitmapAsync();
+        Bitmap result = resource.getBitmapAsync().blockingGet();
 
         assertNotNull(result);
-
-        try {
-            Bitmap bitmap = result.get();
-
-            assertNotNull(bitmap);
-        } catch (ExecutionException | InterruptedException ex) {
-
-            assumeNoException(ex);
-
-            throw new RuntimeException(ex);
-        }
-
     }
 
     @NonNull
@@ -167,7 +153,7 @@ public class OnlineImageResourceTest {
 
         OnlineImageResource resource = new OnlineImageResource(getURL());
 
-        resource.getBitmap();
+        resource.getBitmapSync();
 
         Bitmap bitmap = resource.requireBitmap();
 

@@ -20,10 +20,13 @@ import com.example.usergen.model.user.generator.RandomUserGeneratorInput;
 import com.example.usergen.util.Tags;
 import com.example.usergen.view.ShowUserFragment;
 
-import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 import static com.example.usergen.model.user.generator.RandomUserGeneratorResolver.resolveUserGenerator;
 
@@ -35,15 +38,18 @@ public class ShowUserActivity extends AppCompatActivity {
 
     private UserViewModel userViewModel;
 
+    private CompositeDisposable subscriptions;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_user);
 
+        subscriptions = new CompositeDisposable();
+
         setupUserViewModel();
 
         setupSensor();
-
 
         new Thread(this::loadUser).start();
     }
@@ -86,22 +92,22 @@ public class ShowUserActivity extends AppCompatActivity {
 
         RandomModelGenerator<User> generator = findUserGenerator(input);
 
-        Future<User> result = generator.nextRandomModel();
+        Single<User> result = generator.nextRandomModel();
 
-        try {
-            User user = result.get();
+        Disposable subscription =
+                result.subscribeOn(Schedulers.io())
+                .doOnSuccess(user -> user.getProfileImage().getBitmapSync())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(user -> {
 
-            user.getProfileImage().getBitmap();
+                    if (generator instanceof NetworkRandomUserGenerator) {
+                        new UserStorage(this).storeModel(user);
+                    }
 
-            if (generator instanceof NetworkRandomUserGenerator) {
-                new UserStorage(this).storeModel(user);
-            }
+                    userViewModel.selectUser(user);
+                });
 
-            runOnUiThread(() -> userViewModel.selectUser(user));
-
-        } catch (ExecutionException | InterruptedException | IOException ex) {
-            Log.e(Tags.ERROR, "Fail to get User", ex);
-        }
+        subscriptions.add(subscription);
     }
 
     private RandomModelGenerator<User> findUserGenerator(RandomUserGeneratorInput input) {
@@ -120,6 +126,12 @@ public class ShowUserActivity extends AppCompatActivity {
         Objects.requireNonNull(bundle);
 
         return RandomUserGeneratorInput.fromBundle(bundle);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        subscriptions.clear();
     }
 
     // testing members
