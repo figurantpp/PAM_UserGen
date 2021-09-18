@@ -10,7 +10,7 @@
         android:layout_weight="1"
         android:background="@drawable/format"
         android:fontFamily="@font/cinzel"
-        android:text="Multiple Users"
+        android:text="@string/multiple_users"
         android:textAlignment="center"
         android:textColor="?attr/textAppearanceHeadline2"
         android:textSize="18sp" />

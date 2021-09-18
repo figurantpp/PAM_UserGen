@@ -57,10 +57,22 @@
 
     </string-array>
 
+    <string name="input_layout_user"> Login </string>
+    <string name="label_login_user"> Digite o seu usuário </string>
+
+    <string name="input_layout_password"> Senha </string>
+    <string name="label_login_password"> Digite sua senha </string>
+
     <string name="examplename"> Jeanette<br />Something </string>
 
     <string name="image_description_format"> Profile picture of %s</string>
 
+    <string name="label_register"> Registrate </string>
+
+    <string name="input_layout_confirm_password"> Confirmar Senha </string>
+
+    <string name="button_login"> Logar </string>
+    <string name="not_logged_in_yet"> <u> Ainda não sou cadastrado </u></string>
     <string name="multiple_users"> Multiple Users</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
