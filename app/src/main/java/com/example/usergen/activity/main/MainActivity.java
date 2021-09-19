@@ -17,8 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.usergen.R;
-import com.example.usergen.activity.ShowUserActivity;
 import com.example.usergen.activity.ShowVariousUsersActivity;
+import com.example.usergen.activity.single_user.ShowUserActivity;
 import com.example.usergen.custom.CustomButton;
 import com.google.android.material.snackbar.Snackbar;
 

@@ -3,6 +3,7 @@ package com.example.usergen.activity;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.example.usergen.activity.single_user.ShowUserActivity;
 import com.example.usergen.model.sensor.ProximitySensor;
 
 import org.junit.Rule;

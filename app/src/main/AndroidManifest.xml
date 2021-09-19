@@ -24,7 +24,7 @@
         </receiver>
 
         <activity android:name=".activity.ShowVariousUsersActivity" />
-        <activity android:name=".activity.ShowUserActivity" />
+        <activity android:name=".activity.single_user.ShowUserActivity" />
         <activity android:name=".activity.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
