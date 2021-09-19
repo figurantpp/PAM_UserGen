@@ -1,4 +1,4 @@
-package com.example.usergen.activity;
+package com.example.usergen.activity.main;
 
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -18,11 +17,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.usergen.R;
+import com.example.usergen.activity.ShowUserActivity;
+import com.example.usergen.activity.ShowVariousUsersActivity;
 import com.example.usergen.custom.CustomButton;
 import com.example.usergen.model.user.generator.RandomUserGeneratorInput;
 import com.google.android.material.snackbar.Snackbar;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     Spinner spinner;
 
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     TextView title;
 
-    TypedArray acronymes;
+    TypedArray acronyms;
 
     RadioButton male, female;
 
@@ -41,15 +42,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        spinner = findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.countries, android.R.layout.simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+        setupViews();
+
+        setupAnimations();
+
+        acronyms = getResources().obtainTypedArray(R.array.acronym);
+
+        search.setOnClickListener(this::show);
+        button.setOnClickListener(view -> this.goToMultiple());
+    }
+
+    private void setupViews() {
+        setupSpinner();
 
         search = findViewById(R.id.search_on_api_button);
 
@@ -57,31 +64,41 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         button = findViewById(R.id.multiple_button);
 
-        button.setOnClickListener(view -> this.goToMultiple());
-
-        Animation updown = AnimationUtils.loadAnimation(this, R.anim.up_down);
-        Animation animation1 = AnimationUtils.loadAnimation(this, R.anim.fade);
-
-        search.setAnimation(updown);
-
-        title.setAnimation(animation1);
-
-        acronymes = getResources().obtainTypedArray(R.array.acronym);
-
-
-        search.setOnClickListener(this::show);
-
         female = findViewById(R.id.radioFemale);
-        male = findViewById(R.id.radioMale);
 
+        male = findViewById(R.id.radioMale);
     }
+
+    private void setupSpinner() {
+        spinner = findViewById(R.id.spinner);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this, R.array.countries,
+                android.R.layout.simple_spinner_dropdown_item
+        );
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
+
+    private void setupAnimations() {
+        Animation upDown = AnimationUtils.loadAnimation(this, R.anim.up_down);
+        Animation fade = AnimationUtils.loadAnimation(this, R.anim.fade);
+
+        search.setAnimation(upDown);
+
+        title.setAnimation(fade);
+    }
+
 
     public void show(@NonNull View view) {
 
-
         if (!isValid()) return;
 
-        RandomUserGeneratorInput input = new RandomUserGeneratorInput(optionSpinner, gender);
+        RandomUserGeneratorInput input = new RandomUserGeneratorInput(
+                getSpinnerOption(),
+                gender
+        );
 
         Intent intent = new Intent(this, ShowUserActivity.class);
         intent.putExtra(ShowUserActivity.INPUT_EXTRA_KEY, input.asBundle());
@@ -104,41 +121,29 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return true;
     }
 
-    String optionSpinner;
+    private String getSpinnerOption() {
+        String optionSpinner = acronyms.getString(spinner.getSelectedItemPosition());
 
-
-    @Override
-    public void onItemSelected(@Nullable AdapterView<?> adapterView, @Nullable View view, int i, long l) {
-        String acronym = acronymes.getString(i).trim();
-
-        if( acronym.isEmpty())
-        {
-            acronym = null;
+        if (optionSpinner.trim().isEmpty()) {
+            return null;
+        } else {
+            return optionSpinner;
         }
-
-        optionSpinner = acronym;
-
-
-
     }
 
-    public void goToMultiple()
-    {
-        if (!isValid())
-        {
+    public void goToMultiple() {
+        if (!isValid()) {
             return;
         }
-        RandomUserGeneratorInput input = new RandomUserGeneratorInput(optionSpinner, gender);
+        RandomUserGeneratorInput input = new RandomUserGeneratorInput(
+                getSpinnerOption(),
+                gender
+        );
 
         Intent intent = new Intent(this, ShowVariousUsersActivity.class);
 
         intent.putExtra(ShowVariousUsersActivity.INPUT_EXTRA_KEY, input.asBundle());
 
         startActivity(intent);
-    }
-
-    @Override
-    public void onNothingSelected(@Nullable AdapterView<?> adapterView) {
-
     }
 }
