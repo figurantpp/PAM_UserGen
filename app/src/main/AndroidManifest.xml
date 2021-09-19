@@ -32,7 +32,7 @@
                 android:resource="@xml/random_user_widget_info" />
         </receiver>
 
-        <activity android:name=".activity.many_users.ShowVariousUsersActivity" />
+        <activity android:name=".activity.user_list.UserListActivity" />
         <activity android:name=".activity.single_user.ShowUserActivity" />
         <activity android:name=".activity.main.MainActivity"></activity>
 

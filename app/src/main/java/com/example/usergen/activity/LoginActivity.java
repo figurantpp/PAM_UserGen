@@ -1,29 +1,31 @@
 package com.example.usergen.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.usergen.R;
+import com.example.usergen.activity.main.MainActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
     }
 
-    public void goToRegister(View view)
+    public void goToRegister(@Nullable View view)
     {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
-    public void goToMain(View view)
+    public void goToMain(@Nullable View view)
     {
         Intent intent  = new Intent(this, MainActivity.class);
 

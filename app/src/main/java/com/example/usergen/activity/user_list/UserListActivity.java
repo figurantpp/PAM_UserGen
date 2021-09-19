@@ -1,4 +1,4 @@
-package com.example.usergen.activity.many_users;
+package com.example.usergen.activity.user_list;
 
 import android.os.Bundle;
 
@@ -22,13 +22,13 @@ import java.util.Objects;
 import static com.example.usergen.model.user.generator.RandomUserGeneratorResolver.resolveUserGenerator;
 
 
-public class ShowVariousUsersActivity extends AppCompatActivity {
+public class UserListActivity extends AppCompatActivity {
 
     public static final String INPUT_EXTRA_KEY = "potato";
 
     RecyclerView recyclerView;
 
-    private ManyUsersViewModel viewModel;
+    private UserListViewModel viewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,8 +51,8 @@ public class ShowVariousUsersActivity extends AppCompatActivity {
         RandomModelGenerator<User> generator = resolveUserGenerator(this, input);
 
         viewModel = new ViewModelProvider(this,
-                ManyUsersViewModel.create(generator)
-        ).get(ManyUsersViewModel.class);
+                UserListViewModel.create(generator)
+        ).get(UserListViewModel.class);
 
         viewModel.getFetchedUsers().observe(this, this::displayUsers);
     }

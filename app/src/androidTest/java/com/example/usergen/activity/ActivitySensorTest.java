@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
-public class SensorTest {
+public class ActivitySensorTest {
 
     @Rule
     public ActivityScenarioRule<ShowUserActivity> activityRule

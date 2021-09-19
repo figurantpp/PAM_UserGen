@@ -1,4 +1,4 @@
-package com.example.usergen.activity.many_users;
+package com.example.usergen.activity.user_list;
 
 import android.content.Intent;
 
@@ -22,15 +22,15 @@ import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-public class ShowVariousUsersActivityTest {
+public class UserListActivityTest {
 
     @NonNull
     private Intent getIntent() {
 
         Intent intent = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(),
-                ShowVariousUsersActivity.class);
+                UserListActivity.class);
 
-        intent.putExtra(ShowVariousUsersActivity.INPUT_EXTRA_KEY,
+        intent.putExtra(UserListActivity.INPUT_EXTRA_KEY,
                 new RandomUserGeneratorInput("US", "male").asBundle()
         );
 
@@ -38,7 +38,7 @@ public class ShowVariousUsersActivityTest {
     }
 
     @Rule
-    public ActivityScenarioRule<ShowVariousUsersActivity> activityRule
+    public ActivityScenarioRule<UserListActivity> activityRule
             = new ActivityScenarioRule<>(getIntent());
 
     private BooleanIdlingResource idlingResource;

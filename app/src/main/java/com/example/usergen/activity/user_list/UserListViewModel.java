@@ -1,4 +1,4 @@
-package com.example.usergen.activity.many_users;
+package com.example.usergen.activity.user_list;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -18,7 +18,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class ManyUsersViewModel extends ViewModel {
+public class UserListViewModel extends ViewModel {
 
     private final MutableLiveData<List<User>> fetchedUsers = new MutableLiveData<>();
 
@@ -26,7 +26,7 @@ public class ManyUsersViewModel extends ViewModel {
 
     private final RandomModelGenerator<User> generator;
 
-    private ManyUsersViewModel(@NonNull RandomModelGenerator<User> generator) {
+    private UserListViewModel(@NonNull RandomModelGenerator<User> generator) {
         this.generator = generator;
     }
 
@@ -61,8 +61,8 @@ public class ManyUsersViewModel extends ViewModel {
             @NonNull RandomModelGenerator<User> generator
     ) {
         return ViewModelFactory.from(
-                ManyUsersViewModel.class,
-                () -> new ManyUsersViewModel(generator)
+                UserListViewModel.class,
+                () -> new UserListViewModel(generator)
         );
     }
 
