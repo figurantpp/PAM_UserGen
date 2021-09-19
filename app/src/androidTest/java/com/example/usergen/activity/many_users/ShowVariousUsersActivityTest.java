@@ -1,4 +1,4 @@
-package com.example.usergen.activity;
+package com.example.usergen.activity.many_users;
 
 import android.content.Intent;
 
@@ -56,7 +56,6 @@ public class ShowVariousUsersActivityTest {
     public void after() {
 
         IdlingRegistry.getInstance().unregister(idlingResource);
-
     }
 
     @Test
@@ -67,8 +66,6 @@ public class ShowVariousUsersActivityTest {
     public void testShowsUsers() {
 
         onView(withText("")).check(doesNotExist());
-
-
     }
 
 

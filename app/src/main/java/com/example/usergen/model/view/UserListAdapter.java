@@ -77,7 +77,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
             );
 
             try {
-                userItemImage.setImageBitmap(user.getProfileImage().getBitmap());
+                userItemImage.setImageBitmap(user.getProfileImage().getBitmapSync());
                 userItemImage.setContentDescription(
                         String.format(context.getString(R.string.image_description_format), user.getName()));
             }

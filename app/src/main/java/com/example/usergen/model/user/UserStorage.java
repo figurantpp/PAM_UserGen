@@ -60,7 +60,7 @@ public class UserStorage {
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-        user.getProfileImage().getBitmap().compress(Bitmap.CompressFormat.PNG, 100, output);
+        user.getProfileImage().getBitmapSync().compress(Bitmap.CompressFormat.PNG, 100, output);
 
         return output.toByteArray();
     }

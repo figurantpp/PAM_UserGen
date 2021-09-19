@@ -5,6 +5,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.usergen.R;
+import com.example.usergen.activity.main.MainActivity;
+import com.example.usergen.activity.single_user.ShowUserActivity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -56,7 +58,7 @@ public class MainActivityTest {
 
         intended(
                 allOf(
-                        hasComponent(hasShortClassName(".activity." + ShowUserActivity.class.getSimpleName())),
+                        hasComponent(hasShortClassName(".activity.single_user." + ShowUserActivity.class.getSimpleName())),
                         toPackage("com.example.usergen")
                 )
         );
@@ -64,7 +66,7 @@ public class MainActivityTest {
     }
 
     @Test
-    public void testEmptyGender() {
+    public void reportsEmptyGender() {
 
         onView(withText(R.string.error_empty)).check(doesNotExist());
 

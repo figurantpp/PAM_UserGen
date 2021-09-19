@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.test.espresso.IdlingResource;
 
+import com.example.usergen.activity.single_user.ShowUserActivity;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DisplayIdlingResource implements IdlingResource, ShowUserActivity.DisplayListener {

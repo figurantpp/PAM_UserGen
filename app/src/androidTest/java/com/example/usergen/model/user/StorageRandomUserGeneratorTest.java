@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.NoSuchElementException;
-import java.util.concurrent.ExecutionException;
+import java.util.Objects;
 
 import static com.example.usergen.model.user.UserStorageTest.withBackup;
 import static org.hamcrest.Matchers.instanceOf;
@@ -65,14 +65,11 @@ public class StorageRandomUserGeneratorTest {
             StorageRandomUserGenerator generator = new StorageRandomUserGenerator(storage);
 
             try {
-                generator.nextRandomModel().get();
+                Objects.requireNonNull(generator.nextRandomModel().blockingGet());
                 fail("Exception was not thrown");
             }
-            catch (ExecutionException ex) {
-                assertThat(ex.getCause(), instanceOf(NoSuchElementException.class));
-            }
-            catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
+            catch (RuntimeException ex) {
+                assertThat(ex, instanceOf(NoSuchElementException.class));
             }
         });
 

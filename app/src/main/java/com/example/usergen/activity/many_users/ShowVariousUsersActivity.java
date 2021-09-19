@@ -1,10 +1,11 @@
-package com.example.usergen.activity;
+package com.example.usergen.activity.many_users;
 
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,11 +16,8 @@ import com.example.usergen.model.user.User;
 import com.example.usergen.model.user.generator.RandomUserGeneratorInput;
 import com.example.usergen.model.view.UserListAdapter;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 import static com.example.usergen.model.user.generator.RandomUserGeneratorResolver.resolveUserGenerator;
 
@@ -30,58 +28,51 @@ public class ShowVariousUsersActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
 
+    private ManyUsersViewModel viewModel;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_various_users);
 
+        setupViews();
 
-        RandomUserGeneratorInput input
-                = RandomUserGeneratorInput.fromBundle(getIntent().getBundleExtra(INPUT_EXTRA_KEY));
+        setupViewModel();
+
+        viewModel.fetchUsers();
+    }
+
+    private void setupViewModel() {
+
+        RandomUserGeneratorInput input = getIntentInput();
 
         Objects.requireNonNull(input);
 
-        recyclerView = findViewById(R.id.recycler_users);
-
-        new Thread(() -> {
-
-            try {
-                getUsers(input);
-            } catch (Exception exception) {
-                throw new RuntimeException(exception);
-            }
-
-        }).start();
-
-
-
-
-        
-    }
-
-    private void getUsers(RandomUserGeneratorInput input)
-            throws InterruptedException, ExecutionException, IOException {
-
         RandomModelGenerator<User> generator = resolveUserGenerator(this, input);
 
-        Future<List<User>> future = generator.nextModels(10);
+        viewModel = new ViewModelProvider(this,
+                ManyUsersViewModel.create(generator)
+        ).get(ManyUsersViewModel.class);
 
-        List<User> users = future.get();
+        viewModel.getFetchedUsers().observe(this, this::displayUsers);
+    }
 
-        for (User user : users) {
-            user.getProfileImage().getBitmap();
-        }
+    private void displayUsers(List<User> users) {
+        recyclerView.setAdapter(new UserListAdapter(users, this));
 
-        runOnUiThread(() -> {
+        recyclerView.setHasFixedSize(true);
 
-            recyclerView.setAdapter(new UserListAdapter(users, this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-            recyclerView.setHasFixedSize(true);
+        idleState.setIdle();
+    }
 
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    private void setupViews() {
+        recyclerView = findViewById(R.id.recycler_users);
+    }
 
-            runOnUiThread(idleState::setIdle);
-        });
+    private RandomUserGeneratorInput getIntentInput() {
+        return RandomUserGeneratorInput.fromBundle(getIntent().getBundleExtra(INPUT_EXTRA_KEY));
     }
 
     @VisibleForTesting

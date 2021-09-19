@@ -15,12 +15,7 @@ import com.example.usergen.model.user.generator.RandomUserGeneratorInput;
 import com.example.usergen.util.ApiInfo;
 import com.example.usergen.util.Tags;
 
-import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import static com.example.usergen.model.user.generator.RandomUserGeneratorResolver.resolveUserGenerator;
 
@@ -46,14 +41,7 @@ public class RandomUserWidget extends AppWidgetProvider {
         Objects.requireNonNull(context);
         Objects.requireNonNull(views);
 
-        User user;
-
-        try {
-            user = getUser(context);
-        } catch (ExecutionException | InterruptedException ex) {
-            Log.e(Tags.ERROR, "loadViews: ", ex);
-            return;
-        }
+        User user = getUser(context);
 
         views.setImageViewBitmap(R.id.widgetImageView, user.getProfileImage().requireBitmap());
 
@@ -69,7 +57,7 @@ public class RandomUserWidget extends AppWidgetProvider {
 
     }
 
-    private User getUser(@NonNull Context context) throws java.util.concurrent.ExecutionException, InterruptedException {
+    private User getUser(@NonNull Context context) {
 
         RandomUserGeneratorInput input
                 = new RandomUserGeneratorInput(
@@ -77,29 +65,12 @@ public class RandomUserWidget extends AppWidgetProvider {
                 Math.random() < 0.5 ? "male" : "female"
         );
 
-        ExecutorService executor = Executors.newSingleThreadExecutor();
+        RandomModelGenerator<User> generator = resolveUserGenerator(context, input);
 
-        RandomModelGenerator<User> generator = resolveUserGenerator(context, input, executor);
-
-        Future<User> result = generator.nextRandomModel();
-
-        User user = result.get();
-
-        executor.submit(() -> getUserImage(user)).get();
-
-        return user;
+        return generator.nextRandomModel()
+                .doOnSuccess(u -> u.getProfileImage().getBitmapSync())
+                .blockingGet();
     }
-
-    private void getUserImage(User user) {
-        try {
-            user.getProfileImage().getBitmap();
-        } catch (IOException ex) {
-            Log.e(Tags.ERROR, "getUser: ", ex);
-
-            throw new RuntimeException(ex);
-        }
-    }
-
     @Override
     public void onUpdate(
             @NonNull Context context,
