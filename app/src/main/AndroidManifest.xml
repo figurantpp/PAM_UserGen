@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RandomUserApp">
-        <activity android:name=".view.activity.RegisterActivity"></activity>
+        <activity android:name=".view.activity.register.RegisterActivity" />
         <activity android:name=".view.activity.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,7 +35,7 @@
 
         <activity android:name=".view.activity.user_list.UserListActivity" />
         <activity android:name=".view.activity.single_user.ShowUserActivity" />
-        <activity android:name=".view.activity.main.MainActivity"></activity>
+        <activity android:name=".view.activity.main.MainActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

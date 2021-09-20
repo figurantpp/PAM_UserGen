@@ -11,15 +11,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.usergen.R;
 import com.example.usergen.UsergenApplication;
-import com.example.usergen.view.activity.RegisterActivity;
 import com.example.usergen.view.activity.main.MainActivity;
+import com.example.usergen.view.activity.register.RegisterActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private LoginViewModel viewModel;
+    private AuthViewModel viewModel;
 
     private EditText usernameEditText;
     private EditText passwordEditText;
@@ -35,10 +35,10 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.loginActivity_password);
 
         viewModel = new ViewModelProvider(this,
-                LoginViewModel.create(
+                AuthViewModel.create(
                         UsergenApplication.from(this) .getAuthRepository()
                 )
-        ).get(LoginViewModel.class);
+        ).get(AuthViewModel.class);
 
     }
 
@@ -48,23 +48,23 @@ public class LoginActivity extends AppCompatActivity {
 
         subscription = viewModel.getEvents().subscribe(event -> {
             switch (event) {
-                case LoginViewModel.MISSING_USERNAME_ERROR:
+                case AuthViewModel.MISSING_USERNAME:
                     onMissingUsername();
                     break;
 
-                case LoginViewModel.MISSING_PASSWORD_ERROR:
+                case AuthViewModel.MISSING_PASSWORD:
                     onMissingPassword();
                     break;
 
-                case LoginViewModel.LOGIN_SUCCESS_EVENT:
+                case AuthViewModel.DISPLAY_CONTENT:
                     startContentActivity();
                     break;
 
-                case LoginViewModel.LOGIN_FAILED_EVENT:
+                case AuthViewModel.LOGIN_FAILED:
                     onLoginFailed();
                     break;
 
-                case LoginViewModel.START_REGISTER_EVENT:
+                case AuthViewModel.DISPLAY_REGISTER_SCREEN:
                     startRegisterActivity();
                     break;
             }
@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onRegisterClick(@Nullable View view) {
-        viewModel.requestRegister();
+        viewModel.requestRegisterScreen();
     }
 
     public void onLoginClick(@Nullable View view) {

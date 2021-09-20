@@ -1,0 +1,103 @@
+package com.example.usergen.view.activity.register;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.usergen.R;
+import com.example.usergen.UsergenApplication;
+import com.example.usergen.view.activity.login.AuthViewModel;
+
+import io.reactivex.rxjava3.disposables.Disposable;
+
+public class RegisterActivity extends AppCompatActivity {
+
+    Disposable subscription;
+
+    private AuthViewModel viewModel;
+
+    private EditText usernameEditText;
+    private EditText passwordEditText;
+    private EditText passwordConfirmationEditText;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+
+        setupViews();
+
+        setupViewModel();
+    }
+
+    private void setupViews() {
+        usernameEditText = findViewById(R.id.registerActivity_username);
+        passwordEditText = findViewById(R.id.registerActivity_password);
+        passwordConfirmationEditText = findViewById(R.id.registerActivity_confirmPassword);
+
+        findViewById(R.id.registerActivity_registerButton)
+                .setOnClickListener(this::onButtonClick);
+    }
+
+    private void setupViewModel() {
+        viewModel = new ViewModelProvider(
+                this,
+                AuthViewModel.create(UsergenApplication.from(this).getAuthRepository())
+        ).get(AuthViewModel.class);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        subscription = viewModel.getEvents().subscribe(event -> {
+
+            switch (event) {
+
+                case AuthViewModel.MISSING_USERNAME:
+                    usernameEditText.setError("The username is mandatory");
+                    break;
+
+                case AuthViewModel.MISSING_PASSWORD:
+                    passwordEditText.setError("The password is mandatory");
+                    break;
+
+                case AuthViewModel.MISSING_PASSWORD_CONFIRMATION_ERROR:
+                    passwordConfirmationEditText.setError("The password confirmation is mandatory");
+                    break;
+
+                case AuthViewModel.PASSWORD_NOT_EQUALS_CONFIRMATION:
+                    passwordConfirmationEditText.setError("The password confirmation does not match the password");
+                    break;
+
+                case AuthViewModel.FINISH_REGISTER:
+                    finish();
+                    break;
+
+                case AuthViewModel.USERNAME_TAKEN:
+                    usernameEditText.setError("That username is already taken");
+                    break;
+
+            }
+
+        });
+    }
+
+    @Override
+    protected void onStop() {
+        subscription.dispose();
+        super.onStop();
+    }
+
+    private void onButtonClick(View v) {
+        viewModel.register(
+                usernameEditText.getText().toString(),
+                passwordEditText.getText().toString(),
+                passwordConfirmationEditText.getText().toString()
+        );
+    }
+}

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.RegisterActivity">
+    tools:context=".view.activity.register.RegisterActivity">
 
     <TextView
         android:id="@+id/textView2"
@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtInputRegisterLogin"
+            android:id="@+id/registerActivity_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -59,7 +59,8 @@
         app:layout_constraintTop_toBottomOf="@+id/inputRegisterLogin">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtInputRegisterPassword"
+            android:id="@+id/registerActivity_password"
+            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -76,13 +77,14 @@
         app:layout_constraintTop_toBottomOf="@+id/inputRegisterPassword">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtInputRegisterConfirmPassword"
+            android:id="@+id/registerActivity_confirmPassword"
+            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.example.usergen.view.custom.CustomButton
-        android:id="@+id/registerButton"
+        android:id="@+id/registerActivity_registerButton"
         android:layout_width="225dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
