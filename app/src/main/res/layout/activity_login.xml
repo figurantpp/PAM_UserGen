@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.login.LoginActivity">
+    tools:context=".view.activity.login.LoginActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.example.usergen.custom.CustomButton
+        <com.example.usergen.view.custom.CustomButton
             android:id="@+id/customButton"
             android:layout_width="225dp"
             android:layout_height="wrap_content"

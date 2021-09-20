@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.RegisterActivity">
+    tools:context=".view.activity.RegisterActivity">
 
     <TextView
         android:id="@+id/textView2"
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.example.usergen.custom.CustomButton
+    <com.example.usergen.view.custom.CustomButton
         android:id="@+id/registerButton"
         android:layout_width="225dp"
         android:layout_height="wrap_content"

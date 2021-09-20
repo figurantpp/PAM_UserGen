@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import androidx.annotation.NonNull;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.example.usergen.service.http.OnlineImageResource;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

@@ -8,7 +8,9 @@ import androidx.annotation.Nullable;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.example.usergen.model.OnlineImageResource;
+import com.example.usergen.model.User;
+import com.example.usergen.service.http.OnlineImageResource;
+import com.example.usergen.service.storage.UserStorage;
 import com.example.usergen.util.ApiInfo;
 import com.example.usergen.util.Tags;
 

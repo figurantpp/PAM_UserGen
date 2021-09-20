@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.example.usergen.model.user.generator.RandomUserGeneratorInput;
+import com.example.usergen.service.generator.RandomUserGeneratorInput;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

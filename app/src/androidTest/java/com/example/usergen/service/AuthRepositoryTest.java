@@ -5,6 +5,9 @@ import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.example.usergen.UsergenApplication;
+import com.example.usergen.service.auth.AuthApi;
+import com.example.usergen.service.auth.AuthRepository;
+import com.example.usergen.service.auth.TokenStorage;
 import com.example.usergen.service.http.HttpHandler;
 import com.example.usergen.service.http.UrlGetter;
 

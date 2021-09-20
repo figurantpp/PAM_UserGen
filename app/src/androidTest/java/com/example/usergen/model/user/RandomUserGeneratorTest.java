@@ -2,8 +2,9 @@ package com.example.usergen.model.user;
 
 import androidx.annotation.NonNull;
 
-import com.example.usergen.model.interfaces.RandomModelGenerator;
-import com.example.usergen.model.user.generator.RandomUserGeneratorInput;
+import com.example.usergen.model.User;
+import com.example.usergen.service.generator.RandomModelGenerator;
+import com.example.usergen.service.generator.RandomUserGeneratorInput;
 
 import java.util.List;
 import java.util.NoSuchElementException;

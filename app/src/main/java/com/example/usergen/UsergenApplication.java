@@ -6,9 +6,9 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.usergen.service.AuthApi;
-import com.example.usergen.service.AuthRepository;
-import com.example.usergen.service.TokenStorage;
+import com.example.usergen.service.auth.AuthApi;
+import com.example.usergen.service.auth.AuthRepository;
+import com.example.usergen.service.auth.TokenStorage;
 import com.example.usergen.service.http.HttpHandler;
 import com.example.usergen.service.http.UrlGetter;
 

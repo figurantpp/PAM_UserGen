@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.usergen.TestStrings;
+import com.example.usergen.model.User;
+import com.example.usergen.service.json.UserJsonManager;
 import com.example.usergen.util.ApiInfo;
 
 import org.json.JSONException;

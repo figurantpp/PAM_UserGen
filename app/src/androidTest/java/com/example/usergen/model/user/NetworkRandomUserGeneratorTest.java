@@ -6,10 +6,11 @@ import android.util.Log;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.example.usergen.model.exception.NoNetworkException;
-import com.example.usergen.model.interfaces.RandomModelGenerator;
-import com.example.usergen.model.user.generator.NetworkRandomUserGenerator;
-import com.example.usergen.model.user.generator.RandomUserGeneratorInput;
+import com.example.usergen.model.User;
+import com.example.usergen.service.generator.NetworkRandomUserGenerator;
+import com.example.usergen.service.generator.NoNetworkException;
+import com.example.usergen.service.generator.RandomModelGenerator;
+import com.example.usergen.service.generator.RandomUserGeneratorInput;
 import com.example.usergen.util.Tags;
 
 import org.junit.Before;

@@ -14,8 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RandomUserApp">
-        <activity android:name=".activity.RegisterActivity"></activity>
-        <activity android:name=".activity.login.LoginActivity">
+        <activity android:name=".view.activity.RegisterActivity"></activity>
+        <activity android:name=".view.activity.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".activity.RandomUserWidget">
+        <receiver android:name=".view.activity.RandomUserWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -33,9 +33,9 @@
                 android:resource="@xml/random_user_widget_info" />
         </receiver>
 
-        <activity android:name=".activity.user_list.UserListActivity" />
-        <activity android:name=".activity.single_user.ShowUserActivity" />
-        <activity android:name=".activity.main.MainActivity"></activity>
+        <activity android:name=".view.activity.user_list.UserListActivity" />
+        <activity android:name=".view.activity.single_user.ShowUserActivity" />
+        <activity android:name=".view.activity.main.MainActivity"></activity>
 
         <meta-data
             android:name="preloaded_fonts"

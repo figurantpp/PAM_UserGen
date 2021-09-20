@@ -5,8 +5,9 @@ import android.content.Context;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.example.usergen.model.user.generator.RandomUserGeneratorInput;
-import com.example.usergen.model.user.generator.StorageRandomUserGenerator;
+import com.example.usergen.service.generator.RandomUserGeneratorInput;
+import com.example.usergen.service.generator.StorageRandomUserGenerator;
+import com.example.usergen.service.storage.UserStorage;
 
 import org.junit.Before;
 import org.junit.Test;
