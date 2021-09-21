@@ -5,12 +5,12 @@ import androidx.annotation.NonNull;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class UrlGetter {
+public class UrlProvider {
 
     @NonNull
     private final String base;
 
-    public UrlGetter(@NonNull String base) {
+    public UrlProvider(@NonNull String base) {
         this.base = base;
     }
 

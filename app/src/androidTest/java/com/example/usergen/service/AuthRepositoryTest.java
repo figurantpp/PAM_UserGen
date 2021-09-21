@@ -9,7 +9,8 @@ import com.example.usergen.service.auth.AuthApi;
 import com.example.usergen.service.auth.AuthRepository;
 import com.example.usergen.service.auth.TokenStorage;
 import com.example.usergen.service.http.HttpHandler;
-import com.example.usergen.service.http.UrlGetter;
+import com.example.usergen.service.http.UrlProvider;
+import com.example.usergen.util.ApiInfo;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +38,7 @@ public class AuthRepositoryTest {
 
         repository = new AuthRepository(
                 new AuthApi(
-                        new HttpHandler(new UrlGetter(UsergenApplication.API_URL))
+                        new HttpHandler(new UrlProvider(UsergenApplication.API_URL))
                 ),
                 tokenStorage
         );
@@ -48,7 +49,10 @@ public class AuthRepositoryTest {
 
         tokenStorage.setToken(null);
 
-        boolean result = repository.login("bob", "123").blockingGet();
+        boolean result = repository.login(
+                ApiInfo.API_SAMPLE_USERNAME,
+                ApiInfo.API_SAMPLE_PASSWORD
+        ).blockingGet();
 
         assumeThat(result, is(true));
 

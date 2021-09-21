@@ -17,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.usergen.R;
+import com.example.usergen.UsergenApplication;
+import com.example.usergen.model.Settings;
 import com.example.usergen.view.activity.single_user.ShowUserActivity;
 import com.example.usergen.view.activity.user_list.UserListActivity;
 import com.example.usergen.view.custom.CustomButton;
@@ -52,22 +54,40 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewM
 
         setupUi();
         setupViewModel();
+
+        viewModel.fetchSettings();
     }
 
     private void setupViewModel() {
 
-        viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        viewModel = new ViewModelProvider(
+                this,
+                MainActivityViewModel.create(
+                        UsergenApplication.from(this).getSettingsRepository()
+                )
+        ).get(MainActivityViewModel.class);
 
-        setupViewModelEvents();
+        viewModel.getFetchedSettings().observe(this, this::displaySettings);
     }
 
-    private void setupViewModelEvents() {
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         subscriptions.add(
                 viewModel.getEvents().subscribe(
                         event -> event.accept(this)
                 )
         );
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        subscriptions.clear();
     }
 
 
@@ -138,12 +158,21 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewM
         return acronymArray.getString(spinner.getSelectedItemPosition());
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    private void displaySettings(Settings settings) {
+        if (settings.getSexQuery().equals("female")) {
+            femaleRadioButton.setChecked(true);
+        }
+        else {
+            maleRadioButton.setChecked(true);
+        }
 
-        subscriptions.dispose();
+        for (int i = 0; i < acronymArray.length(); ++i) {
+            if (acronymArray.getString(i).equals(settings.getNationalityQuery())) {
+                spinner.setSelection(i);
+            }
+        }
     }
+
 
     @Override
     public void visit(@NonNull MainActivityViewModel.UncheckedSexError error) {

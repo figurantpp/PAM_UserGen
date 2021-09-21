@@ -3,6 +3,8 @@ package com.example.usergen.service.http;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.usergen.service.auth.TokenStorage;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,19 +21,21 @@ import java.util.Map;
 public class HttpHandler {
 
     @NonNull
-    private final UrlGetter url;
+    private final UrlProvider url;
 
     @Nullable
     private final Map<String, String> headers;
 
-    public HttpHandler(@NonNull UrlGetter url) {
+    @Nullable
+    private final TokenStorage tokenStorage;
+
+    public HttpHandler(@NonNull UrlProvider url) {
         this(url, null);
     }
 
-    public HttpHandler(
-            @NonNull UrlGetter url,
-            @Nullable Map<String, String> headers
-    ) {
+    public HttpHandler(@NonNull UrlProvider url, @Nullable TokenStorage tokenStorage) {
+
+        this.tokenStorage = tokenStorage;
         this.headers = new LinkedHashMap<>();
         this.headers.put("Content-Type", "application/json");
 
@@ -58,22 +62,41 @@ public class HttpHandler {
             putHeaders(connection);
         }
 
-        connection.connect();
+        if (tokenStorage != null) {
+            putToken(connection);
+        }
 
         if (requestBody != null) {
             writeRequestBody(requestBody, connection);
         }
 
-        JSONObject responseBody = null;
+        connection.connect();
+
+        JSONObject responseBody;
 
         try {
             responseBody = getResponseBody(connection.getInputStream());
         }
         catch (FileNotFoundException ignored) {
-
+            responseBody = null;
         }
 
-        return new HttpResponse(responseBody, connection.getResponseCode());
+        String error = null;
+
+        if (connection.getErrorStream() != null) {
+            error = readStream(connection.getErrorStream());
+        }
+
+        return new HttpResponse(responseBody, connection.getResponseCode(), error);
+    }
+
+    private void putToken(HttpURLConnection connection) {
+
+        String token = tokenStorage.getToken();
+
+        if (token != null) {
+            connection.setRequestProperty("Authorization",  "Bearer " + token);
+        }
     }
 
     private void writeRequestBody(JSONObject requestBody, HttpURLConnection connection) throws IOException {
@@ -90,6 +113,22 @@ public class HttpHandler {
 
     private JSONObject getResponseBody(InputStream input) throws IOException, JSONException {
 
+        String string = readStream(input);
+
+        if (string == null || string.isEmpty()) {
+            return null;
+        }
+        else {
+            return new JSONObject(string);
+        }
+    }
+
+    private String readStream(InputStream input) throws IOException {
+
+        if (input == null) {
+            return null;
+        }
+
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
         byte[] buffer = new byte[4096];
@@ -101,14 +140,7 @@ public class HttpHandler {
             output.write(buffer, 0, read);
         }
 
-        String string = output.toString();
-
-        if (string == null || string.isEmpty()) {
-            return null;
-        }
-        else {
-            return new JSONObject(string);
-        }
+        return output.toString();
     }
 
     @NonNull
@@ -121,6 +153,12 @@ public class HttpHandler {
     public HttpResponse post(@NonNull String endpoint, @NonNull JSONObject body)
             throws IOException, JSONException {
         return request("POST", endpoint, body);
+    }
+
+    @NonNull
+    public HttpResponse put(@NonNull String endpoint, @NonNull JSONObject body)
+            throws IOException, JSONException {
+        return request("PUT", endpoint, body);
     }
 
 }

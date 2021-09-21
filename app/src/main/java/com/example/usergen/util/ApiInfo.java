@@ -21,6 +21,9 @@ public class ApiInfo {
             "FR", "GB", "IE", "IR", "NO", "NL", "NZ", "TR", "US"
     };
 
+    public static final String API_SAMPLE_USERNAME = "bob";
+    public static final String API_SAMPLE_PASSWORD = "123";
+
     public static final Map<String, String> NATIONALITY_NAMES = Stream.of(
             new String[][]{
                     {"AU", "Australia"},
