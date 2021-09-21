@@ -25,6 +25,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.annotations.CheckReturnValue;
 import io.reactivex.rxjava3.core.Single;
 
 public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
@@ -59,12 +60,14 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
 
     @NonNull
     @Override
+    @CheckReturnValue
     public Single<User> nextRandomModel() {
         return Single.fromSupplier(() -> this.nextRandomModelsBlocked(1).get(0));
     }
 
     @NonNull
     @Override
+    @CheckReturnValue
     public Single<List<User>> nextModels(int limit) {
         return Single.fromSupplier(() -> this.nextRandomModelsBlocked(limit));
     }

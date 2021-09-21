@@ -3,10 +3,10 @@ package com.example.usergen.view.activity.main;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewM
 
     Spinner spinner;
 
-    Button searchSingleButton;
+    View searchSingleButton;
 
     TextView titleTextView;
 

@@ -7,6 +7,7 @@ import com.example.usergen.service.http.HttpHandler;
 
 import org.json.JSONObject;
 
+import io.reactivex.rxjava3.annotations.CheckReturnValue;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Maybe;
 
@@ -21,6 +22,7 @@ public class SettingsRepository {
     }
 
     @NonNull
+    @CheckReturnValue
     public Completable saveSettings(@NonNull Settings settings) {
 
         return Completable.fromAction(() -> {
@@ -40,6 +42,7 @@ public class SettingsRepository {
     }
 
     @NonNull
+    @CheckReturnValue
     public Maybe<Settings> getSettings() {
 
         return Maybe.fromSupplier(() -> {

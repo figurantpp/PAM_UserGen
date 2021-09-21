@@ -2,6 +2,7 @@ package com.example.usergen.service.auth;
 
 import androidx.annotation.NonNull;
 
+import io.reactivex.rxjava3.annotations.CheckReturnValue;
 import io.reactivex.rxjava3.core.Single;
 
 public class AuthRepository {
@@ -21,6 +22,7 @@ public class AuthRepository {
     }
 
     @NonNull
+    @CheckReturnValue
     public Single<Boolean> login(@NonNull String username, @NonNull String password) {
 
         return api.login(username, password)
@@ -35,6 +37,7 @@ public class AuthRepository {
     }
 
     @NonNull
+    @CheckReturnValue
     public Single<Boolean> register(@NonNull String username, @NonNull String password) {
 
         return api.register(username, password);
