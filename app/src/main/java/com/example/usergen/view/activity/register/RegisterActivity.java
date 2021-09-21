@@ -39,6 +39,9 @@ public class RegisterActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.registerActivity_passwordEditText);
         passwordConfirmationEditText = findViewById(R.id.registerActivity_confirmPasswordEditText);
 
+        findViewById(R.id.registerActivity_backButton)
+            .setOnClickListener(v -> finish());
+
         findViewById(R.id.registerActivity_registerButton)
                 .setOnClickListener(this::onButtonClick);
     }
@@ -54,24 +57,26 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        // todo: add message mapping please
+
         subscription = viewModel.getEvents().subscribe(event -> {
 
             switch (event) {
 
                 case AuthViewModel.MISSING_USERNAME:
-                    usernameEditText.setError("The username is mandatory");
+                    usernameEditText.setError(getString(R.string.error_missingUsername));
                     break;
 
                 case AuthViewModel.MISSING_PASSWORD:
-                    passwordEditText.setError("The password is mandatory");
+                    passwordEditText.setError(getString(R.string.error_missingPassword));
                     break;
 
                 case AuthViewModel.MISSING_PASSWORD_CONFIRMATION_ERROR:
-                    passwordConfirmationEditText.setError("The password confirmation is mandatory");
+                    passwordConfirmationEditText.setError(getString(R.string.error_missingPasswordConfirmation));
                     break;
 
                 case AuthViewModel.PASSWORD_NOT_EQUALS_CONFIRMATION:
-                    passwordConfirmationEditText.setError("The password confirmation does not match the password");
+                    passwordConfirmationEditText.setError(getString(R.string.error_unmatchedPasswordConfirmation));
                     break;
 
                 case AuthViewModel.FINISH_REGISTER:
@@ -79,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
                     break;
 
                 case AuthViewModel.USERNAME_TAKEN:
-                    usernameEditText.setError("That username is already taken");
+                    usernameEditText.setError(getString(R.string.error_takenUsername));
                     break;
 
             }
