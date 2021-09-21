@@ -11,7 +11,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import com.example.usergen.model.User;
 import com.example.usergen.service.http.OnlineImageResource;
 import com.example.usergen.service.storage.UserStorage;
-import com.example.usergen.util.ApiInfo;
+import com.example.usergen.util.RandomApiInfo;
 import com.example.usergen.util.Tags;
 
 import org.junit.Assert;
@@ -97,7 +97,7 @@ public class UserStorageTest {
                     "male",
                     getExpectedDate(),
                     (short) 28,
-                    "CCCP",
+                    "US",
                     new OnlineImageResource(getExpectedURL())
             );
 
@@ -168,7 +168,7 @@ public class UserStorageTest {
     private Date getExpectedDate() {
         Date date = null;
 
-        SimpleDateFormat format = new SimpleDateFormat(ApiInfo.DATE_FORMAT_STRING);
+        SimpleDateFormat format = new SimpleDateFormat(RandomApiInfo.DATE_FORMAT_STRING);
 
         try {
             date = format.parse("1993-07-20T09:44:18.674Z");

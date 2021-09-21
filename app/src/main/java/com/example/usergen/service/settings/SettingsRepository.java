@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Maybe;
 
+import static com.example.usergen.util.Util.toPascal;
+
 public class SettingsRepository {
 
     private final HttpHandler http;
@@ -24,7 +26,7 @@ public class SettingsRepository {
         return Completable.fromAction(() -> {
 
             JSONObject body = new JSONObject();
-            body.put("sexQuery", toCamel(settings.getSexQuery()));
+            body.put("sexQuery", toPascal(settings.getSexQuery()));
 
             if (settings.getNationalityQuery() == null) {
                 body.put("nationalityQuery", JSONObject.NULL);
@@ -35,10 +37,6 @@ public class SettingsRepository {
 
             http.put("/settings", body).requireOk();
         });
-    }
-
-    private String toCamel(String text) {
-        return Character.toUpperCase(text.charAt(0)) + text.substring(1);
     }
 
     @NonNull

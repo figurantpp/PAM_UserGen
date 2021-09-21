@@ -16,7 +16,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import com.example.usergen.R;
 import com.example.usergen.model.LambdaMatcher;
 import com.example.usergen.service.generator.RandomUserGeneratorInput;
-import com.example.usergen.util.ApiInfo;
+import com.example.usergen.util.RandomApiInfo;
 import com.example.usergen.view.activity.DisplayIdlingResource;
 
 import org.junit.After;
@@ -136,7 +136,7 @@ public class ShowUserActivityTest {
     public void testDisplayedNationality() {
 
         onView(withId(R.id.personNationality))
-                .check(matches(withText(not(isIn(ApiInfo.NATIONALITY_ACRONYMS)))));
+                .check(matches(withText(not(isIn(RandomApiInfo.NATIONALITY_ACRONYMS)))));
 
     }
 

@@ -18,9 +18,9 @@ import org.junit.Test;
 
 import java.util.Random;
 
-import static com.example.usergen.util.ApiInfo.API_SAMPLE_PASSWORD;
-import static com.example.usergen.util.ApiInfo.API_SAMPLE_USERNAME;
-import static com.example.usergen.util.ApiInfo.NATIONALITY_ACRONYMS;
+import static com.example.usergen.util.RandomApiInfo.NATIONALITY_ACRONYMS;
+import static com.example.usergen.util.UserApiInfo.API_SAMPLE_PASSWORD;
+import static com.example.usergen.util.UserApiInfo.API_SAMPLE_USERNAME;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;

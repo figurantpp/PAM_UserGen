@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import com.example.usergen.model.User;
 import com.example.usergen.service.json.ModelJsonManager;
 import com.example.usergen.service.json.UserJsonManager;
-import com.example.usergen.util.ApiInfo;
+import com.example.usergen.util.RandomApiInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -111,11 +111,11 @@ public class NetworkRandomUserGenerator implements RandomModelGenerator<User> {
 
     private Uri.Builder getApiUriBuilder() {
 
-        return Uri.parse(ApiInfo.API_URL).buildUpon()
-                .appendQueryParameter(ApiInfo.INCLUDE_QUERY_PARAMETER,
-                        ApiInfo.INCLUDE_QUERY_PARAMATER_LIST)
-                .appendQueryParameter(ApiInfo.NATIONALITY_QUERY_PARAMETER, input.getNationality())
-                .appendQueryParameter(ApiInfo.GENDER_QUERY_PARAMETER, input.getGender());
+        return Uri.parse(RandomApiInfo.API_URL).buildUpon()
+                .appendQueryParameter(RandomApiInfo.INCLUDE_QUERY_PARAMETER,
+                        RandomApiInfo.INCLUDE_QUERY_PARAMATER_LIST)
+                .appendQueryParameter(RandomApiInfo.NATIONALITY_QUERY_PARAMETER, input.getNationality())
+                .appendQueryParameter(RandomApiInfo.GENDER_QUERY_PARAMETER, input.getGender());
 
     }
 

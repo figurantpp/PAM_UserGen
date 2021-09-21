@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.example.usergen.model.User;
 import com.example.usergen.service.http.OnlineImageResource;
-import com.example.usergen.util.ApiDate;
+import com.example.usergen.util.RandomApiDate;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,7 +46,7 @@ public class UserJsonManager implements ModelJsonManager<User> {
                 first + " " + last,
                 sourceObject.getString("email"),
                 sourceObject.getString("gender"),
-                ApiDate.dateFromString(birthDateObject.getString("date")),
+                RandomApiDate.parseRandomApiDate(birthDateObject.getString("date")),
                 (short) birthDateObject.getInt("age"),
                 sourceObject.getString("nat"),
                 imageResource

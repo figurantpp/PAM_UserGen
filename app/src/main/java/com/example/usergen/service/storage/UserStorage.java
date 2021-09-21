@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 
 import com.example.usergen.model.User;
 import com.example.usergen.service.http.OnlineImageResource;
-import com.example.usergen.util.ApiDate;
+import com.example.usergen.util.RandomApiDate;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -81,7 +81,7 @@ public class UserStorage {
         statement.bindString(3, user.getName());
         statement.bindString(4, user.getEmail());
         statement.bindString(5, user.getGender());
-        statement.bindString(6, ApiDate.formatDate(user.getBirthDate()));
+        statement.bindString(6, RandomApiDate.formatRandomApiDate(user.getBirthDate()));
         statement.bindLong(7, user.getAge());
         statement.bindBlob(8, getUserImageBlob(user));
         statement.bindString(9, user.getNationality());
@@ -105,7 +105,7 @@ public class UserStorage {
                 cursor.getString(2),
                 cursor.getString(3),
                 cursor.getString(4),
-                ApiDate.dateFromString(cursor.getString(5)),
+                RandomApiDate.parseRandomApiDate(cursor.getString(5)),
                 cursor.getShort(6),
                 cursor.getString(8),
                 new OnlineImageResource(getBlobBitmap(cursor.getBlob(7)))

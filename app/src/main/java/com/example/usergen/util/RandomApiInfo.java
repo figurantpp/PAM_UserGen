@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ApiInfo {
+public class RandomApiInfo {
 
     public static final String GENDER_QUERY_PARAMETER = "gender";
     public static final String NATIONALITY_QUERY_PARAMETER = "nat";
@@ -20,9 +20,6 @@ public class ApiInfo {
             "AU", "BR", "CA", "CH", "DE", "DK", "ES", "FI",
             "FR", "GB", "IE", "IR", "NO", "NL", "NZ", "TR", "US"
     };
-
-    public static final String API_SAMPLE_USERNAME = "bob";
-    public static final String API_SAMPLE_PASSWORD = "123";
 
     public static final Map<String, String> NATIONALITY_NAMES = Stream.of(
             new String[][]{

@@ -17,7 +17,7 @@ import com.example.usergen.service.generator.RandomUserGeneratorInput;
 import com.example.usergen.service.sensor.ProximitySensor;
 import com.example.usergen.service.sensor.SensorNotFoundException;
 import com.example.usergen.service.storage.UserStorage;
-import com.example.usergen.util.ApiInfo;
+import com.example.usergen.util.RandomApiInfo;
 import com.example.usergen.util.Tags;
 import com.example.usergen.view.dialog.ImageDialogBox;
 import com.example.usergen.view.fragment.ShowUserFragment;
@@ -148,7 +148,7 @@ public class ShowUserActivity extends AppCompatActivity implements SingleUserVie
 
     private String getCountryName(String acronym) {
 
-        return ApiInfo.NATIONALITY_NAMES.getOrDefault(acronym, acronym);
+        return RandomApiInfo.NATIONALITY_NAMES.getOrDefault(acronym, acronym);
 
     }
 

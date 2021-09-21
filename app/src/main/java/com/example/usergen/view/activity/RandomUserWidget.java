@@ -12,7 +12,7 @@ import com.example.usergen.R;
 import com.example.usergen.model.User;
 import com.example.usergen.service.generator.RandomModelGenerator;
 import com.example.usergen.service.generator.RandomUserGeneratorInput;
-import com.example.usergen.util.ApiInfo;
+import com.example.usergen.util.RandomApiInfo;
 import com.example.usergen.util.Tags;
 
 import java.util.Objects;
@@ -48,7 +48,7 @@ public class RandomUserWidget extends AppWidgetProvider {
         views.setTextViewText(R.id.widgetNameTextView, user.getName());
 
         views.setTextViewText(R.id.widgetNationalityTextView,
-                ApiInfo.NATIONALITY_NAMES.getOrDefault(
+                RandomApiInfo.NATIONALITY_NAMES.getOrDefault(
                         user.getNationality(),
                         user.getNationality()
                 )

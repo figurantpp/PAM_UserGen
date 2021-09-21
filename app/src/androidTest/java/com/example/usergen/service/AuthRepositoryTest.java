@@ -10,7 +10,7 @@ import com.example.usergen.service.auth.AuthRepository;
 import com.example.usergen.service.auth.TokenStorage;
 import com.example.usergen.service.http.HttpHandler;
 import com.example.usergen.service.http.UrlProvider;
-import com.example.usergen.util.ApiInfo;
+import com.example.usergen.util.UserApiInfo;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,8 +50,8 @@ public class AuthRepositoryTest {
         tokenStorage.setToken(null);
 
         boolean result = repository.login(
-                ApiInfo.API_SAMPLE_USERNAME,
-                ApiInfo.API_SAMPLE_PASSWORD
+                UserApiInfo.API_SAMPLE_USERNAME,
+                UserApiInfo.API_SAMPLE_PASSWORD
         ).blockingGet();
 
         assumeThat(result, is(true));

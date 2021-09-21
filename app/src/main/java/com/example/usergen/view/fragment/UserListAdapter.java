@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.usergen.R;
 import com.example.usergen.model.User;
-import com.example.usergen.util.ApiInfo;
+import com.example.usergen.util.RandomApiInfo;
 
 import java.io.IOException;
 import java.util.List;
@@ -70,7 +70,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
             userItemName.setText(user.getName());
 
             userItemNationality.setText(
-                    ApiInfo.NATIONALITY_NAMES.getOrDefault(
+                    RandomApiInfo.NATIONALITY_NAMES.getOrDefault(
                             user.getNationality(),
                             user.getNationality()
                     )

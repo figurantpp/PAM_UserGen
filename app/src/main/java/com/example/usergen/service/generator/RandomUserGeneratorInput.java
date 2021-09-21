@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.usergen.util.ApiInfo;
+import com.example.usergen.util.RandomApiInfo;
 
 import java.util.Arrays;
 import java.util.InputMismatchException;
@@ -32,7 +32,7 @@ public class RandomUserGeneratorInput {
 
         if (nationality != null) {
 
-            if (Arrays.stream(ApiInfo.NATIONALITY_ACRONYMS)
+            if (Arrays.stream(RandomApiInfo.NATIONALITY_ACRONYMS)
                     .noneMatch(x -> x.equals(nationality))) {
                 throw new InputMismatchException("Nationality " + nationality + " is not valid");
             }

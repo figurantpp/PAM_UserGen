@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class User {
 
-    @NonNull
+    @Nullable
     private final String sourceId;
 
     @Nullable
@@ -39,7 +39,7 @@ public class User {
     private final OnlineImageResource profileImage;
 
     public User(
-            @NonNull String sourceId,
+            @Nullable String sourceId,
             @NonNull String title,
             @NonNull String name,
             @NonNull String email,
@@ -64,7 +64,7 @@ public class User {
     }
 
     public User(
-            @NonNull String sourceId,
+            @Nullable String sourceId,
             @Nullable String apiId,
             @NonNull String title,
             @NonNull String name,
@@ -87,7 +87,7 @@ public class User {
         this.profileImage = profileImage;
     }
 
-    @NonNull
+    @Nullable
     public String getSourceId() {
         return sourceId;
     }

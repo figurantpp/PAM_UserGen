@@ -6,7 +6,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.example.usergen.TestStrings;
 import com.example.usergen.model.User;
 import com.example.usergen.service.json.UserJsonManager;
-import com.example.usergen.util.ApiInfo;
+import com.example.usergen.util.RandomApiInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +31,7 @@ public class UserJsonManagerTest {
     private Date getExpectedDate() {
         Date date = null;
 
-        SimpleDateFormat format = new SimpleDateFormat(ApiInfo.DATE_FORMAT_STRING);
+        SimpleDateFormat format = new SimpleDateFormat(RandomApiInfo.DATE_FORMAT_STRING);
 
         try {
             date = format.parse("1993-07-20T09:44:18.674Z");

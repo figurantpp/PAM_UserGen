@@ -161,4 +161,10 @@ public class HttpHandler {
         return request("PUT", endpoint, body);
     }
 
+    @NonNull
+    public HttpResponse delete(@NonNull String endpoint)
+            throws IOException, JSONException {
+        return request("DELETE", endpoint, null);
+    }
+
 }
