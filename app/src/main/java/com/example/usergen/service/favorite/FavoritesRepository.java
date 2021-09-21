@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import io.reactivex.rxjava3.annotations.CheckReturnValue;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 
@@ -31,6 +32,7 @@ public class FavoritesRepository {
     }
 
     @NonNull
+    @CheckReturnValue
     public Single<String> registerFavorite(@NonNull User user) {
 
         return Single.fromSupplier(() -> {
@@ -57,6 +59,7 @@ public class FavoritesRepository {
     }
 
     @NonNull
+    @CheckReturnValue
     public Single<List<User>> listFavorites() {
 
         return Single.fromSupplier(() -> {
@@ -90,7 +93,10 @@ public class FavoritesRepository {
     }
 
     @NonNull
+    @CheckReturnValue
     public Completable deleteFavorite(@NonNull String id) {
+
+        Objects.requireNonNull(id);
 
         return Completable.fromAction(() -> http.delete("/favorites/" + id).requireOk());
     }

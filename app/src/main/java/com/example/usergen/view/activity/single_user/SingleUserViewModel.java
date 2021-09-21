@@ -7,12 +7,14 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.usergen.model.User;
+import com.example.usergen.service.favorite.FavoritesRepository;
 import com.example.usergen.service.generator.NetworkRandomUserGenerator;
 import com.example.usergen.service.generator.RandomModelGenerator;
 import com.example.usergen.service.http.OnlineImageResource;
 import com.example.usergen.service.storage.UserStorage;
 import com.example.usergen.util.ViewModelFactory;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -21,13 +23,14 @@ import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import io.reactivex.rxjava3.subjects.PublishSubject;
+import io.reactivex.rxjava3.subjects.ReplaySubject;
+import io.reactivex.rxjava3.subjects.Subject;
 
 public class SingleUserViewModel extends ViewModel {
 
     private final MutableLiveData<User> fetchedUser = new MutableLiveData<>();
 
-    private final PublishSubject<Event> events = PublishSubject.create();
+    private final Subject<Event> events = ReplaySubject.create();
 
     private final CompositeDisposable subscriptions = new CompositeDisposable();
 
@@ -35,12 +38,16 @@ public class SingleUserViewModel extends ViewModel {
 
     private final RandomModelGenerator<User> generator;
 
+    private final FavoritesRepository favoritesRepository;
+
     public SingleUserViewModel(
             @NonNull Supplier<UserStorage> storageSupplier,
-            @NonNull RandomModelGenerator<User> generator
+            @NonNull RandomModelGenerator<User> generator,
+            @NonNull FavoritesRepository favoritesRepository
     ) {
         this.storageSupplier = storageSupplier;
         this.generator = generator;
+        this.favoritesRepository = favoritesRepository;
     }
 
     @NonNull
@@ -98,10 +105,11 @@ public class SingleUserViewModel extends ViewModel {
     @NonNull
     public static ViewModelProvider.Factory create(
             @NonNull Supplier<UserStorage> storageSupplier,
-            @NonNull RandomModelGenerator<User> generator
+            @NonNull RandomModelGenerator<User> generator,
+            @NonNull FavoritesRepository favoritesRepository
     ) {
         return ViewModelFactory.from(SingleUserViewModel.class, () -> new SingleUserViewModel(
-                storageSupplier, generator
+                storageSupplier, generator, favoritesRepository
         ));
     }
 
@@ -111,14 +119,48 @@ public class SingleUserViewModel extends ViewModel {
         subscriptions.dispose();
     }
 
+    public void toggleFavorite() {
+
+        User user = Objects.requireNonNull(getFetchedUser().getValue());
+
+        if (user.isFavorite()) {
+            if (user.getApiId() != null) {
+
+                Disposable subscription = favoritesRepository.deleteFavorite(user.getApiId())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(() -> {
+                            events.onNext(new DisplayUserFavoriteEvent(false));
+                            user.setIsFavorite(false);
+                        });
+
+                subscriptions.add(subscription);
+            }
+
+        } else {
+            subscriptions.add(favoritesRepository.registerFavorite(user)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(id -> {
+                        user.setApiId(id);
+                        user.setIsFavorite(true);
+                        events.onNext(new DisplayUserFavoriteEvent(true));
+                    }));
+        }
+    }
+
     public interface Event {
 
         void accept(@NonNull Visitor visitor);
 
         interface Visitor {
             void visit(@NonNull DisplayFinishedEvent event);
+
             void visit(@NonNull ShowImageDialogEvent event);
+
             void visit(@NonNull DisplayCountryEvent event);
+
+            void visit(@NonNull DisplayUserFavoriteEvent event);
         }
     }
 
@@ -152,6 +194,20 @@ public class SingleUserViewModel extends ViewModel {
 
         public ShowImageDialogEvent(@NonNull OnlineImageResource image) {
             this.image = image;
+        }
+
+        @Override
+        public void accept(@NonNull Visitor visitor) {
+            visitor.visit(this);
+        }
+    }
+
+    public static class DisplayUserFavoriteEvent implements Event {
+
+        public boolean isFavorite;
+
+        public DisplayUserFavoriteEvent(boolean isFavorite) {
+            this.isFavorite = isFavorite;
         }
 
         @Override

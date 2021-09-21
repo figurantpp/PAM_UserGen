@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,25 +22,29 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 public class ShowUserFragment extends Fragment {
     public ShowUserFragment() {
         super(R.layout.fragment_show_user);
     }
 
-    TextView firstTitleTextView;
-    TextView genderTextView;
-    TextView emailTextView;
-    TextView birthTextView;
-    TextView nationalityTextView;
-    TextView titleTextView;
-    TextView ageTextView;
-    TextView idTextView;
+    private TextView firstTitleTextView;
+    private TextView genderTextView;
+    private TextView emailTextView;
+    private TextView birthTextView;
+    private TextView nationalityTextView;
+    private TextView titleTextView;
+    private TextView ageTextView;
+    private TextView idTextView;
 
-    CircleImageView pictureImageView;
+    private CircleImageView pictureImageView;
 
     private SingleUserViewModel userViewModel;
 
+    private ImageView favoriteImageView;
+
+    private Disposable disposable;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -76,8 +81,34 @@ public class ShowUserFragment extends Fragment {
         pictureImageView.setOnClickListener(v ->
                 userViewModel.expandUserImageView()
         );
+
+        favoriteImageView = source.findViewById(R.id.showUserFragment_favoriteImageView);
+
+        favoriteImageView.setOnClickListener(f -> userViewModel.toggleFavorite());
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        disposable = userViewModel.getEvents()
+                .filter(it -> it instanceof SingleUserViewModel.DisplayUserFavoriteEvent)
+                .map(it -> (SingleUserViewModel.DisplayUserFavoriteEvent) it)
+                .subscribe(event -> {
+                    boolean isFavorite = event.isFavorite;
+
+                    favoriteImageView.setImageResource(
+                            isFavorite
+                                    ? R.drawable.ic_heart_filled
+                                    : R.drawable.ic_heart_not_filled
+                    );
+                });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        disposable.dispose();
+    }
 
     private void displayUser(User user) {
 

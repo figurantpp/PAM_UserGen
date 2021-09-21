@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.usergen.R;
+import com.example.usergen.UsergenApplication;
 import com.example.usergen.service.generator.RandomUserGeneratorInput;
 import com.example.usergen.service.sensor.ProximitySensor;
 import com.example.usergen.service.sensor.SensorNotFoundException;
@@ -59,7 +60,8 @@ public class ShowUserActivity extends AppCompatActivity implements SingleUserVie
                 this,
                 SingleUserViewModel.create(
                         () -> new UserStorage(this),
-                        resolveUserGenerator(this, getIntentGeneratorInput())
+                        resolveUserGenerator(this, getIntentGeneratorInput()),
+                        UsergenApplication.from(this).getFavoritesRepository()
                 )
         ).get(SingleUserViewModel.class);
 
@@ -144,6 +146,10 @@ public class ShowUserActivity extends AppCompatActivity implements SingleUserVie
 
         startActivity(mapIntent);
 
+    }
+
+    @Override
+    public void visit(@NonNull SingleUserViewModel.DisplayUserFavoriteEvent event) {
     }
 
     private String getCountryName(String acronym) {
