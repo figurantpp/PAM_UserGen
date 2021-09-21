@@ -92,15 +92,15 @@ public class ShowUserActivityTest {
     public void testDisplays() {
 
         Stream.of(
-                R.id.personFirstandSecondName,
-                R.id.personGender,
-                R.id.personEmail,
-                R.id.personDayOfBirth,
+                R.id.showUserFragment_firstTitleTextView,
+                R.id.showUserFragment_genderTextView,
+                R.id.showUserFragment_emailTextView,
+                R.id.showUserFragment_birthDateTextView,
                 R.id.personNationality,
-                R.id.personTitle,
-                R.id.personAge,
-                R.id.personDayOfBirth,
-                R.id.personEmail
+                R.id.showUserFragment_titleTextView,
+                R.id.showUserFragment_ageTextView,
+                R.id.showUserFragment_birthDateTextView,
+                R.id.showUserFragment_emailTextView
         ).forEach(this::checkNotEmpty);
 
         onView(withId(R.id.personPicture)).check(

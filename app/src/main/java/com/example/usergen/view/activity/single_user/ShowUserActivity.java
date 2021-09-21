@@ -102,7 +102,7 @@ public class ShowUserActivity extends AppCompatActivity implements SingleUserVie
         getSupportFragmentManager()
                 .beginTransaction()
                 .setReorderingAllowed(true)
-                .replace(R.id.fragment_container_view, ShowUserFragment.class, null)
+                .replace(R.id.showUserActivity_fragmentContainerView, ShowUserFragment.class, null)
                 .commit();
     }
 

@@ -11,12 +11,12 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/label_login_title"
+            android:id="@+id/textView1"
             android:layout_width="260dp"
             android:layout_height="160dp"
             android:layout_marginTop="150dp"
             android:fontFamily="@font/cinzel_black"
-            android:text="@string/random_title"
+            android:text="@string/app_title"
             android:textColor="@android:color/secondary_text_light"
             android:textSize="36sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -24,35 +24,35 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputlayout_user"
+            android:id="@+id/inputLayout1"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:hint="@string/input_layout_user"
+            android:hint="@string/label_username"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label_login_title">
+            app:layout_constraintTop_toBottomOf="@+id/textView1">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/loginActivity_username"
+                android:id="@+id/loginActivity_usernameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout"
+            android:id="@+id/inputLayout2"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:hint="@string/input_layout_password"
+            android:hint="@string/label_password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/inputlayout_user">
+            app:layout_constraintTop_toBottomOf="@+id/inputLayout1">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/loginActivity_password"
+                android:id="@+id/loginActivity_passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
@@ -60,28 +60,28 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.example.usergen.view.custom.CustomButton
-            android:id="@+id/customButton"
+            android:id="@+id/loginActivity_loginButton"
             android:layout_width="225dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
             android:onClick="onLoginClick"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+            app:layout_constraintTop_toBottomOf="@+id/inputLayout2"
             app:textCustom="@string/button_login" />
 
         <TextView
-            android:id="@+id/txtnotRegistered"
+            android:id="@+id/loginActivity_notRegisteredView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             android:onClick="onRegisterClick"
-            android:text="@string/not_logged_in_yet"
+            android:text="@string/button_not_registered_yet"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/customButton" />
+            app:layout_constraintTop_toBottomOf="@+id/loginActivity_loginButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

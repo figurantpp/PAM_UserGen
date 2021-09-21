@@ -35,9 +35,9 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void setupViews() {
-        usernameEditText = findViewById(R.id.registerActivity_username);
-        passwordEditText = findViewById(R.id.registerActivity_password);
-        passwordConfirmationEditText = findViewById(R.id.registerActivity_confirmPassword);
+        usernameEditText = findViewById(R.id.registerActivity_usernameEditText);
+        passwordEditText = findViewById(R.id.registerActivity_passwordEditText);
+        passwordConfirmationEditText = findViewById(R.id.registerActivity_confirmPasswordEditText);
 
         findViewById(R.id.registerActivity_registerButton)
                 .setOnClickListener(this::onButtonClick);

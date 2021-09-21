@@ -2,16 +2,16 @@
     <string name="app_name">RandomUserApp</string>
     <string name="text_female"> Female </string>
     <string name="text_male"> Male </string>
-    <string name="random_title"> RANDOM USER GENERATOR  </string>
-    <string name="nacionalidade"> Nationality </string>
-    <string name="buscar_na_api"> Search on API </string>
-    <string name="text_informations"> Info</string>
-    <string name="text_gender"> Gender </string>
-    <string name="text_email"> Email </string>
-    <string name="text_birth"> Day of Birth </string>
-    <string name="text_age"> Age </string>
-    <string name="text_title"> Title </string>
-    <string name="text_id"> ID </string>
+    <string name="app_title"> RANDOM USER GENERATOR  </string>
+    <string name="label_nationality"> Nationality </string>
+    <string name="label_searchApi"> Search on API </string>
+    <string name="label_info"> Info</string>
+    <string name="label_gender"> Gender </string>
+    <string name="label_email"> Email </string>
+    <string name="label_birth">Birth date</string>
+    <string name="label_age"> Age </string>
+    <string name="label_title"> Title </string>
+    <string name="label_id"> ID </string>
     <string name="error_empty"> A gender has to be filled </string>
 
 
@@ -35,7 +35,7 @@
         <item> Swiss </item>
     </string-array>
 
-    <string-array name="acronym">
+    <string-array name="acronyms">
         <item>    </item>
         <item> BR </item>
         <item> AU </item>
@@ -53,28 +53,22 @@
         <item> TR</item>
         <item> NZ</item>
         <item> CH </item>
-
-
     </string-array>
 
-    <string name="input_layout_user"> Login </string>
-    <string name="label_login_user"> Digite o seu usuário </string>
+    <string name="label_username"> Username </string>
+    <string name="label_password">Password</string>
 
-    <string name="input_layout_password"> Senha </string>
-    <string name="label_login_password"> Digite sua senha </string>
+    <string name="sample_name"> Jeanette<br />Something </string>
 
-    <string name="examplename"> Jeanette<br />Something </string>
+    <string name="format_imageDescription"> Profile picture of %s</string>
 
-    <string name="image_description_format"> Profile picture of %s</string>
+    <string name="label_register"> Register </string>
 
-    <string name="label_register"> Registrate </string>
+    <string name="label_confirmPassword">Confirm Password</string>
 
-    <string name="input_layout_confirm_password"> Confirmar Senha </string>
+    <string name="button_login">Log in</string>
+    <string name="button_not_registered_yet"> Not registered yet </string>
 
-    <string name="button_login"> Logar </string>
-    <string name="not_logged_in_yet"> <u> Ainda não sou cadastrado </u></string>
-    <string name="multiple_users"> Multiple Users</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
+    <string name="button_multiple_users"> Multiple users </string>
 
 </resources>

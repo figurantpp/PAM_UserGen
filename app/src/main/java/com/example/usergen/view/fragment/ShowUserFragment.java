@@ -57,13 +57,13 @@ public class ShowUserFragment extends Fragment {
     }
 
     private void setupViews(View source) {
-        firstTitleTextView = source.findViewById(R.id.personFirstandSecondName);
-        genderTextView = source.findViewById(R.id.personGender);
-        emailTextView = source.findViewById(R.id.personEmail);
-        birthTextView = source.findViewById(R.id.personDayOfBirth);
-        titleTextView = source.findViewById(R.id.personTitle);
-        ageTextView = source.findViewById(R.id.personAge);
-        idTextView = source.findViewById(R.id.personID);
+        firstTitleTextView = source.findViewById(R.id.showUserFragment_firstTitleTextView);
+        genderTextView = source.findViewById(R.id.showUserFragment_genderTextView);
+        emailTextView = source.findViewById(R.id.showUserFragment_emailTextView);
+        birthTextView = source.findViewById(R.id.showUserFragment_birthDateTextView);
+        titleTextView = source.findViewById(R.id.showUserFragment_titleTextView);
+        ageTextView = source.findViewById(R.id.showUserFragment_ageTextView);
+        idTextView = source.findViewById(R.id.showUserFragment_idTextView);
 
         nationalityTextView = source.findViewById(R.id.personNationality);
 
@@ -115,7 +115,7 @@ public class ShowUserFragment extends Fragment {
     @Nullable
     private String findNationalityName(@NonNull String nationality) {
 
-        TypedArray acronyms = getResources().obtainTypedArray(R.array.acronym);
+        TypedArray acronyms = getResources().obtainTypedArray(R.array.acronyms);
 
         TypedArray names = getResources().obtainTypedArray(R.array.countries);
 

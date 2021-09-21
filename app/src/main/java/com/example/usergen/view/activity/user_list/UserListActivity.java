@@ -68,7 +68,7 @@ public class UserListActivity extends AppCompatActivity {
     }
 
     private void setupViews() {
-        recyclerView = findViewById(R.id.recycler_users);
+        recyclerView = findViewById(R.id.showManyUsersActivity_usersRecyclerView);
     }
 
     private RandomUserGeneratorInput getIntentInput() {

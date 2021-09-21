@@ -14,26 +14,26 @@
 
 
         <TextView
-            android:id="@+id/txttitleID"
+            android:id="@+id/textView12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/roboto_bold"
-            android:text="@string/text_id"
+            android:text="@string/label_id"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/personAge"
+            app:layout_constraintStart_toStartOf="@+id/showUserFragment_ageTextView"
             app:layout_constraintTop_toBottomOf="@+id/divider8" />
 
         <TextView
-            android:id="@+id/personID"
+            android:id="@+id/showUserFragment_idTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/roboto"
             android:paddingBottom="15dp"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/txttitleID"
-            app:layout_constraintTop_toBottomOf="@+id/txttitleID" />
+            app:layout_constraintStart_toStartOf="@+id/textView12"
+            app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
         <View
             android:id="@+id/divider8"
@@ -42,38 +42,38 @@
             android:layout_marginTop="15dp"
             android:background="?attr/color"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/personAge" />
+            app:layout_constraintTop_toBottomOf="@+id/showUserFragment_ageTextView" />
 
         <TextView
-            android:id="@+id/txttitlefullname"
+            android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/roboto_bold"
-            android:text="@string/text_title"
+            android:text="@string/label_title"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/personGender"
+            app:layout_constraintStart_toStartOf="@+id/showUserFragment_genderTextView"
             app:layout_constraintTop_toBottomOf="@+id/divider6" />
 
         <TextView
-            android:id="@+id/personTitle"
+            android:id="@+id/showUserFragment_titleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/roboto"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/txttitlefullname"
-            app:layout_constraintTop_toBottomOf="@+id/txttitlefullname" />
+            app:layout_constraintStart_toStartOf="@+id/textView10"
+            app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
         <TextView
-            android:id="@+id/personAge"
+            android:id="@+id/showUserFragment_ageTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/roboto"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/txttitleage"
-            app:layout_constraintTop_toBottomOf="@+id/txttitleage" />
+            app:layout_constraintStart_toStartOf="@+id/textView11"
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
         <View
             android:id="@+id/divider7"
@@ -82,17 +82,17 @@
             android:layout_marginTop="15dp"
             android:background="?attr/color"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/personTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/showUserFragment_titleTextView" />
 
         <TextView
-            android:id="@+id/txttitlenacionality"
+            android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/roboto_bold"
-            android:text="@string/nacionalidade"
+            android:text="@string/label_nationality"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/personGender"
+            app:layout_constraintStart_toStartOf="@+id/showUserFragment_genderTextView"
             app:layout_constraintTop_toBottomOf="@+id/divider5" />
 
         <View
@@ -111,18 +111,18 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/roboto"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/txttitlenacionality"
-            app:layout_constraintTop_toBottomOf="@+id/txttitlenacionality" />
+            app:layout_constraintStart_toStartOf="@+id/textView9"
+            app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
         <TextView
-            android:id="@+id/txttitleborndate"
+            android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/roboto_bold"
-            android:text="@string/text_birth"
+            android:text="@string/label_birth"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/personGender"
+            app:layout_constraintStart_toStartOf="@+id/showUserFragment_genderTextView"
             app:layout_constraintTop_toBottomOf="@+id/divider4" />
 
         <View
@@ -132,17 +132,17 @@
             android:layout_marginTop="15dp"
             android:background="?attr/color"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/personDayOfBirth" />
+            app:layout_constraintTop_toBottomOf="@+id/showUserFragment_birthDateTextView" />
 
         <TextView
-            android:id="@+id/personDayOfBirth"
+            android:id="@+id/showUserFragment_birthDateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/roboto"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/txttitlegender"
-            app:layout_constraintTop_toBottomOf="@+id/txttitleborndate" />
+            app:layout_constraintStart_toStartOf="@+id/textView6"
+            app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
         <View
             android:id="@+id/divider4"
@@ -151,7 +151,7 @@
             android:layout_marginTop="15dp"
             android:background="?attr/color"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/personEmail" />
+            app:layout_constraintTop_toBottomOf="@+id/showUserFragment_emailTextView" />
 
         <View
             android:id="@+id/divider3"
@@ -160,39 +160,39 @@
             android:layout_marginTop="15dp"
             android:background="?attr/color"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/personGender" />
+            app:layout_constraintTop_toBottomOf="@+id/showUserFragment_genderTextView" />
 
         <TextView
-            android:id="@+id/txttitleemail"
+            android:id="@+id/textView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/roboto_bold"
-            android:text="@string/text_email"
+            android:text="@string/label_email"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/personGender"
+            app:layout_constraintStart_toStartOf="@+id/showUserFragment_genderTextView"
             app:layout_constraintTop_toBottomOf="@+id/divider3" />
 
         <TextView
-            android:id="@+id/txttitleage"
+            android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/roboto_bold"
-            android:text="@string/text_age"
+            android:text="@string/label_age"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/personTitle"
+            app:layout_constraintStart_toStartOf="@+id/showUserFragment_titleTextView"
             app:layout_constraintTop_toBottomOf="@+id/divider7" />
 
         <TextView
-            android:id="@+id/personEmail"
+            android:id="@+id/showUserFragment_emailTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/roboto"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/txttitleemail"
-            app:layout_constraintTop_toBottomOf="@+id/txttitleemail" />
+            app:layout_constraintStart_toStartOf="@+id/textView7"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
         <FrameLayout
             android:id="@+id/frameLayout"
@@ -205,7 +205,7 @@
         </FrameLayout>
 
         <TextView
-            android:id="@+id/personFirstandSecondName"
+            android:id="@+id/showUserFragment_firstTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/headland_one"
@@ -216,17 +216,17 @@
             app:layout_constraintTop_toBottomOf="@+id/personPicture" />
 
         <TextView
-            android:id="@+id/txttitleinfo"
+            android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="26dp"
             android:layout_marginTop="28dp"
             android:fontFamily="sans-serif-condensed-medium"
-            android:text="@string/text_informations"
+            android:text="@string/label_info"
             android:textColor="#95737070"
             android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/personFirstandSecondName" />
+            app:layout_constraintTop_toBottomOf="@+id/showUserFragment_firstTitleTextView" />
 
         <View
             android:id="@+id/divider2"
@@ -236,29 +236,29 @@
             android:background="?attr/color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txttitleinfo" />
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
         <TextView
-            android:id="@+id/txttitlegender"
+            android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/roboto_bold"
-            android:text="@string/text_gender"
+            android:text="@string/label_gender"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/txttitleinfo"
+            app:layout_constraintStart_toStartOf="@+id/textView5"
             app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
         <TextView
-            android:id="@+id/personGender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/showUserFragment_genderTextView"
+            android:layout_width="1dp"
+            android:layout_height="22dp"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/roboto"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/txttitlegender"
-            app:layout_constraintTop_toBottomOf="@+id/txttitlegender" />
+            app:layout_constraintStart_toStartOf="@+id/textView6"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/personPicture"
@@ -276,7 +276,7 @@
             android:layout_marginTop="28dp"
             android:layout_marginEnd="26dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/personFirstandSecondName"
+            app:layout_constraintTop_toBottomOf="@+id/showUserFragment_firstTitleTextView"
             app:srcCompat="@drawable/ic_heart_not_filled" />
 
 

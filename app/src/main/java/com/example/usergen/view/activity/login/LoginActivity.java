@@ -31,8 +31,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        usernameEditText = findViewById(R.id.loginActivity_username);
-        passwordEditText = findViewById(R.id.loginActivity_password);
+        usernameEditText = findViewById(R.id.loginActivity_usernameEditText);
+        passwordEditText = findViewById(R.id.loginActivity_passwordEditText);
 
         viewModel = new ViewModelProvider(this,
                 AuthViewModel.create(

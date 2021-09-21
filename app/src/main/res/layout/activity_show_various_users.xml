@@ -12,14 +12,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:fontFamily="@font/headland_one"
-        android:text="@string/multiple_users"
+        android:text="@string/button_multiple_users"
         android:textSize="38sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_users"
+        android:id="@+id/showManyUsersActivity_usersRecyclerView"
         android:layout_width="411dp"
         android:layout_height="577dp"
         android:layout_marginTop="30dp"

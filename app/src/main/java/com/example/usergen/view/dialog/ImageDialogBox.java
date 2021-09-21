@@ -18,6 +18,6 @@ public class ImageDialogBox extends DialogBox{
     @NonNull
     public ImageView getImageView()
     {
-        return Objects.requireNonNull(getView().findViewById(R.id.dialogImage));
+        return Objects.requireNonNull(getView().findViewById(R.id.userImageDialog_userImageView));
     }
 }

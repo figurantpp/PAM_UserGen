@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewM
 
         setupAnimations();
 
-        acronymArray = getResources().obtainTypedArray(R.array.acronym);
+        acronymArray = getResources().obtainTypedArray(R.array.acronyms);
 
         setupUiEvents();
     }
@@ -121,11 +121,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewM
     private void setupViews() {
         setupSpinner();
 
-        searchSingleButton = findViewById(R.id.search_on_api_button);
+        searchSingleButton = findViewById(R.id.mainActivity_searchButton);
 
-        titleTextView = findViewById(R.id.random_text);
+        titleTextView = findViewById(R.id.textView0);
 
-        multipleUsersButton = findViewById(R.id.multiple_button);
+        multipleUsersButton = findViewById(R.id.mainActivity_multipleUsersButton);
 
         femaleRadioButton = findViewById(R.id.radioFemale);
 
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewM
     }
 
     private void setupSpinner() {
-        spinner = findViewById(R.id.spinner);
+        spinner = findViewById(R.id.mainActivity_nationalitySpinner);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.countries,

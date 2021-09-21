@@ -14,7 +14,7 @@
         android:layout_marginTop="25dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:contentDescription="@string/image_description_format"
+        android:contentDescription="@string/format_imageDescription"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_below="@id/widgetImageView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
-        android:text="@string/examplename" />
+        android:text="@string/sample_name" />
 
     <TextView
         android:id="@+id/widgetNationalityTextView"
@@ -35,6 +35,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:layout_marginBottom="50dp"
-        android:text="@string/nacionalidade" />
+        android:text="@string/label_nationality" />
 
 </RelativeLayout>
