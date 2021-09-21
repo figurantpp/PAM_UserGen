@@ -1,7 +1,6 @@
 package com.example.usergen.view.activity.login;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -35,7 +34,7 @@ public class AuthViewModel extends ViewModel {
         return events;
     }
 
-    public void login(@NonNull String username, @Nullable String password) {
+    public void login(@NonNull String username, @NonNull String password) {
 
         username = username.trim();
 
@@ -110,6 +109,10 @@ public class AuthViewModel extends ViewModel {
 
     public void requestRegisterScreen() {
         events.onNext(DISPLAY_REGISTER_SCREEN);
+    }
+
+    public void requestQuitRegister() {
+        events.onNext(FINISH_REGISTER);
     }
 
     @Override

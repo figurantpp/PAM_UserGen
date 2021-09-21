@@ -40,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
         passwordConfirmationEditText = findViewById(R.id.registerActivity_confirmPasswordEditText);
 
         findViewById(R.id.registerActivity_backButton)
-            .setOnClickListener(v -> finish());
+            .setOnClickListener(v -> viewModel.requestQuitRegister());
 
         findViewById(R.id.registerActivity_registerButton)
                 .setOnClickListener(this::onButtonClick);
@@ -56,8 +56,6 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        // todo: add message mapping please
 
         subscription = viewModel.getEvents().subscribe(event -> {
 
