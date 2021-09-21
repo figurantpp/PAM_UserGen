@@ -72,11 +72,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onMissingPassword() {
-        passwordEditText.setError("The password is mandatory");
+        passwordEditText.setError(getString(R.string.error_missingPassword));
     }
 
     private void onMissingUsername() {
-        usernameEditText.setError("The username is mandatory");
+        usernameEditText.setError(getString(R.string.error_missingUsername));
     }
 
     private void onLoginFailed() {

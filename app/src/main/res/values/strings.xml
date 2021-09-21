@@ -13,7 +13,6 @@
     <string name="label_title"> Title </string>
     <string name="label_id"> ID </string>
 
-    <string name="error_empty"> A gender has to be filled </string>
 
 
     <string-array name="countries">
@@ -72,6 +71,8 @@
 
     <string name="button_multiple_users"> Multiple users </string>
     <string name="error_missingUsername">The username is mandatory</string>
+
+    <string name="error_empty"> A gender has to be filled </string>
     <string name="error_missingPassword">The password is mandatory</string>
     <string name="error_missingPasswordConfirmation">The password confirmation is mandatory</string>
     <string name="error_unmatchedPasswordConfirmation">The password confirmation does not match the password</string>
