@@ -17,15 +17,24 @@ import com.example.usergen.util.RandomApiInfo;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserViewHolder> {
 
     private final List<User> users;
     private final Context context;
 
-    public UserListAdapter(@NonNull List<User> users, @NonNull Context context) {
+    @NonNull
+    private final Consumer<User> onClick;
+
+    public UserListAdapter(
+            @NonNull List<User> users,
+            @NonNull Context context,
+            @NonNull Consumer<User> onClick
+    ) {
         this.users = users;
         this.context = context;
+        this.onClick = onClick;
     }
 
     @NonNull
@@ -42,7 +51,6 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         holder.bind(users.get(position));
-
     }
 
     @Override
@@ -52,8 +60,10 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
 
     class UserViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView userItemName, userItemNationality;
-        public ImageView userItemImage;
+        private final TextView userItemName;
+        private final TextView userItemNationality;
+        private final ImageView userItemImage;
+        private final ImageView isFavoriteImageView;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,6 +73,8 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
             userItemImage = itemView.findViewById(R.id.userItemImage);
 
             userItemNationality = itemView.findViewById(R.id.txtUserItemNationality);
+
+            isFavoriteImageView = itemView.findViewById(R.id.userList_isFavoriteImageView);
         }
 
         public void bind(User user){
@@ -74,6 +86,24 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
                             user.getNationality(),
                             user.getNationality()
                     )
+            );
+
+            isFavoriteImageView.setImageResource(
+                    user.isFavorite()
+                            ? R.drawable.ic_heart_filled
+                            : R.drawable.ic_heart_not_filled
+            );
+
+            isFavoriteImageView.setOnClickListener(
+                    v -> {
+                        isFavoriteImageView.setImageResource(
+                                user.isFavorite()
+                                ? R.drawable.ic_heart_not_filled
+                                : R.drawable.ic_heart_filled
+                        );
+
+                        onClick.accept(user);
+                    }
             );
 
             try {

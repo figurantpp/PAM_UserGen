@@ -80,7 +80,8 @@ public class FavoritesRepository {
                         parseUserApiDate(item.getString("birthDate")),
                         (short) item.getInt("age"),
                         item.getString("nationality"),
-                        new OnlineImageResource(new URL(item.getString("imageUrl")))
+                        new OnlineImageResource(new URL(item.getString("imageUrl"))),
+                        false
                 ));
             }
 

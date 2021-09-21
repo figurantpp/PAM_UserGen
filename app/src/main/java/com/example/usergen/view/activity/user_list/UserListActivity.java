@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.usergen.R;
+import com.example.usergen.UsergenApplication;
 import com.example.usergen.model.User;
 import com.example.usergen.service.generator.RandomModelGenerator;
 import com.example.usergen.service.generator.RandomUserGeneratorInput;
@@ -26,7 +27,7 @@ public class UserListActivity extends AppCompatActivity {
 
     public static final String INPUT_EXTRA_KEY = "potato";
 
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
     private UserListViewModel viewModel;
 
@@ -51,14 +52,19 @@ public class UserListActivity extends AppCompatActivity {
         RandomModelGenerator<User> generator = resolveUserGenerator(this, input);
 
         viewModel = new ViewModelProvider(this,
-                UserListViewModel.create(generator)
+                UserListViewModel.create(
+                        generator,
+                        UsergenApplication.from(this).getFavoritesRepository()
+                )
         ).get(UserListViewModel.class);
 
         viewModel.getFetchedUsers().observe(this, this::displayUsers);
     }
 
     private void displayUsers(List<User> users) {
-        recyclerView.setAdapter(new UserListAdapter(users, this));
+        recyclerView.setAdapter(new UserListAdapter(users, this, user ->
+                viewModel.switchFavorite(user))
+        );
 
         recyclerView.setHasFixedSize(true);
 

@@ -46,7 +46,8 @@ public class FavoritesRepositoryTest {
                 "US",
                 new OnlineImageResource(
                         new URL("https://randomuser.me/api/portraits/men/87.jpg")
-                )
+                ),
+                false
         );
 
 

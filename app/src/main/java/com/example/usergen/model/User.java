@@ -13,7 +13,7 @@ public class User {
     private final String sourceId;
 
     @Nullable
-    private final String apiId;
+    private String apiId;
 
     @NonNull
     private final String title;
@@ -38,6 +38,8 @@ public class User {
     @NonNull
     private final OnlineImageResource profileImage;
 
+    private boolean isFavorite;
+
     public User(
             @Nullable String sourceId,
             @NonNull String title,
@@ -59,7 +61,8 @@ public class User {
                 birthDate,
                 age,
                 nationality,
-                profileImage
+                profileImage,
+                false
         );
     }
 
@@ -73,7 +76,8 @@ public class User {
             @NonNull Date birthDate,
             short age,
             @NonNull String nationality,
-            @NonNull OnlineImageResource profileImage
+            @NonNull OnlineImageResource profileImage,
+            boolean isFavorite
     ) {
         this.sourceId = sourceId;
         this.apiId = apiId;
@@ -85,6 +89,7 @@ public class User {
         this.age = age;
         this.nationality = nationality;
         this.profileImage = profileImage;
+        this.isFavorite = isFavorite;
     }
 
     @Nullable
@@ -95,6 +100,10 @@ public class User {
     @Nullable
     public String getApiId() {
         return apiId;
+    }
+
+    public void setApiId(@Nullable String apiId) {
+       this.apiId = apiId;
     }
 
     @NonNull
@@ -129,6 +138,14 @@ public class User {
     @NonNull
     public String getNationality() {
         return nationality;
+    }
+
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
     }
 
     @NonNull

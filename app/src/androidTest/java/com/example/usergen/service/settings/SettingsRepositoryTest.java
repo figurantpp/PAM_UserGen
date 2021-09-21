@@ -16,6 +16,7 @@ import com.example.usergen.service.http.UrlProvider;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Objects;
 import java.util.Random;
 
 import static com.example.usergen.util.RandomApiInfo.NATIONALITY_ACRONYMS;
@@ -100,7 +101,7 @@ public class SettingsRepositoryTest {
 
             value = NATIONALITY_ACRONYMS[index];
         }
-        while (avoid.equals(value));
+        while (Objects.equals(avoid, value));
 
         return value;
     }
