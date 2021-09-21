@@ -83,15 +83,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-        <Button
+        <com.example.usergen.view.custom.CustomButton
             android:id="@+id/mainActivity_searchButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="225dp"
+            android:layout_height="53dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="50dp"
-            android:background="@color/teal_200"
             android:fontFamily="@font/cinzel"
-            android:text="@string/label_searchApi"
+            app:textCustom="@string/label_searchApi"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
