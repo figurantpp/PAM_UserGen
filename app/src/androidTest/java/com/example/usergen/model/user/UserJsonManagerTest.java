@@ -106,7 +106,7 @@ public class UserJsonManagerTest {
             return;
         }
 
-        assertEquals(expectedId, output.getId());
+        assertEquals(expectedId, output.getSourceId());
 
         assertEquals(expectedTitle, output.getTitle());
         assertEquals(expectedName, output.getName());

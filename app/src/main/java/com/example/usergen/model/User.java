@@ -1,6 +1,7 @@
 package com.example.usergen.model;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.usergen.service.http.OnlineImageResource;
 
@@ -9,7 +10,10 @@ import java.util.Date;
 public class User {
 
     @NonNull
-    private final String id;
+    private final String sourceId;
+
+    @Nullable
+    private final String apiId;
 
     @NonNull
     private final String title;
@@ -35,7 +39,7 @@ public class User {
     private final OnlineImageResource profileImage;
 
     public User(
-            @NonNull String id,
+            @NonNull String sourceId,
             @NonNull String title,
             @NonNull String name,
             @NonNull String email,
@@ -45,22 +49,53 @@ public class User {
             @NonNull String nationality,
             @NonNull OnlineImageResource profileImage
     ) {
-        this.id = id;
+        this(
+                sourceId,
+                null,
+                title,
+                name,
+                email,
+                gender,
+                birthDate,
+                age,
+                nationality,
+                profileImage
+        );
+    }
+
+    public User(
+            @NonNull String sourceId,
+            @Nullable String apiId,
+            @NonNull String title,
+            @NonNull String name,
+            @NonNull String email,
+            @NonNull String gender,
+            @NonNull Date birthDate,
+            short age,
+            @NonNull String nationality,
+            @NonNull OnlineImageResource profileImage
+    ) {
+        this.sourceId = sourceId;
+        this.apiId = apiId;
         this.title = title;
         this.name = name;
         this.email = email;
         this.gender = gender;
         this.birthDate = birthDate;
         this.age = age;
-        this.profileImage = profileImage;
         this.nationality = nationality;
+        this.profileImage = profileImage;
     }
 
     @NonNull
-    public String getId() {
-        return id;
+    public String getSourceId() {
+        return sourceId;
     }
 
+    @Nullable
+    public String getApiId() {
+        return apiId;
+    }
 
     @NonNull
     public String getEmail() {

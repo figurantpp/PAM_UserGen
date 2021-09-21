@@ -93,7 +93,7 @@ public class ShowUserFragment extends Fragment {
         emailTextView.setText(user.getEmail());
         nationalityTextView.setText(nationalityText);
         ageTextView.setText(String.valueOf(user.getAge()));
-        idTextView.setText(user.getId());
+        idTextView.setText(user.getSourceId());
         birthTextView.setText(formatDate(user.getBirthDate()));
 
         userViewModel.notifyDisplayFinished();

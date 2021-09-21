@@ -76,7 +76,7 @@ public class UserStorage {
                         "insert into UserModel values (?, ?, ?, ?, ?, ?, ? , ?, ?);"
         );
 
-        statement.bindString(1, user.getId());
+        statement.bindString(1, user.getSourceId());
         statement.bindString(2, user.getTitle());
         statement.bindString(3, user.getName());
         statement.bindString(4, user.getEmail());

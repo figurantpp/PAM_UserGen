@@ -70,7 +70,7 @@ public class UserStorageTest {
 
         Stream.of(
                 user,
-                user.getId(),
+                user.getSourceId(),
                 user.getTitle(),
                 user.getName(),
                 user.getEmail(),
@@ -114,7 +114,7 @@ public class UserStorageTest {
 
             User last = users.get(users.size() - 1);
 
-            assertEquals(expectedUser.getId(), last.getId());
+            assertEquals(expectedUser.getSourceId(), last.getSourceId());
             assertEquals(expectedUser.getTitle(), last.getTitle());
             assertEquals(expectedUser.getName(), last.getName());
             assertEquals(expectedUser.getEmail(), last.getEmail());
