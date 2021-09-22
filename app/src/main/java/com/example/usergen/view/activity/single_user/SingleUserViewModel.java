@@ -23,14 +23,14 @@ import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import io.reactivex.rxjava3.subjects.ReplaySubject;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 import io.reactivex.rxjava3.subjects.Subject;
 
 public class SingleUserViewModel extends ViewModel {
 
     private final MutableLiveData<User> fetchedUser = new MutableLiveData<>();
 
-    private final Subject<Event> events = ReplaySubject.create();
+    private final Subject<Event> events = PublishSubject.create();
 
     private final CompositeDisposable subscriptions = new CompositeDisposable();
 

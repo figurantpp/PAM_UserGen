@@ -3,6 +3,7 @@ package com.example.usergen.service.auth;
 import androidx.annotation.NonNull;
 
 import io.reactivex.rxjava3.annotations.CheckReturnValue;
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 
 public class AuthRepository {
@@ -58,5 +59,13 @@ public class AuthRepository {
                     }
                 }
         );
+    }
+
+    @CheckReturnValue
+    @NonNull
+    public Completable signOut() {
+        return Completable.fromAction(() -> {
+            tokenStorage.setToken(null);
+        });
     }
 }

@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.usergen.model.Settings;
+import com.example.usergen.service.auth.AuthRepository;
 import com.example.usergen.service.generator.RandomUserGeneratorInput;
 import com.example.usergen.service.settings.SettingsRepository;
 import com.example.usergen.util.ViewModelFactory;
@@ -34,8 +35,15 @@ public class MainActivityViewModel extends ViewModel {
     @NonNull
     private final MutableLiveData<Settings> fetchedSettings = new MutableLiveData<>();
 
-    public MainActivityViewModel(@NonNull SettingsRepository repository) {
+    @NonNull
+    private final AuthRepository authRepository;
+
+    public MainActivityViewModel(
+            @NonNull SettingsRepository repository,
+            @NonNull AuthRepository authRepository
+            ) {
         this.settingsRepository = repository;
+        this.authRepository = authRepository;
     }
 
     @NonNull
@@ -64,6 +72,10 @@ public class MainActivityViewModel extends ViewModel {
 
     public void startMultipleUserQuery(@NonNull Input input) {
         startQuery(input, GenerateManyUsersEvent::new);
+    }
+
+    public void requestSignOut() {
+        authRepository.signOut().subscribeOn(Schedulers.io()).subscribe();
     }
 
     private void startQuery(
@@ -118,11 +130,17 @@ public class MainActivityViewModel extends ViewModel {
     }
 
     @NonNull
-    public static ViewModelProvider.Factory create(@NonNull SettingsRepository repository) {
+    public static ViewModelProvider.Factory create(
+            @NonNull SettingsRepository settingsRepository,
+            @NonNull AuthRepository authRepository
+    ) {
 
         return ViewModelFactory.from(
                 MainActivityViewModel.class,
-                () -> new MainActivityViewModel(repository)
+                () -> new MainActivityViewModel(
+                        settingsRepository,
+                        authRepository
+                )
         );
 
     }

@@ -63,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewM
         viewModel = new ViewModelProvider(
                 this,
                 MainActivityViewModel.create(
-                        UsergenApplication.from(this).getSettingsRepository()
+                        UsergenApplication.from(this).getSettingsRepository(),
+                        UsergenApplication.from(this).getAuthRepository()
                 )
         ).get(MainActivityViewModel.class);
 
