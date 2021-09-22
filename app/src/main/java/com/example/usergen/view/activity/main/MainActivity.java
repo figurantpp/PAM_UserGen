@@ -19,6 +19,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.usergen.R;
 import com.example.usergen.UsergenApplication;
 import com.example.usergen.model.Settings;
+import com.example.usergen.view.activity.favorite_list.FavoriteListActivity;
+import com.example.usergen.view.activity.login.LoginActivity;
 import com.example.usergen.view.activity.single_user.ShowUserActivity;
 import com.example.usergen.view.activity.user_list.UserListActivity;
 import com.example.usergen.view.custom.CustomButton;
@@ -40,9 +42,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewM
 
     CustomButton multipleUsersButton;
 
+    View logOutView;
+
+    CustomButton favoritesButton;
+
     MainActivityViewModel viewModel;
 
-    CompositeDisposable subscriptions;
+    CompositeDisposable subscriptions = new CompositeDisposable();
 
 
     @Override
@@ -50,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewM
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        subscriptions = new CompositeDisposable();
 
         setupUi();
         setupViewModel();
@@ -70,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewM
 
         viewModel.getFetchedSettings().observe(this, this::displaySettings);
     }
-
 
 
     @Override
@@ -106,17 +110,25 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewM
     private void setupUiEvents() {
         searchSingleButton.setOnClickListener(v ->
                 viewModel.startSingleUserQuery(new MainActivityViewModel.Input(
-                femaleRadioButton.isChecked(),
-                maleRadioButton.isChecked(),
-                getSpinnerOption()
-        )));
+                        femaleRadioButton.isChecked(),
+                        maleRadioButton.isChecked(),
+                        getSpinnerOption()
+                )));
 
         multipleUsersButton.setOnClickListener(v ->
                 viewModel.startMultipleUserQuery(new MainActivityViewModel.Input(
-                femaleRadioButton.isChecked(),
-                maleRadioButton.isChecked(),
-                getSpinnerOption()
-        )));
+                        femaleRadioButton.isChecked(),
+                        maleRadioButton.isChecked(),
+                        getSpinnerOption()
+                )));
+
+        favoritesButton.setOnClickListener(v ->
+                viewModel.startFavorites()
+        );
+
+        logOutView.setOnClickListener(v ->
+                viewModel.requestLogOut());
+
     }
 
     private void setupViews() {
@@ -131,6 +143,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewM
         femaleRadioButton = findViewById(R.id.radioFemale);
 
         maleRadioButton = findViewById(R.id.radioMale);
+
+        favoritesButton = findViewById(R.id.mainActivity_favoritesButton);
+
+        logOutView = findViewById(R.id.mainActivity_logOutButton);
     }
 
     private void setupSpinner() {
@@ -162,8 +178,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewM
     private void displaySettings(Settings settings) {
         if (settings.getSexQuery().equals("female")) {
             femaleRadioButton.setChecked(true);
-        }
-        else {
+        } else {
             maleRadioButton.setChecked(true);
         }
 
@@ -186,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewM
     }
 
     @Override
-    public void visit(@NonNull MainActivityViewModel.GenerateSingleUserEvent event) {
+    public void visit(@NonNull MainActivityViewModel.StartSingleUserEvent event) {
 
         Intent intent = new Intent(
                 this,
@@ -202,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewM
     }
 
     @Override
-    public void visit(@NonNull MainActivityViewModel.GenerateManyUsersEvent event) {
+    public void visit(@NonNull MainActivityViewModel.StartMultipleUsersEvent event) {
 
         Intent intent = new Intent(
                 this,
@@ -212,6 +227,28 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewM
         intent.putExtra(
                 UserListActivity.INPUT_EXTRA_KEY,
                 event.input.asBundle()
+        );
+
+        startActivity(intent);
+    }
+
+    @Override
+    public void visit(@NonNull MainActivityViewModel.StartLoginEvent event) {
+
+        Intent intent = new Intent(
+                this,
+                LoginActivity.class
+        );
+
+        startActivity(intent);
+    }
+
+    @Override
+    public void visit(@NonNull MainActivityViewModel.StartFavoritesEvent event) {
+
+        Intent intent = new Intent(
+                this,
+                FavoriteListActivity.class
         );
 
         startActivity(intent);

@@ -41,7 +41,7 @@ public class MainActivityViewModel extends ViewModel {
     public MainActivityViewModel(
             @NonNull SettingsRepository repository,
             @NonNull AuthRepository authRepository
-            ) {
+    ) {
         this.settingsRepository = repository;
         this.authRepository = authRepository;
     }
@@ -67,15 +67,24 @@ public class MainActivityViewModel extends ViewModel {
     }
 
     public void startSingleUserQuery(@NonNull Input input) {
-        startQuery(input, GenerateSingleUserEvent::new);
+        startQuery(input, StartSingleUserEvent::new);
     }
 
     public void startMultipleUserQuery(@NonNull Input input) {
-        startQuery(input, GenerateManyUsersEvent::new);
+        startQuery(input, StartMultipleUsersEvent::new);
     }
 
-    public void requestSignOut() {
-        authRepository.signOut().subscribeOn(Schedulers.io()).subscribe();
+    public void startFavorites() {
+        events.onNext(new StartFavoritesEvent());
+    }
+
+    public void requestLogOut() {
+        Disposable subscription = authRepository.signOut()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> events.onNext(new StartLoginEvent()));
+
+        subscriptions.add(subscription);
     }
 
     private void startQuery(
@@ -92,7 +101,7 @@ public class MainActivityViewModel extends ViewModel {
                             generatorInput.getNationality()
                     )
             ).subscribeOn(Schedulers.io())
-            .subscribe();
+                    .subscribe();
 
             events.onNext(eventSupplier.apply(generatorInput));
         }
@@ -166,13 +175,17 @@ public class MainActivityViewModel extends ViewModel {
         interface Visitor {
             void visit(@NonNull UncheckedSexError error);
 
-            void visit(@NonNull GenerateSingleUserEvent event);
+            void visit(@NonNull StartSingleUserEvent event);
 
-            void visit(@NonNull GenerateManyUsersEvent event);
+            void visit(@NonNull StartMultipleUsersEvent event);
+
+            void visit(@NonNull StartLoginEvent event);
+
+            void visit(@NonNull StartFavoritesEvent event);
         }
     }
 
-    static class UncheckedSexError implements Event {
+    public static class UncheckedSexError implements Event {
 
         @Override
         public void accept(@NonNull Visitor visitor) {
@@ -180,12 +193,12 @@ public class MainActivityViewModel extends ViewModel {
         }
     }
 
-    static class GenerateSingleUserEvent implements Event {
+    public static class StartSingleUserEvent implements Event {
 
         @NonNull
         public final RandomUserGeneratorInput input;
 
-        public GenerateSingleUserEvent(@NonNull RandomUserGeneratorInput input) {
+        public StartSingleUserEvent(@NonNull RandomUserGeneratorInput input) {
             this.input = input;
         }
 
@@ -195,14 +208,30 @@ public class MainActivityViewModel extends ViewModel {
         }
     }
 
-    static class GenerateManyUsersEvent implements Event {
+    public static class StartMultipleUsersEvent implements Event {
 
         @NonNull
         public final RandomUserGeneratorInput input;
 
-        public GenerateManyUsersEvent(@NonNull RandomUserGeneratorInput input) {
+        public StartMultipleUsersEvent(@NonNull RandomUserGeneratorInput input) {
             this.input = input;
         }
+
+        @Override
+        public void accept(@NonNull Visitor visitor) {
+            visitor.visit(this);
+        }
+    }
+
+    public static class StartLoginEvent implements Event {
+
+        @Override
+        public void accept(@NonNull Visitor visitor) {
+            visitor.visit(this);
+        }
+    }
+
+    public static class StartFavoritesEvent implements Event {
 
         @Override
         public void accept(@NonNull Visitor visitor) {

@@ -14,7 +14,6 @@
     <string name="label_id"> ID </string>
 
 
-
     <string-array name="countries">
         <item>       </item>
         <item> Brazilian </item>
@@ -77,5 +76,6 @@
     <string name="error_missingPasswordConfirmation">The password confirmation is mandatory</string>
     <string name="error_unmatchedPasswordConfirmation">The password confirmation does not match the password</string>
     <string name="error_takenUsername">That username is already taken</string>
+    <string name="label_favorites">Favorites</string>
 
 </resources>

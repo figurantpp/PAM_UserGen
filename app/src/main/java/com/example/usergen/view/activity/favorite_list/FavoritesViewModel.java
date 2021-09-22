@@ -1,4 +1,4 @@
-package com.example.usergen.view.activity.user_list;
+package com.example.usergen.view.activity.favorite_list;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -8,54 +8,45 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.usergen.model.User;
 import com.example.usergen.service.favorite.FavoritesRepository;
-import com.example.usergen.service.generator.RandomModelGenerator;
 import com.example.usergen.util.ViewModelFactory;
 
 import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class UserListViewModel extends ViewModel {
+public class FavoritesViewModel extends ViewModel {
 
-    private final MutableLiveData<List<User>> fetchedUsers = new MutableLiveData<>();
+    private final MutableLiveData<List<User>> favorites = new MutableLiveData<>();
+
+    @NonNull
+    private final FavoritesRepository repository;
 
     private final CompositeDisposable subscriptions = new CompositeDisposable();
 
-    @NonNull
-    private final RandomModelGenerator<User> generator;
-
-    @NonNull
-    private final FavoritesRepository favoritesRepository;
-
-    public UserListViewModel(
-            @NonNull RandomModelGenerator<User> generator,
-            @NonNull FavoritesRepository favoritesRepository
-    ) {
-        this.generator = generator;
-        this.favoritesRepository = favoritesRepository;
+    public FavoritesViewModel(@NonNull FavoritesRepository repository) {
+        this.repository = repository;
     }
 
     @NonNull
-    public LiveData<List<User>> getFetchedUsers() {
-        return fetchedUsers;
+    public LiveData<List<User>> getFavorites() {
+        return favorites;
     }
 
-    public void fetchUsers() {
+    public void fetchFavorites() {
 
-        Single<List<User>> result = generator.nextModels(10);
-
-        Disposable subscription = result.subscribeOn(Schedulers.io())
+        Disposable subscription = repository.listFavorites()
+                .subscribeOn(Schedulers.io())
                 .doOnSuccess(users -> {
                     for (User user : users) {
                         user.getProfileImage().getBitmapSync();
                     }
-                }).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(fetchedUsers::setValue);
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(favorites::setValue);
 
         subscriptions.add(subscription);
     }
@@ -66,14 +57,14 @@ public class UserListViewModel extends ViewModel {
 
             String id = Objects.requireNonNull(user.getApiId());
 
-            favoritesRepository.deleteFavorite(id)
+            repository.deleteFavorite(id)
                     .subscribeOn(Schedulers.io())
                     .subscribe();
 
             user.setIsFavorite(false);
         } else {
             subscriptions.add(
-                    favoritesRepository.registerFavorite(user)
+                    repository.registerFavorite(user)
                             .subscribeOn(Schedulers.io())
                             .subscribe(user::setApiId)
             );
@@ -89,15 +80,10 @@ public class UserListViewModel extends ViewModel {
     }
 
     @NonNull
-    public static ViewModelProvider.Factory create(
-            @NonNull RandomModelGenerator<User> generator,
-            @NonNull FavoritesRepository repository
-    ) {
+    public static ViewModelProvider.Factory create(@NonNull FavoritesRepository favoritesRepository) {
         return ViewModelFactory.from(
-                UserListViewModel.class,
-                () -> new UserListViewModel(generator, repository)
-
+                FavoritesViewModel.class,
+                () -> new FavoritesViewModel(favoritesRepository)
         );
     }
-
 }

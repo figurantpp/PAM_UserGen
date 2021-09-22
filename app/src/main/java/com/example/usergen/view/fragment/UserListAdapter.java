@@ -1,7 +1,6 @@
 package com.example.usergen.view.fragment;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import com.example.usergen.R;
 import com.example.usergen.model.User;
 import com.example.usergen.util.RandomApiInfo;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -106,15 +104,9 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
                     }
             );
 
-            try {
-                userItemImage.setImageBitmap(user.getProfileImage().getBitmapSync());
-                userItemImage.setContentDescription(
-                        String.format(context.getString(R.string.format_imageDescription), user.getName()));
-            }
-            catch (IOException exception)
-            {
-                Log.e("adapter", "shh");
-            }
+            userItemImage.setImageBitmap(user.getProfileImage().requireBitmap());
+            userItemImage.setContentDescription(
+                    String.format(context.getString(R.string.format_imageDescription), user.getName()));
         }
     }
 }

@@ -84,7 +84,7 @@ public class FavoritesRepository {
                         (short) item.getInt("age"),
                         item.getString("nationality"),
                         new OnlineImageResource(new URL(item.getString("imageUrl"))),
-                        false
+                        true
                 ));
             }
 

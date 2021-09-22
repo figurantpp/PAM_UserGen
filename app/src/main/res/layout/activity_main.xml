@@ -16,13 +16,11 @@
             android:id="@+id/mainActivity_logOutButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Log out"
-            app:layout_constraintBottom_toBottomOf="@id/mainActivity_multipleUsersButton"
-            app:layout_constraintTop_toTopOf="@id/mainActivity_multipleUsersButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
-            />
+            android:layout_marginBottom="16dp"
+            android:text="Log out"
+            app:layout_constraintBottom_toBottomOf="@id/mainActivity_favoritesButton"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -53,20 +51,20 @@
             android:textColor="@android:color/secondary_text_light" />
     </RadioGroup>
 
-    <TextView
-        android:id="@+id/textView0"
-        android:layout_width="300dp"
-        android:layout_height="164dp"
-        android:layout_marginTop="232dp"
-        android:fontFamily="@font/cinzel_black"
-        android:text="@string/app_title"
-        android:textAlignment="viewStart"
-        android:textColor="@android:color/secondary_text_light"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.729"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/textView0"
+            android:layout_width="300dp"
+            android:layout_height="164dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/cinzel_black"
+            android:text="@string/app_title"
+            android:textAlignment="viewStart"
+            android:textColor="@android:color/secondary_text_light"
+            android:textSize="40sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.729"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView3"
@@ -82,32 +80,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
-    <Spinner
-        android:id="@+id/mainActivity_nationalitySpinner"
-        style="@android:style/Widget.Holo.Spinner"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:animateLayoutChanges="false"
-        android:foregroundTint="#FFFFFF"
-        android:spinnerMode="dialog"
-        android:stateListAnimator="@android:anim/linear_interpolator"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        <Spinner
+            android:id="@+id/mainActivity_nationalitySpinner"
+            style="@android:style/Widget.Holo.Spinner"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:animateLayoutChanges="false"
+            android:foregroundTint="#FFFFFF"
+            android:spinnerMode="dialog"
+            android:stateListAnimator="@android:anim/linear_interpolator"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
         <com.example.usergen.view.custom.CustomButton
             android:id="@+id/mainActivity_searchButton"
             android:layout_width="225dp"
             android:layout_height="53dp"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="50dp"
             android:fontFamily="@font/cinzel"
-            app:textCustom="@string/label_searchApi"
             android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mainActivity_nationalitySpinner" />
+            app:layout_constraintTop_toBottomOf="@+id/mainActivity_nationalitySpinner"
+            app:textCustom="@string/label_searchApi" />
+
+        <com.example.usergen.view.custom.CustomButton
+            android:id="@+id/mainActivity_favoritesButton"
+            android:layout_width="225dp"
+            android:layout_height="53dp"
+            android:fontFamily="@font/cinzel"
+            app:textCustom="Favorites"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainActivity_multipleUsersButton"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            />
 
         <com.example.usergen.view.custom.CustomButton
             android:id="@+id/mainActivity_multipleUsersButton"
@@ -116,7 +128,6 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="25dp"
             app:textCustom="@string/button_multiple_users"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mainActivity_searchButton" />

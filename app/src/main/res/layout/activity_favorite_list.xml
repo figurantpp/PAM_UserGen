@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.user_list.UserListActivity">
+    tools:context=".view.activity.favorite_list.FavoriteListActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -12,14 +12,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:fontFamily="@font/headland_one"
-        android:text="@string/button_multiple_users"
+        android:text="@string/label_favorites"
         android:textSize="38sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/showManyUsersActivity_usersRecyclerView"
+        android:id="@+id/favoriteListActivity_usersRecyclerView"
         android:layout_width="411dp"
         android:layout_height="0dp"
         android:layout_marginTop="30dp"

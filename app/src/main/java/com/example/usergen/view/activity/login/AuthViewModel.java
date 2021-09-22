@@ -56,7 +56,7 @@ public class AuthViewModel extends ViewModel {
                 .subscribe(success -> {
 
                     if (success) {
-                        events.onNext(DISPLAY_CONTENT);
+                        events.onNext(DISPLAY_CONTENT_NO_COMEBACK);
                     } else {
                         events.onNext(LOGIN_FAILED);
                     }
