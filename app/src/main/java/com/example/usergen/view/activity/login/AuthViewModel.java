@@ -17,6 +17,8 @@ import io.reactivex.rxjava3.subjects.Subject;
 
 public class AuthViewModel extends ViewModel {
 
+    // todo: bind logout textView on mainActivity
+
     private final CompositeDisposable subscriptions = new CompositeDisposable();
 
     private final Subject<Integer> events = PublishSubject.create();
@@ -107,6 +109,19 @@ public class AuthViewModel extends ViewModel {
         subscriptions.add(subscription);
     }
 
+    public void checkAlreadyLogged() {
+
+        Disposable subscription = repository
+                .isAlreadyLogged()
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::handleLoginStatus, this::handleError);
+
+        subscriptions.add(
+                subscription
+        );
+    }
+
+
     public void requestRegisterScreen() {
         events.onNext(DISPLAY_REGISTER_SCREEN);
     }
@@ -119,6 +134,16 @@ public class AuthViewModel extends ViewModel {
     protected void onCleared() {
         super.onCleared();
         subscriptions.clear();
+    }
+
+    private void handleLoginStatus(Boolean isLogged) {
+        if (isLogged) {
+            events.onNext(DISPLAY_CONTENT_NO_COMEBACK);
+        }
+    }
+
+    private void handleError(Throwable error) {
+
     }
 
     @NonNull
@@ -134,8 +159,10 @@ public class AuthViewModel extends ViewModel {
     public static final int MISSING_PASSWORD_CONFIRMATION_ERROR = 3;
     public static final int PASSWORD_NOT_EQUALS_CONFIRMATION = 5;
     public static final int DISPLAY_CONTENT = 8;
-    public static final int LOGIN_FAILED = 13;
-    public static final int DISPLAY_REGISTER_SCREEN = 21;
-    public static final int FINISH_REGISTER = 34;
-    public static final int USERNAME_TAKEN = 55;
+    public static final int DISPLAY_CONTENT_NO_COMEBACK = 13;
+    public static final int LOGIN_FAILED = 21;
+    public static final int DISPLAY_REGISTER_SCREEN = 34;
+    public static final int FINISH_REGISTER = 55;
+    public static final int USERNAME_TAKEN = 89;
+
 }

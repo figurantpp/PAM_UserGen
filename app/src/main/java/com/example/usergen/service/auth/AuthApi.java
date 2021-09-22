@@ -8,6 +8,7 @@ import com.example.usergen.service.http.HttpResponse;
 
 import org.json.JSONObject;
 
+import io.reactivex.rxjava3.annotations.CheckReturnValue;
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Single;
 
@@ -20,6 +21,7 @@ public class AuthApi {
     }
 
     @NonNull
+    @CheckReturnValue
     public Maybe<String> login(@NonNull String username, @NonNull String password) {
 
         return Maybe.fromSupplier(() -> {
@@ -45,6 +47,7 @@ public class AuthApi {
 
 
     @NonNull
+    @CheckReturnValue
     public Single<Boolean> register(@NonNull String username, @NonNull String password) {
 
         return Single.fromSupplier(() -> {
@@ -65,6 +68,26 @@ public class AuthApi {
             }
         });
 
+    }
+
+    @NonNull
+    @CheckReturnValue
+    public Single<Boolean> check() {
+
+        return Single.fromSupplier(() -> {
+
+            HttpResponse response = http.get("/user/check");
+
+            if (response.isOk()) {
+                return true;
+            }
+            else if (response.getStatus() == 401) {
+                return false;
+            } else {
+                response.requireOk();
+                return false;
+            }
+        });
     }
 
     private boolean isOk(int status) {

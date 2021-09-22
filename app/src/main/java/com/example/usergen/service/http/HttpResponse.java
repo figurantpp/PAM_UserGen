@@ -49,7 +49,7 @@ public class HttpResponse {
 
     @NonNull
     public HttpResponse requireOk() {
-        if (status / 100 != 2) {
+        if (!isOk()) {
 
             if (error == null) {
                 throw new HttpException(status);
@@ -60,6 +60,10 @@ public class HttpResponse {
         }
 
         return this;
+    }
+
+    public boolean isOk() {
+        return status / 100 == 2;
     }
 
 }

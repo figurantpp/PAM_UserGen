@@ -43,4 +43,20 @@ public class AuthRepository {
         return api.register(username, password);
     }
 
+    @CheckReturnValue
+    @NonNull
+    public Single<Boolean> isAlreadyLogged() {
+
+        return Single.defer(
+                () -> {
+                    if (tokenStorage.getToken() == null) {
+                        return Single.just(false);
+                    } else {
+                        return api.check().doOnSuccess(isLogged -> {
+                            if (!isLogged) tokenStorage.setToken(null);
+                        });
+                    }
+                }
+        );
+    }
 }

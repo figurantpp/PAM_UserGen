@@ -17,6 +17,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 import io.reactivex.rxjava3.disposables.Disposable;
 
+import static com.example.usergen.view.activity.login.AuthViewModel.DISPLAY_CONTENT_NO_COMEBACK;
+
 public class LoginActivity extends AppCompatActivity {
 
     private AuthViewModel viewModel;
@@ -40,6 +42,9 @@ public class LoginActivity extends AppCompatActivity {
                 )
         ).get(AuthViewModel.class);
 
+        if (savedInstanceState == null) {
+            viewModel.checkAlreadyLogged();
+        }
     }
 
     @Override
@@ -67,6 +72,9 @@ public class LoginActivity extends AppCompatActivity {
                 case AuthViewModel.DISPLAY_REGISTER_SCREEN:
                     startRegisterActivity();
                     break;
+
+                case DISPLAY_CONTENT_NO_COMEBACK:
+                    startContentActivityClearingStack();
             }
         });
     }
@@ -105,6 +113,14 @@ public class LoginActivity extends AppCompatActivity {
 
         startActivity(intent);
     }
+
+    public void startContentActivityClearingStack() {
+
+        Intent intent = new Intent(this, MainActivity.class);
+        finish();
+        startActivity(intent);
+    }
+
 
     public void onRegisterClick(@Nullable View view) {
         viewModel.requestRegisterScreen();
