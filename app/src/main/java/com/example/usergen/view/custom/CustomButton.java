@@ -62,7 +62,7 @@ public class CustomButton extends LinearLayout {
     protected void onFinishInflate()
     {
         super.onFinishInflate();
-        custbutton = (Button) this.findViewById(R.id.multipleusersbutton);
+        custbutton = this.findViewById(R.id.multipleusersbutton);
         custbutton.setBackgroundResource(R.drawable.format);
 
         custbutton.setText(text);
@@ -73,5 +73,10 @@ public class CustomButton extends LinearLayout {
             custbutton.setAnimation(updown);
         });
 
+    }
+
+    @NonNull
+    public Button getButton() {
+        return custbutton;
     }
 }

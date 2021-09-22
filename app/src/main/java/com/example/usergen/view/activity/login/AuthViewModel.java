@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.usergen.service.auth.AuthRepository;
 import com.example.usergen.util.ViewModelFactory;
 
+import java.io.IOException;
+
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -114,11 +116,23 @@ public class AuthViewModel extends ViewModel {
         Disposable subscription = repository
                 .isAlreadyLogged()
                 .subscribeOn(Schedulers.io())
-                .subscribe(this::handleLoginStatus, this::handleError);
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::handleLoginStatus, this::handleLoginStatusError);
 
-        subscriptions.add(
-                subscription
-        );
+        subscriptions.add(subscription);
+
+        subscription = repository
+                .apiIsAvailable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(available -> {
+
+                    if (!available) {
+                        events.onNext(API_UNAVAILABLE);
+                    }
+                });
+
+        subscriptions.add(subscription);
     }
 
 
@@ -142,7 +156,14 @@ public class AuthViewModel extends ViewModel {
         }
     }
 
-    private void handleError(Throwable error) {
+    private void handleLoginStatusError(Throwable error) throws Throwable {
+
+        if (error instanceof IOException || error.getCause() instanceof IOException) {
+            events.onNext(API_UNAVAILABLE);
+        }
+        else {
+            throw error;
+        }
 
     }
 
@@ -164,5 +185,6 @@ public class AuthViewModel extends ViewModel {
     public static final int DISPLAY_REGISTER_SCREEN = 34;
     public static final int FINISH_REGISTER = 55;
     public static final int USERNAME_TAKEN = 89;
+    public static final int API_UNAVAILABLE = 144;
 
 }

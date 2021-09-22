@@ -9,6 +9,7 @@ import com.example.usergen.service.http.HttpResponse;
 import org.json.JSONObject;
 
 import io.reactivex.rxjava3.annotations.CheckReturnValue;
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Single;
 
@@ -34,7 +35,7 @@ public class AuthApi {
 
             if (isOk(response.getStatus())) {
 
-                return response.getBody().getString("token");
+                return response.requireBody().getString("token");
 
             } else if (response.getStatus() == 403) {
                 return null;
@@ -76,7 +77,7 @@ public class AuthApi {
 
         return Single.fromSupplier(() -> {
 
-            HttpResponse response = http.get("/user/check");
+            HttpResponse response = http.get("/user/check-login");
 
             if (response.isOk()) {
                 return true;
@@ -88,6 +89,12 @@ public class AuthApi {
                 return false;
             }
         });
+    }
+
+    @NonNull
+    @CheckReturnValue
+    public Completable checkIsUp() {
+        return Completable.fromAction(() -> http.get("/user/is-up").requireOk());
     }
 
     private boolean isOk(int status) {

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,10 +14,12 @@ import com.example.usergen.R;
 import com.example.usergen.UsergenApplication;
 import com.example.usergen.view.activity.main.MainActivity;
 import com.example.usergen.view.activity.register.RegisterActivity;
+import com.example.usergen.view.custom.CustomButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import io.reactivex.rxjava3.disposables.Disposable;
 
+import static com.example.usergen.view.activity.login.AuthViewModel.API_UNAVAILABLE;
 import static com.example.usergen.view.activity.login.AuthViewModel.DISPLAY_CONTENT_NO_COMEBACK;
 
 public class LoginActivity extends AppCompatActivity {
@@ -28,6 +31,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private Disposable subscription;
 
+    private CustomButton loginButton;
+
+    private TextView unregisteredTextView;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
 
         usernameEditText = findViewById(R.id.loginActivity_usernameEditText);
         passwordEditText = findViewById(R.id.loginActivity_passwordEditText);
+        loginButton = findViewById(R.id.loginActivity_loginButton);
+        unregisteredTextView = findViewById(R.id.loginActivity_notRegisteredView);
 
         viewModel = new ViewModelProvider(this,
                 AuthViewModel.create(
@@ -75,8 +84,25 @@ public class LoginActivity extends AppCompatActivity {
 
                 case DISPLAY_CONTENT_NO_COMEBACK:
                     startContentActivityClearingStack();
+                    break;
+                    
+                case API_UNAVAILABLE:
+                    reportUnavailableApi();
             }
         });
+    }
+
+    private void reportUnavailableApi() {
+        usernameEditText.setEnabled(false);
+        passwordEditText.setEnabled(false);
+        loginButton.getButton().setEnabled(false);
+        unregisteredTextView.setEnabled(false);
+
+        Snackbar.make(
+                findViewById(android.R.id.content),
+                "The api is unavailable please try again later",
+                Snackbar.LENGTH_LONG
+        ).show();
     }
 
     private void onMissingPassword() {

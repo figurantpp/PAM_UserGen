@@ -61,11 +61,17 @@ public class AuthRepository {
         );
     }
 
+    @NonNull
+    @CheckReturnValue
+    public Single<Boolean> apiIsAvailable() {
+        return api.checkIsUp()
+                .onErrorReturnItem(false)
+                .switchIfEmpty(Single.just(true));
+    }
+
     @CheckReturnValue
     @NonNull
     public Completable signOut() {
-        return Completable.fromAction(() -> {
-            tokenStorage.setToken(null);
-        });
+        return Completable.fromAction(() -> tokenStorage.setToken(null));
     }
 }

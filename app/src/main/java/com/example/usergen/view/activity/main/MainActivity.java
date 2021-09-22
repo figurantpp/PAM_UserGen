@@ -240,6 +240,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewM
                 LoginActivity.class
         );
 
+        finish();
+
         startActivity(intent);
     }
 

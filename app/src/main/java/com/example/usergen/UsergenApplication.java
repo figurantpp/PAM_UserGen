@@ -16,7 +16,7 @@ import com.example.usergen.service.settings.SettingsRepository;
 
 public class UsergenApplication extends Application {
 
-    public static final String API_URL = "http://192.168.0.10:5000";
+    public static final String API_URL = "http://187.122.77.154:5000";
 
     private TokenStorage tokenStorage;
 
