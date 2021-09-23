@@ -208,6 +208,7 @@
             android:id="@+id/showUserFragment_firstTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/headland_one"
             android:textColor="?attr/textAppearanceHeadline2"
             android:textSize="30sp"
@@ -265,6 +266,8 @@
             android:layout_width="240dp"
             android:layout_height="240dp"
             android:layout_marginTop="60dp"
+            app:civ_border_color="#CDFFFFFF"
+            app:civ_border_width="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/frameLayout" />
