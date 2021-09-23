@@ -16,11 +16,11 @@
             android:id="@+id/mainActivity_logOutButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="20dp"
             android:text="Log out"
-            app:layout_constraintBottom_toBottomOf="@id/mainActivity_favoritesButton"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainActivity_favoritesButton" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -55,7 +55,7 @@
             android:id="@+id/textView0"
             android:layout_width="300dp"
             android:layout_height="164dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="100dp"
             android:fontFamily="@font/cinzel_black"
             android:text="@string/app_title"
             android:textAlignment="viewStart"
@@ -110,16 +110,13 @@
             android:id="@+id/mainActivity_favoritesButton"
             android:layout_width="225dp"
             android:layout_height="53dp"
-            android:fontFamily="@font/cinzel"
-            app:textCustom="Favorites"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mainActivity_multipleUsersButton"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            />
+            android:fontFamily="@font/cinzel"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainActivity_multipleUsersButton"
+            app:textCustom="Favorites" />
 
         <com.example.usergen.view.custom.CustomButton
             android:id="@+id/mainActivity_multipleUsersButton"
