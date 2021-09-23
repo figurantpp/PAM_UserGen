@@ -37,15 +37,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
+            android:buttonTint="@color/purple_200"
             android:fontFamily="@font/cinzel"
             android:text="@string/text_female"
-            android:textColor="@android:color/secondary_text_light" />
+            android:textColor="@android:color/secondary_text_light"
+            android:textColorHighlight="@color/teal_200"
+            android:textColorLink="@color/teal_200" />
 
         <RadioButton
             android:id="@+id/radioMale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#FFFFFF"
+            android:buttonTint="@color/purple_200"
             android:fontFamily="@font/cinzel"
             android:text="@string/text_male"
             android:textColor="@android:color/secondary_text_light" />
