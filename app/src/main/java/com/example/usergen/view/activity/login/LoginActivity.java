@@ -51,9 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                 )
         ).get(AuthViewModel.class);
 
-        if (savedInstanceState == null) {
-            viewModel.checkAlreadyLogged();
-        }
+        viewModel.checkAlreadyLogged();
     }
 
     @Override
